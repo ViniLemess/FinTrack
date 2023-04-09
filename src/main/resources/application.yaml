@@ -1,1 +1,14 @@
-
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: personal_bank_db
+      username: root
+      password: root
+      authentication-database: admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
