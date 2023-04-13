@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
 private const val TRANSACTIONS_COLLECTION =  "transactions"
@@ -20,6 +21,7 @@ class TransactionRepository(private val mongoTemplate: MongoTemplate) {
         return mongoTemplate.find(query, Transaction::class.java, TRANSACTIONS_COLLECTION)
     }
 
+    @Transactional
     fun save(transaction: Transaction) {
         mongoTemplate.save(transaction, TRANSACTIONS_COLLECTION)
     }
