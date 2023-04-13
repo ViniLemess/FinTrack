@@ -2,8 +2,8 @@ package org.fundatec.vinilemess.tcc.personalbank.transaction.service
 
 import org.fundatec.vinilemess.tcc.personalbank.balance.Balance
 import org.fundatec.vinilemess.tcc.personalbank.transaction.domain.Transaction
-import org.fundatec.vinilemess.tcc.personalbank.transaction.domain.input.TransactionExpense
-import org.fundatec.vinilemess.tcc.personalbank.transaction.domain.input.TransactionIncome
+import org.fundatec.vinilemess.tcc.personalbank.transaction.domain.request.TransactionExpense
+import org.fundatec.vinilemess.tcc.personalbank.transaction.domain.request.TransactionIncome
 import org.fundatec.vinilemess.tcc.personalbank.transaction.repository.TransactionRepository
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
@@ -39,7 +39,7 @@ class TransactionService(private val transactionRepository: TransactionRepositor
         id = null,
         userIdentifier = userIdentifier,
         amount = this.amount,
-        date = this.incomeDate
+        date = this.date
     )
 
 
@@ -47,6 +47,6 @@ class TransactionService(private val transactionRepository: TransactionRepositor
         id = null,
         userIdentifier = userIdentifier,
         amount = this.amount,
-        date = this.expenseDate
+        date = this.date
     )
 }

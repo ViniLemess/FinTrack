@@ -1,7 +1,7 @@
 package org.fundatec.vinilemess.tcc.personalbank.transaction.controller
 
-import org.fundatec.vinilemess.tcc.personalbank.transaction.domain.input.TransactionExpense
-import org.fundatec.vinilemess.tcc.personalbank.transaction.domain.input.TransactionIncome
+import org.fundatec.vinilemess.tcc.personalbank.transaction.domain.request.TransactionExpense
+import org.fundatec.vinilemess.tcc.personalbank.transaction.domain.request.TransactionIncome
 import org.fundatec.vinilemess.tcc.personalbank.transaction.service.TransactionService
 import org.springframework.web.bind.annotation.*
 
@@ -14,6 +14,7 @@ class TransactionController(private val transactionService: TransactionService) 
         @RequestBody transactionIncome: TransactionIncome,
         @PathVariable("userIdentifier") userIdentifier: String
     ) {
+        transactionIncome.validateRequest()
         transactionService.transactIncome(transactionIncome, userIdentifier)
     }
 
@@ -22,6 +23,7 @@ class TransactionController(private val transactionService: TransactionService) 
         @RequestBody transactionExpense: TransactionExpense,
         @PathVariable("userIdentifier") userIdentifier: String,
     ) {
+        transactionExpense.validateRequest()
         transactionService.transactExpense(transactionExpense, userIdentifier)
     }
 }
