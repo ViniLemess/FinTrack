@@ -1,0 +1,20 @@
+spring:
+  banner:
+    location: banner.txt
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: personal_bank_db
+      username: root
+      password: root
+      authentication-database: admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    org.springframework.data.mongodb.core.mapping.event: DEBUG
