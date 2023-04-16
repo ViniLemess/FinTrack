@@ -14,3 +14,7 @@ data class Balance(
         val amount: BigDecimal,
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
         val date: LocalDate)
+
+data class BalanceResponse(val amount: BigDecimal, val date: LocalDate)
+
+fun Balance.toBalanceResponse() = BalanceResponse(this.amount, this.date)

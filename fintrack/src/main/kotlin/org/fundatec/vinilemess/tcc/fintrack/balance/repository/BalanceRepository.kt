@@ -6,20 +6,23 @@ import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Update
 import org.springframework.stereotype.Repository
-import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class BalanceRepository(private val mongoTemplate: MongoTemplate) {
 
-    @Transactional
     fun upsert(balance: Balance) {
-        val query = Query()
-                .addCriteria(Criteria.where("userSignature").`is`(balance.userSignature))
-        val update = Update()
-                .set("userSignature", balance.userSignature)
-                .set("amount", balance.amount)
-                .set("date", balance.date)
-
-        mongoTemplate.upsert(query, update, Balance::class.java)
+        mongoTemplate.upsert(filterByUserSignatureQuery(balance.userSignature), balanceUpdate(balance), Balance::class.java)
     }
+
+    fun findBalanceByUserSignature(userSignature: String): Balance? {
+        return mongoTemplate.findOne(filterByUserSignatureQuery(userSignature), Balance::class.java)
+    }
+
+    private fun filterByUserSignatureQuery(userSignature: String) = Query()
+        .addCriteria(Criteria.where("userSignature").`is`(userSignature))
+
+    private fun balanceUpdate(balance: Balance) = Update()
+        .set("userSignature", balance.userSignature)
+        .set("amount", balance.amount)
+        .set("date", balance.date)
 }
