@@ -1,4 +1,4 @@
-package org.fundatec.vinilemess.tcc.fintrack.config
+package org.fundatec.vinilemess.tcc.fintrack.infra.config
 
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.util.StdDateFormat
