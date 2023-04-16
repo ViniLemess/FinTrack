@@ -1,5 +1,6 @@
 package org.fundatec.vinilemess.tcc.fintrack.transaction.domain
 
+import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.math.BigDecimal

@@ -23,4 +23,8 @@ class TransactionRepository(private val mongoTemplate: MongoTemplate) {
     fun save(transaction: Transaction) {
         mongoTemplate.save(transaction, TRANSACTIONS_COLLECTION)
     }
+
+    fun saveAll(transaction: List<Transaction>) {
+        mongoTemplate.insert(transaction, Transaction::class.java)
+    }
 }

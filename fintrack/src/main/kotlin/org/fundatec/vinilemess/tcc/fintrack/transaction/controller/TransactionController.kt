@@ -1,45 +1,35 @@
 package org.fundatec.vinilemess.tcc.fintrack.transaction.controller
 
-import org.fundatec.vinilemess.tcc.fintrack.balance.domain.response.BalanceResponse
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.TransactionExpense
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.TransactionIncome
+import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.RecurrentTransactionRequest
+import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.TransactionRequest
 import org.fundatec.vinilemess.tcc.fintrack.transaction.service.TransactionService
-import org.springframework.format.annotation.DateTimeFormat
+import org.fundatec.vinilemess.tcc.fintrack.validation.validateUserSignature
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDate
 
 @RestController
 @RequestMapping("/transactions")
 class TransactionController(private val transactionService: TransactionService) {
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/income/{userSignature}")
-    fun transactIncome(
-            @RequestBody transactionIncome: TransactionIncome,
+    @PostMapping("/{userSignature}")
+    fun transact(
+            @RequestBody transactionIncome: TransactionRequest,
             @PathVariable("userSignature") userSignature: String
     ) {
+        validateUserSignature(userSignature)
         transactionIncome.validateRequest()
-        transactionService.transactIncome(transactionIncome, userSignature)
+        transactionService.transact(transactionIncome, userSignature)
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/expense/{userSignature}")
-    fun transactExpense(
-            @RequestBody transactionExpense: TransactionExpense,
-            @PathVariable("userSignature") userSignature: String,
+    @PostMapping("recurrent/{userSignature}")
+    fun transactRecurrence(
+            @RequestBody recurrentTransactionRequest: RecurrentTransactionRequest,
+            @PathVariable("userSignature") userSignature: String
     ) {
-        transactionExpense.validateRequest()
-        transactionService.transactExpense(transactionExpense, userSignature)
-    }
-
-    @GetMapping("/balance/{userSignature}")
-    fun calculateBalanceForDate(
-            @PathVariable("userSignature")
-            userSignature: String,
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            @RequestParam("date")
-            date: LocalDate): BalanceResponse {
-        return transactionService.calculateBalanceForDate(userSignature, date)
+        validateUserSignature(userSignature)
+        recurrentTransactionRequest.validateRequest()
+        transactionService.transactRecurrence(recurrentTransactionRequest, userSignature)
     }
 }

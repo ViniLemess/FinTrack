@@ -1,57 +1,49 @@
 package org.fundatec.vinilemess.tcc.fintrack.transaction.service
 
-import org.fundatec.vinilemess.tcc.fintrack.balance.domain.response.BalanceResponse
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.Transaction
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.TransactionExpense
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.TransactionIncome
+import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.RecurrentTransactionRequest
+import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.TransactionRequest
 import org.fundatec.vinilemess.tcc.fintrack.transaction.repository.TransactionRepository
 import org.springframework.stereotype.Service
-import java.math.BigDecimal
 import java.time.LocalDate
 
 @Service
 class TransactionService(private val transactionRepository: TransactionRepository) {
 
-    fun transactIncome(transactionIncome: TransactionIncome, userSignature: String) {
-        transactionRepository.save(transactionIncome.buildTransaction(userSignature))
+    fun transact(transactionRequest: TransactionRequest, userSignature: String) {
+        transactionRepository.save(transactionRequest.buildTransaction(userSignature))
     }
 
-    fun transactExpense(transactionExpense: TransactionExpense, userSignature: String) {
-        transactionRepository.save(transactionExpense.buildTransaction(userSignature))
+    fun transactRecurrence(recurrentTransaction: RecurrentTransactionRequest, userSignature: String) {
+        transactionRepository.saveAll(recurrentTransaction.buildTransactions(userSignature))
     }
 
-    fun calculateBalanceForDate(userSignature: String, date: LocalDate): BalanceResponse {
-        val transactions = getTransactionsBeforeDateByUserSignature(userSignature, date)
-        val balance = extractAmountSum(transactions)
-        return BalanceResponse(balance, date)
-    }
-
-    fun extractAmountSum(transactions: List<Transaction>) : BigDecimal {
-        if (transactions.isEmpty()) return BigDecimal.ZERO
-        return transactions.map { transaction -> transaction.amount }.reduce(BigDecimal::add)
-    }
-
-
-    private fun getTransactionsBeforeDateByUserSignature(userSignature: String, date: LocalDate): List<Transaction> {
+    fun getTransactionsBeforeDateByUserSignature(userSignature: String, date: LocalDate): List<Transaction> {
         return transactionRepository.findTransactionsBeforeDateByUserSignature(userSignature, date)
     }
 
-    private fun TransactionIncome.buildTransaction(userSignature: String) = Transaction(
-            id = null,
-            userSignature = userSignature,
-            amount = this.amount,
-            date = this.date,
-            description = this.description,
-            transactionOperation = this.operation
+    private fun TransactionRequest.buildTransaction(userSignature: String) = Transaction(
+        id = null,
+        userSignature = userSignature,
+        amount = amount,
+        date = date,
+        description = description,
+        transactionOperation = operation
     )
 
-
-    private fun TransactionExpense.buildTransaction(userSignature: String) = Transaction(
-            id = null,
-            userSignature = userSignature,
-            amount = this.amount,
-            date = this.date,
-            description = this.description,
-            transactionOperation = this.operation
-    )
+    private fun RecurrentTransactionRequest.buildTransactions(userSignature: String): List<Transaction> {
+        var date = inititalDate
+        return (1..recurrenceCount).map {
+            val transaction = Transaction(
+                id = null,
+                userSignature = userSignature,
+                amount = amount,
+                date = date,
+                description = description,
+                transactionOperation = operation
+            )
+            date = recurrence.calculateDateByFrequency(date, frequency)
+            transaction
+        }
+    }
 }
