@@ -2,6 +2,8 @@ package org.fundatec.vinilemess.tcc.fintrack.user.repository
 
 import org.fundatec.vinilemess.tcc.fintrack.user.domain.User
 import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
 import org.springframework.stereotype.Repository
 
 private const val USERS_COLLECTION = "users"
@@ -12,4 +14,17 @@ class UserRepository(private val mongoTemplate: MongoTemplate) {
     fun save(user: User): User {
         return mongoTemplate.save(user, USERS_COLLECTION)
     }
+
+    fun findByCredentials(email: String, password: String): User? =
+        mongoTemplate.findOne(filterByCredentials(email, password), User::class.java)
+
+    fun findByEmail(email: String): User? =
+        mongoTemplate.findOne(filterByEmail(email), User::class.java)
+
+    private fun filterByCredentials(email: String, password: String): Query {
+        return filterByEmail(email).addCriteria(Criteria.where("password").`is`(password))
+    }
+
+    private fun filterByEmail(email: String): Query =
+        Query().addCriteria(Criteria.where("email").`is`(email))
 }

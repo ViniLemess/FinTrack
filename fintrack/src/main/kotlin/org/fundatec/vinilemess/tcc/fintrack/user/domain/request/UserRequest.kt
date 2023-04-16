@@ -1,23 +1,27 @@
 package org.fundatec.vinilemess.tcc.fintrack.user.domain.request
 
 import org.apache.logging.log4j.util.Strings
-import org.fundatec.vinilemess.tcc.fintrack.validation.FieldValidator
+import org.fundatec.vinilemess.tcc.fintrack.validation.DataValidator
+import java.math.BigDecimal
 
 private const val EMAIL_REGEX = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
+private const val IDIOT_PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
 
 class UserRequest(
     val name: String,
-    val email: String
+    val email: String,
+    val password: String,
+    val initialBalance: BigDecimal
 ) {
     fun validateRequest() {
-        FieldValidator()
-            .addConstraint(isNameBlank(), "name", "Cannot be blank")
-            .addConstraint(isEmailValid(), "email", "Invalid email")
+        DataValidator()
+            .addNotBlankConstraint(name, "name")
+            .addCustomConstraint(isEmailValid(), "email", "Invalid email")
+            .addNotNullConstraint(initialBalance, "initialBalance")
+            .addCustomConstraint(isPasswordValid(), "password", "Password must contain at leats 1 letter, 1 digit and have 8 characters")
             .validate("Invalid user json body, violations must be corrected")
     }
 
-    private fun isNameBlank() = { -> Strings.isBlank(name) }
-
     private fun isEmailValid() = { -> Strings.isBlank(email) || !email.matches(Regex(EMAIL_REGEX)) }
-
+    private fun isPasswordValid() = { -> Strings.isBlank(password) || !password.matches(Regex(IDIOT_PASSWORD_REGEX)) }
 }

@@ -9,5 +9,6 @@ data class User(
     val id: String?,
     val name: String,
     val email: String,
-    val userSignature: String
+    val password: String,
+    val transactionSignature: String
 )
