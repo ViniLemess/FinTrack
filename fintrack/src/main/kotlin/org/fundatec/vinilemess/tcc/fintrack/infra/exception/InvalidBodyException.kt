@@ -13,7 +13,7 @@ private fun asProblemDetail(message: String, bodyViolations: Map<String, String>
     val problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, message)
     problemDetail.title = "Invalid request body"
     problemDetail.type = URI("https://www.rfc-editor.org/rfc/rfc7807")
-    problemDetail.setProperty("timestamp", LocalDateTime.now().toString())
+    problemDetail.setProperty("timestamp", LocalDateTime.now())
     problemDetail.setProperty("invalidFields", bodyViolations)
     return problemDetail
 }
