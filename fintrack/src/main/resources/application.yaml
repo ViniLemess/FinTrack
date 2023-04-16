@@ -5,7 +5,7 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: personal_bank_db
+      database: fin_track_db
       username: root
       password: root
       authentication-database: admin
@@ -17,4 +17,3 @@ management:
 logging:
   level:
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
-    org.springframework.data.mongodb.core.mapping.event: DEBUG
