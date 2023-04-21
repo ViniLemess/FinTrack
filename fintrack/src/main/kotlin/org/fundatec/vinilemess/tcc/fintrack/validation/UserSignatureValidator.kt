@@ -1,4 +1,4 @@
-package org.fundatec.vinilemess.tcc.fintrack.validation
+package org.fundatec.vinilemess.tcc.fintrack.infra.validation
 
 fun validateUserSignature(userSignature: String) {
     DataValidator()

@@ -1,4 +1,4 @@
-package org.fundatec.vinilemess.tcc.fintrack.validation
+package org.fundatec.vinilemess.tcc.fintrack.infra.validation
 
 import org.apache.logging.log4j.util.Strings
 import org.fundatec.vinilemess.tcc.fintrack.infra.exception.InvalidBodyException
@@ -18,7 +18,7 @@ class DataValidator {
         return this
     }
 
-    fun addNotNullConstraint(fieldValue: Any, field: String): DataValidator {
+    fun addNotNullConstraint(fieldValue: Any?, field: String): DataValidator {
         if (Objects.isNull(fieldValue)) violations[field] = "$field cannot be null"
         return this
     }
