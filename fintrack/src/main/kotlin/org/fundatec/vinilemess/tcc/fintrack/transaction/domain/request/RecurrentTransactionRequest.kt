@@ -1,5 +1,6 @@
 package org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request
 
+import org.fundatec.vinilemess.tcc.fintrack.infra.Request
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.Recurrence
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
 import org.fundatec.vinilemess.tcc.fintrack.validation.DataValidator
@@ -17,14 +18,15 @@ class RecurrentTransactionRequest(
     val recurrence: Recurrence,
     val frequency: Long,
     val recurrenceCount: Int
-) {
-    fun validateRequest() {
+): Request {
+    override fun validateRequest() {
         DataValidator()
             .addCustomConstraint(isAmountNullOrZero(), "amount", "amount cannot be null or 0")
             .addNotNullConstraint(operation, "operation")
             .addNotNullConstraint(recurrence, "recurrence")
             .addCustomConstraint(isFrequencyNegative(), "frequency", "Frequency cannot be 0 or negative")
-            .addCustomConstraint(isRecurrenceCountNegative(), "recurrenceCount", "Recurrency cannot be 0 or negative")
+            .addCustomConstraint(isRecurrenceCountNegative(), "recurrenceCount", "Recurrence cannot be 0 or negative")
+            .addCustomConstraint(isRecurrenceCountBiggerThenAllowed(), "recurrenceCount", "Recurrence is to big")
             .validate()
     }
 
@@ -33,4 +35,12 @@ class RecurrentTransactionRequest(
     private fun isFrequencyNegative() = { -> Objects.isNull(frequency) || frequency <= 0 }
 
     private fun isRecurrenceCountNegative() = { -> Objects.isNull(recurrenceCount) || recurrenceCount <= 0 }
+
+    private fun isRecurrenceCountBiggerThenAllowed() = { ->
+        Objects.isNull(recurrenceCount) || when (recurrence) {
+            Recurrence.DAILY -> recurrenceCount > 30
+            Recurrence.WEEKLY -> recurrenceCount > 15
+            Recurrence.MONTHLY, Recurrence.YEARLY -> recurrenceCount > 12
+        }
+    }
 }

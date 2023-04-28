@@ -8,12 +8,12 @@ enum class Recurrence {
     MONTHLY,
     YEARLY;
 
-    fun calculateDateByFrequency(initialDate: LocalDate, frequency: Long): LocalDate {
+    fun calculateDateByFrequency(date: LocalDate, frequency: Long): LocalDate {
         return when (this) {
-            DAILY -> initialDate.plusDays(frequency)
-            WEEKLY -> initialDate.plusWeeks(frequency)
-            MONTHLY -> initialDate.plusMonths(frequency)
-            YEARLY -> initialDate.plusYears(frequency)
+            DAILY -> date.plusDays(frequency)
+            WEEKLY -> date.plusWeeks(frequency)
+            MONTHLY -> date.plusMonths(frequency)
+            YEARLY -> date.plusYears(frequency)
         }
     }
 }

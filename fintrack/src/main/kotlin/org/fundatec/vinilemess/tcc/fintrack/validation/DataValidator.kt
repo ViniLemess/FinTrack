@@ -1,7 +1,7 @@
-package org.fundatec.vinilemess.tcc.fintrack.infra.validation
+package org.fundatec.vinilemess.tcc.fintrack.validation
 
 import org.apache.logging.log4j.util.Strings
-import org.fundatec.vinilemess.tcc.fintrack.infra.exception.InvalidBodyException
+import org.fundatec.vinilemess.tcc.fintrack.exception.InvalidBodyException
 import java.util.Objects
 
 class DataValidator {

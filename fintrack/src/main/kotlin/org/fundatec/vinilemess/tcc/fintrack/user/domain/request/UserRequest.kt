@@ -1,8 +1,8 @@
 package org.fundatec.vinilemess.tcc.fintrack.user.domain.request
 
 import org.apache.logging.log4j.util.Strings
+import org.fundatec.vinilemess.tcc.fintrack.infra.Request
 import org.fundatec.vinilemess.tcc.fintrack.validation.DataValidator
-import java.math.BigDecimal
 
 private const val EMAIL_REGEX = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
 private const val IDIOT_PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
@@ -11,13 +11,11 @@ class UserRequest(
     val name: String,
     val email: String,
     val password: String,
-    val initialBalance: BigDecimal
-) {
-    fun validateRequest() {
+): Request {
+    override fun validateRequest() {
         DataValidator()
             .addNotBlankConstraint(name, "name")
             .addCustomConstraint(isEmailValid(), "email", "Invalid email")
-            .addNotNullConstraint(initialBalance, "initialBalance")
             .addCustomConstraint(isPasswordValid(), "password", "Password must contain at leats 1 letter, 1 digit and have 8 characters")
             .validate("Invalid user json body, violations must be corrected")
     }

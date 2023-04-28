@@ -1,4 +1,4 @@
-package org.fundatec.vinilemess.tcc.fintrack.infra.exception
+package org.fundatec.vinilemess.tcc.fintrack.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ProblemDetail

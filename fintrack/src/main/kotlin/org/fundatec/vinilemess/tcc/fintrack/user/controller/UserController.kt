@@ -18,7 +18,6 @@ class UserController(private val userService: UserService) {
 
     @PostMapping
     fun registerUser(@RequestBody userRequest: UserRequest): ResponseEntity<UserResponse> {
-        userRequest.validateRequest()
         return ResponseEntity.ok(userService.registerUser(userRequest))
     }
 

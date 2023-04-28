@@ -1,9 +1,9 @@
 package org.fundatec.vinilemess.tcc.fintrack.validation
 
-import org.assertj.core.api.Assertions
-import org.fundatec.vinilemess.tcc.fintrack.assertContainsViolation
-import org.fundatec.vinilemess.tcc.fintrack.infra.exception.InvalidBodyException
-import org.junit.jupiter.api.Assertions.*
+import org.fundatec.vinilemess.tcc.fintrack.assertProblemDetailsContainsViolation
+import org.fundatec.vinilemess.tcc.fintrack.exception.InvalidBodyException
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 class DataValidatorTest {
@@ -28,12 +28,30 @@ class DataValidatorTest {
                 .validate()
         }
         val problemDetail = exception.body
-        Assertions.assertThat { ->
-            assertEquals(400, problemDetail.status)
-            assertEquals("Fields contains violations that must be corrected", problemDetail.detail)
-            assertEquals("Invalid request body", problemDetail.title)
-            assertNotNull(problemDetail.properties)
-            problemDetail.properties?.let { assertContainsViolation(it, testField) }
-        }
+        assertProblemDetailsContainsViolation(problemDetail, testField)
     }
+
+    @Test
+    fun `Should throw exception when validate is called with notBlank cosntraint violated`() {
+        val exception = assertThrows(InvalidBodyException::class.java) {
+            DataValidator()
+                .addNotBlankConstraint("", testField)
+                .validate()
+        }
+        val problemDetail = exception.body
+        assertProblemDetailsContainsViolation(problemDetail, testField)
+    }
+
+    @Test
+    fun `Should throw exception when validate is called with notNull cosntraint violated`() {
+        val exception = assertThrows(InvalidBodyException::class.java) {
+            DataValidator()
+                .addNotNullConstraint(null, testField)
+                .validate()
+        }
+        val problemDetail = exception.body
+        assertProblemDetailsContainsViolation(problemDetail, testField)
+    }
+
+
 }

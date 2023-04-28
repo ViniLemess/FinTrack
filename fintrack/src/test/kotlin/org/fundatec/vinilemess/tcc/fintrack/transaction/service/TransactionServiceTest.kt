@@ -4,61 +4,82 @@ import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
+import org.assertj.core.api.Assertions.assertThat
+import org.fundatec.vinilemess.tcc.fintrack.*
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.Transaction
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.TransactionOperation
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.TransactionExpense
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.TransactionIncome
+import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.Recurrence
+import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
+import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.RecurrentTransactionRequest
+import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.TransactionRequest
 import org.fundatec.vinilemess.tcc.fintrack.transaction.repository.TransactionRepository
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
-import java.math.BigDecimal
-import java.time.LocalDate
-import java.util.*
+import org.junit.jupiter.api.assertDoesNotThrow
 
 class TransactionServiceTest {
 
     private val transactionRepository: TransactionRepository = mockk()
     private val transactionService = TransactionService(transactionRepository)
-    private val testDate = LocalDate.of(2023, 4, 13)
-    private val testUserSignature = UUID.randomUUID().toString()
-    private val testPositiveAmount = BigDecimal.TEN
-    private val testNegativeAmount = BigDecimal.TEN.negate()
-    private val testDescription = "test"
 
     @Test
-    fun `Should return persisted transaction when transactIncome is called`() {
-        val income = TransactionIncome(testPositiveAmount, testDate, testDescription)
+    fun `Should not throw exception when transact is called`() {
+        val transaction = TransactionRequest(testPositiveAmount, testDate, testDescription, TransactionOperation.INCOME)
         justRun { transactionRepository.save(any()) }
 
-        transactionService.transactIncome(income, testUserSignature)
+        assertDoesNotThrow { transactionService.transact(transaction, testUserSignature) }
 
         verify { transactionRepository.save(any()) }
     }
 
     @Test
-    fun `Should return persisted transaction when transactExpense is called`() {
-        val expense = TransactionExpense(testNegativeAmount, testDate, testDescription)
-        justRun { transactionRepository.save(any()) }
+    fun `Should call repository save 1 time when transactRecurrence is called for any recurrenceCount`() {
+        val recurrentTransaction = RecurrentTransactionRequest(
+            testPositiveAmount,
+            testDate,
+            testDescription,
+            TransactionOperation.INCOME,
+            Recurrence.MONTHLY,
+            1,
+            10
+        )
+        justRun { transactionRepository.saveAll(any()) }
 
-        transactionService.transactExpense(expense, testUserSignature)
+        assertDoesNotThrow { transactionService.transactRecurrence(recurrentTransaction, testUserSignature) }
 
-        verify { transactionRepository.save(any()) }
+        verify { transactionRepository.saveAll(any()) }
     }
 
     @Test
-    fun `Should return correct Balance when calculateBalanceForDate is called with a validDate`() {
+    fun `Should return transactions mapped to response when method listTransactionsBeforeDateByUserSignature is called`() {
         val transactions = listOf(
-                Transaction(null, testUserSignature, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
-                Transaction(null, testUserSignature, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
-                Transaction(null, testUserSignature, testDate, testNegativeAmount, testDescription, TransactionOperation.EXPENSE)
+            Transaction(testId, testUserSignature, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
+            Transaction(testId, testUserSignature, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
+            Transaction(testId, testUserSignature, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME)
         )
         every { transactionRepository.findTransactionsBeforeDateByUserSignature(testUserSignature, testDate) } returns transactions
 
-        val result = transactionService.calculateBalanceForDate(testUserSignature, testDate)
+        val result = transactionService.listTransactionsBeforeDateByUserSignature(testUserSignature, testDate)
 
-        assertEquals(BigDecimal.TEN, result.amount)
-        assertEquals(testDate, result.date)
+        assertThat(result).allSatisfy {
+            assertEquals(testId, it.id)
+            assertEquals(testUserSignature, it.userSignature)
+            assertNull(it.recurrenceId)
+            assertEquals(testDate, it.date)
+            assertEquals(testPositiveAmount, it.amount)
+            assertEquals(testDescription, it.description)
+            assertEquals(TransactionOperation.INCOME, it.transactionOperation)
+        }
 
         verify { transactionRepository.findTransactionsBeforeDateByUserSignature(testUserSignature, testDate) }
+    }
+
+    @Test
+    fun `Should call repository delete without throwing exception when deleteById is called`() {
+        justRun { transactionRepository.deleteById(id = testId) }
+
+        assertDoesNotThrow { transactionService.deleteTransactionById(id = testId) }
+
+        verify { transactionRepository.deleteById(id = testId) }
     }
 }

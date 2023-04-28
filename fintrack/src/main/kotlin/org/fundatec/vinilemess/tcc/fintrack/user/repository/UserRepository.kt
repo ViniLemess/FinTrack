@@ -11,9 +11,7 @@ private const val USERS_COLLECTION = "users"
 @Repository
 class UserRepository(private val mongoTemplate: MongoTemplate) {
 
-    fun save(user: User): User {
-        return mongoTemplate.save(user, USERS_COLLECTION)
-    }
+    fun save(user: User): User = mongoTemplate.save(user, USERS_COLLECTION)
 
     fun findByCredentials(email: String, password: String): User? =
         mongoTemplate.findOne(filterByCredentials(email, password), User::class.java)
@@ -21,9 +19,8 @@ class UserRepository(private val mongoTemplate: MongoTemplate) {
     fun findByEmail(email: String): User? =
         mongoTemplate.findOne(filterByEmail(email), User::class.java)
 
-    private fun filterByCredentials(email: String, password: String): Query {
-        return filterByEmail(email).addCriteria(Criteria.where("password").`is`(password))
-    }
+    private fun filterByCredentials(email: String, password: String) =
+        filterByEmail(email).addCriteria(Criteria.where("password").`is`(password))
 
     private fun filterByEmail(email: String): Query =
         Query().addCriteria(Criteria.where("email").`is`(email))
