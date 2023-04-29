@@ -1,4 +1,4 @@
-package org.fundatec.vinilemess.tcc.fintrack.e2e
+package org.fundatec.vinilemess.tcc.fintrack.integration
 
 import org.fundatec.vinilemess.tcc.fintrack.testDate
 import org.fundatec.vinilemess.tcc.fintrack.testDescription
@@ -19,7 +19,7 @@ private const val TRANSACTIONS_COLLECTION = "transactions"
 @AutoConfigureMockMvc
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class EndToEndTestSetup {
+class IntegrationTestSetup {
     private final val mongoDBContainer: MongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo:latest"))
 
     @Autowired

@@ -1,4 +1,4 @@
-package org.fundatec.vinilemess.tcc.fintrack.e2e
+package org.fundatec.vinilemess.tcc.fintrack.integration
 
 import org.fundatec.vinilemess.tcc.fintrack.testUserSignature
 import org.junit.jupiter.api.AfterEach
@@ -14,7 +14,7 @@ import java.time.LocalDate
 
 private const val BALANCE_URL = "/balances/user-signature/{userSignature}"
 
-class BalanceEndToEndTest: EndToEndTestSetup() {
+class BalanceIntegrationTest: IntegrationTestSetup() {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
