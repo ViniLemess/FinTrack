@@ -18,7 +18,7 @@ class RecurrentTransactionRequest(
     val recurrence: Recurrence,
     val frequency: Long,
     val recurrenceCount: Int
-): Request {
+) : Request {
     override fun validateRequest() {
         DataValidator()
             .addCustomConstraint(isAmountNullOrZero(), "amount", "amount cannot be null or 0")

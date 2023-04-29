@@ -11,12 +11,16 @@ class UserRequest(
     val name: String,
     val email: String,
     val password: String,
-): Request {
+) : Request {
     override fun validateRequest() {
         DataValidator()
             .addNotBlankConstraint(name, "name")
             .addCustomConstraint(isEmailValid(), "email", "Invalid email")
-            .addCustomConstraint(isPasswordValid(), "password", "Password must contain at leats 1 letter, 1 digit and have 8 characters")
+            .addCustomConstraint(
+                isPasswordValid(),
+                "password",
+                "Password must contain at leats 1 letter, 1 digit and have 8 characters"
+            )
             .validate("Invalid user json body, violations must be corrected")
     }
 

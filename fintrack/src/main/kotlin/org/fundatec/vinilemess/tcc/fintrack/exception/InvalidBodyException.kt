@@ -6,7 +6,7 @@ import org.springframework.web.ErrorResponseException
 import java.net.URI
 import java.time.LocalDateTime
 
-class InvalidBodyException(errorMessage: String, bodyViolations: Map<String, String>):
+class InvalidBodyException(errorMessage: String, bodyViolations: Map<String, String>) :
     ErrorResponseException(HttpStatus.BAD_REQUEST, asProblemDetail(errorMessage, bodyViolations), null)
 
 private fun asProblemDetail(message: String, bodyViolations: Map<String, String>): ProblemDetail {

@@ -8,7 +8,7 @@ import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.toResponse
 import org.fundatec.vinilemess.tcc.fintrack.transaction.repository.TransactionRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 @Service
 class TransactionService(private val transactionRepository: TransactionRepository) {

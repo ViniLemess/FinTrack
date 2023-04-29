@@ -13,10 +13,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 class MessageConverterConfig : WebMvcConfigurer {
     override fun configureMessageConverters(converters: MutableList<HttpMessageConverter<*>?>) {
         super.configureMessageConverters(converters)
-        converters.add(MappingJackson2HttpMessageConverter(
+        converters.add(
+            MappingJackson2HttpMessageConverter(
                 Jackson2ObjectMapperBuilder()
-                        .dateFormat(StdDateFormat())
-                        .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                        .build()))
+                    .dateFormat(StdDateFormat())
+                    .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                    .build()
+            )
+        )
     }
 }

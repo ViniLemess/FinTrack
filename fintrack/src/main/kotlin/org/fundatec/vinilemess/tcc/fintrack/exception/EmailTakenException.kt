@@ -6,7 +6,7 @@ import org.springframework.web.ErrorResponseException
 import java.net.URI
 import java.time.LocalDateTime
 
-class EmailTakenException(errorMessage: String):
+class EmailTakenException(errorMessage: String) :
     ErrorResponseException(HttpStatus.CONFLICT, asProblemDetail(errorMessage), null)
 
 private fun asProblemDetail(message: String): ProblemDetail {

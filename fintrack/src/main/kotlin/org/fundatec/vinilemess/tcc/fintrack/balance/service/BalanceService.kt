@@ -16,7 +16,7 @@ class BalanceService(private val transactionService: TransactionService) {
         return BalanceResponse(balance, date)
     }
 
-    private fun extractAmountSum(transactions: List<TransactionResponse>) : BigDecimal {
+    private fun extractAmountSum(transactions: List<TransactionResponse>): BigDecimal {
         if (transactions.isEmpty()) return BigDecimal.ZERO
         return transactions.map { transaction -> transaction.amount }.reduce(BigDecimal::add)
     }

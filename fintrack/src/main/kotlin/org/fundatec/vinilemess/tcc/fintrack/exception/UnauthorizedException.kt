@@ -6,7 +6,7 @@ import org.springframework.web.ErrorResponseException
 import java.net.URI
 import java.time.LocalDateTime
 
-class UnauthorizedException(errorMessage: String):
+class UnauthorizedException(errorMessage: String) :
     ErrorResponseException(HttpStatus.UNAUTHORIZED, asProblemDetail(errorMessage), null)
 
 private fun asProblemDetail(message: String): ProblemDetail {

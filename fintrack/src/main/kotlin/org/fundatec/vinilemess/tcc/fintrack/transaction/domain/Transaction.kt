@@ -30,11 +30,11 @@ data class TransactionResponse(
 )
 
 fun Transaction.toResponse() = TransactionResponse(
-     id = id,
-     userSignature = userSignature,
-     recurrenceId = recurrenceId,
-     date = date,
-     amount = amount ,
-     description = description ,
-     transactionOperation = transactionOperation
+    id = id,
+    userSignature = userSignature,
+    recurrenceId = recurrenceId,
+    date = date,
+    amount = amount,
+    description = description,
+    transactionOperation = transactionOperation
 )

@@ -6,7 +6,7 @@ import org.fundatec.vinilemess.tcc.fintrack.validation.DataValidator
 import org.springframework.format.annotation.DateTimeFormat
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.util.Objects
+import java.util.*
 
 data class TransactionRequest(
     val amount: BigDecimal,
@@ -14,12 +14,13 @@ data class TransactionRequest(
     val date: LocalDate,
     val description: String?,
     val operation: TransactionOperation
-): Request {
+) : Request {
     override fun validateRequest() {
         DataValidator()
             .addCustomConstraint(isAmountZero(), "amount", "amount cannot be 0")
             .addNotNullConstraint(operation, "operation")
             .validate()
     }
+
     private fun isAmountZero() = { -> Objects.isNull(amount) || amount == BigDecimal.ZERO }
 }
