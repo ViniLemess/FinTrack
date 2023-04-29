@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.data.mongodb.core.query.Query
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
@@ -20,14 +23,9 @@ private const val TRANSACTIONS_COLLECTION = "transactions"
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class IntegrationTestSetup {
-    private final val mongoDBContainer: MongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo:latest"))
 
     @Autowired
     private lateinit var mongoTemplate: MongoTemplate
-
-    init {
-        mongoDBContainer.start()
-    }
 
     fun insertTransactions() {
         for (i in 1..5) {
@@ -46,6 +44,22 @@ class IntegrationTestSetup {
     }
 
     fun clearTransactions() {
-        mongoTemplate.remove(Any(), TRANSACTIONS_COLLECTION)
+        mongoTemplate.findAllAndRemove(Query(), Transaction::class.java)
+    }
+
+    companion object {
+        private val mongoDBContainer: MongoDBContainer = MongoDBContainer(DockerImageName.parse("mongo:latest"))
+
+        @JvmStatic
+        @DynamicPropertySource
+        fun mongoDbProperties(registry: DynamicPropertyRegistry) {
+            registry.add("spring.data.mongodb.uri") {
+                mongoDBContainer.replicaSetUrl
+            }
+        }
+
+        init {
+            mongoDBContainer.start()
+        }
     }
 }

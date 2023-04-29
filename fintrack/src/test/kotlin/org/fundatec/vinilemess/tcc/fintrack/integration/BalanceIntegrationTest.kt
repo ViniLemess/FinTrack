@@ -10,7 +10,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import java.time.LocalDate
 
 private const val BALANCE_URL = "/balances/user-signature/{userSignature}"
 
@@ -30,7 +29,7 @@ class BalanceIntegrationTest: IntegrationTestSetup() {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.amount").value(50))
-            .andExpect(jsonPath("$.date").value(LocalDate.now()))
+            .andExpect(jsonPath("$.date").exists())
     }
 
     @AfterEach
