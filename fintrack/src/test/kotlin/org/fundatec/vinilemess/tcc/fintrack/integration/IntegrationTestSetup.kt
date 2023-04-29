@@ -13,11 +13,18 @@ import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
+import org.springframework.test.web.servlet.MockMvc
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
+import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 private const val TRANSACTIONS_COLLECTION = "transactions"
+const val TEST_URL_QUERY_PARAM_DATE = "2023-04-13"
+const val DATE_QUERY_NAME = "date"
+
 
 @AutoConfigureMockMvc
 @Testcontainers
@@ -25,26 +32,38 @@ private const val TRANSACTIONS_COLLECTION = "transactions"
 class IntegrationTestSetup {
 
     @Autowired
-    private lateinit var mongoTemplate: MongoTemplate
+    protected lateinit var mongoTemplate: MongoTemplate
 
-    fun insertTransactions() {
-        for (i in 1..5) {
+    @Autowired
+    protected lateinit var mockMvc: MockMvc
+
+    protected fun insertTransactions(
+        amountToInsert: Int = 5,
+        negativeAmount: BigDecimal? = null,
+    ) {
+        val transactionOperation =
+            if (negativeAmount != null) TransactionOperation.EXPENSE else TransactionOperation.INCOME
+        for (i in 1..amountToInsert) {
             mongoTemplate.save(
                 Transaction(
                     id = null,
                     userSignature = testUserSignature,
                     recurrenceId = null,
                     date = testDate,
-                    amount = testPositiveAmount,
+                    amount = negativeAmount ?: testPositiveAmount,
                     description = testDescription,
-                    transactionOperation = TransactionOperation.INCOME
+                    transactionOperation = transactionOperation
                 ), TRANSACTIONS_COLLECTION
             )
         }
     }
 
-    fun clearTransactions() {
+    protected fun clearTransactions() {
         mongoTemplate.findAllAndRemove(Query(), Transaction::class.java)
+    }
+
+    protected fun getTodayDateAsString(): String {
+        return LocalDate.now().format(DateTimeFormatter.ISO_DATE)
     }
 
     companion object {
