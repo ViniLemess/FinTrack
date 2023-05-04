@@ -27,13 +27,9 @@ class RequestValidatorAdvice : RequestBodyAdviceAdapter() {
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>
     ): Any {
-        if (isImplementingRequest(body)) {
-            (body as Request).validateRequest()
+        if (body is Request) {
+            body.validateRequest()
         }
         return super.afterBodyRead(body, inputMessage, parameter, targetType, converterType)
-    }
-
-    private fun isImplementingRequest(body: Any): Boolean {
-        return Request::class.java.isAssignableFrom(body.javaClass)
     }
 }
