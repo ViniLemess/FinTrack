@@ -3,11 +3,11 @@ spring:
     location: banner.txt
   data:
     mongodb:
-      host: localhost
+      host: fintrack-mongodb
       port: 27017
       database: fin_track_db
-      username: root
-      password: root
+      username: ${MONGODB_USERNAME}
+      password: ${MONGODB_PASSWORD}
       authentication-database: admin
 management:
   endpoints:

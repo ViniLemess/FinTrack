@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  mongodb:
+  fintrack-mongodb:
     image: mongo:latest
     container_name: mongodb
     restart: always
@@ -10,3 +10,15 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
       - MONGO_INITDB_DATABASE=fin_track_db
+  fintrack-api:
+    container_name: fintrack-api
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        MONGO_USERNAME: root
+        MONGO_PASSWORD: root
+    ports:
+      - "8080:8080"
+    depends_on:
+      - fintrack-mongodb
