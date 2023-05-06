@@ -38,11 +38,21 @@ dependencies {
     testImplementation "org.testcontainers:mongodb:1.18.0"
 }
 
+tasks.register('integrationTest', Test) {
+    include '**/*IntegrationTest.*'
+    systemProperty 'spring.profiles.active', 'integration'
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 tasks.withType(KotlinCompile).configureEach {
     kotlinOptions.jvmTarget = "17"
 }
 
 tasks.named('test') {
+    exclude '**/*IntegrationTest.*'
     useJUnitPlatform()
 }
 
