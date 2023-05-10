@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="org.fundatec.vinilemess.tcc.fintrackapp.activities.HomeActivity">
+
+        <View
+            android:id="@+id/v_header"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@color/black_700"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/logo_fundatec"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18"
+            app:layout_constraintBottom_toBottomOf="@+id/v_header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/home_hello" />
+
+        <TextView
+            android:id="@+id/tv_account_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/home_bank_balance"
+            android:textColor="@color/black_700"
+            android:textSize="@dimen/text_size_16"
+            app:layout_constraintEnd_toStartOf="@+id/v_separator"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/v_header" />
+
+        <TextView
+            android:id="@+id/tv_account_place_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_balance_available"
+            android:textColor="@color/gray"
+            app:layout_constraintEnd_toEndOf="@id/tv_account_balance"
+            app:layout_constraintStart_toStartOf="@id/tv_account_balance"
+            app:layout_constraintTop_toBottomOf="@id/tv_account_balance" />
+
+        <View
+            android:id="@+id/v_separator"
+            android:layout_width="1dp"
+            android:layout_height="80dp"
+            android:background="@color/gray_shark"
+            app:layout_constraintBottom_toBottomOf="@id/tv_account_place_holder"
+            app:layout_constraintEnd_toStartOf="@+id/tv_credit_card"
+            app:layout_constraintStart_toEndOf="@+id/tv_account_balance"
+            app:layout_constraintTop_toTopOf="@id/tv_account_balance" />
+
+        <TextView
+            android:id="@+id/tv_credit_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/home_bank_balance"
+            android:textColor="@color/black_700"
+            android:textSize="@dimen/text_size_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/v_separator"
+            app:layout_constraintTop_toBottomOf="@id/v_header"
+            tools:text="R$ 800,00" />
+
+        <TextView
+            android:id="@+id/tv_credit_card_place_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_next_invoice"
+            android:textColor="@color/gray"
+            app:layout_constraintEnd_toEndOf="@id/tv_credit_card"
+            app:layout_constraintStart_toStartOf="@id/tv_credit_card"
+            app:layout_constraintTop_toBottomOf="@id/tv_credit_card" />
+
+        <Button
+            android:id="@+id/transaction_rg_button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@color/black_700"
+            android:text="@string/home_new_transaction"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_14"
+            app:layout_constraintEnd_toEndOf="@+id/tv_credit_card_place_holder"
+            app:layout_constraintStart_toStartOf="@+id/tv_credit_card_place_holder"
+            app:layout_constraintTop_toBottomOf="@+id/tv_credit_card_place_holder" />
+
+        <Button
+            android:id="@+id/transaction_button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@color/black_700"
+            android:text="@string/transactions"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_14"
+            app:layout_constraintEnd_toEndOf="@+id/tv_account_place_holder"
+            app:layout_constraintStart_toStartOf="@+id/tv_account_place_holder"
+            app:layout_constraintTop_toBottomOf="@+id/tv_account_place_holder" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
