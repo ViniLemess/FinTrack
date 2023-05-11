@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import org.fundatec.vinilemess.tcc.fintrackapp.toCurrency
 import org.fundatec.vinilemess.tcc.fintrackapp.usecase.TransactionUsecase
 import kotlinx.coroutines.launch
+import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.BalanceResponse
 
 class HomeViewModel: ViewModel(){
     private val transactionUsecase by lazy {
@@ -18,7 +19,7 @@ class HomeViewModel: ViewModel(){
 
     fun getTotalBill() {
         viewModelScope.launch {
-            balance.value = transactionUsecase.getBalance().toCurrency()
+            balance.value = 0.0.toCurrency()
         }
     }
 }

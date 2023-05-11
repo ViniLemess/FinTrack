@@ -5,8 +5,6 @@ import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.datasource.Result
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.request.UserRequest
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.UserResponse
 import org.fundatec.vinilemess.tcc.fintrackapp.repository.LoginRepository
-import org.fundatec.vinilemess.tcc.fintrackapp.toModel
-import org.fundatec.vinilemess.tcc.fintrackapp.viewmodel.User
 
 class LoginUsecase {
     private val repository by lazy {

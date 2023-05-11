@@ -7,11 +7,11 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-private const val USERS_PATH = "/users/login"
+private const val USERS_PATH = "/users"
 
 interface LoginApi {
 
-    @GET(USERS_PATH)
+    @GET("$USERS_PATH/login")
     suspend fun login(
         @Query("email") email:String,
         @Query("password") password:String

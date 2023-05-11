@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FintrackApp</string>
+    <string name="app_name">Fintrack</string>
 
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -27,5 +27,5 @@
     <string name="unknown_operation_msg">Operation must be selected!</string>
     <string name="successfully_registered_transaction_msg">Successfully registered transaction</string>
     <string name="empty_transaction_msg">Transaction cannot be empty!</string>
-    <string name="register_now">register now</string>
+    <string name="register_now">New here? <u>Register now!</u></string>
 </resources>

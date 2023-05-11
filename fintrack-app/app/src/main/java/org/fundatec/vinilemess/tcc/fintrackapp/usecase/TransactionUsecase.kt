@@ -14,11 +14,7 @@ class TransactionUsecase {
         repository.saveTransaction(transaction)
     }
 
-    suspend fun findTransactions(): List<Transaction> {
-        return repository.findTransactions()
-    }
-
-    suspend fun getBalance(): Double {
-        return repository.findTransactions().sumOf { it.amount }
+    suspend fun findTransactions(userSignature: String): List<Transaction> {
+        return repository.findTransactions(userSignature)
     }
 }

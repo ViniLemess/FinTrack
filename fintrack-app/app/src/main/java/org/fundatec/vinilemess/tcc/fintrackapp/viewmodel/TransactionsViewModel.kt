@@ -17,9 +17,9 @@ class TransactionsViewModel: ViewModel() {
     private val transactions: MutableLiveData<List<Transaction>> = MutableLiveData()
     val listTransactions: LiveData<List<Transaction>> = transactions
 
-    fun findTransactions() {
+    fun findTransactions(userSignature: String) {
         viewModelScope.launch {
-            val list = transactionUsecase.findTransactions()
+            val list = transactionUsecase.findTransactions(userSignature)
             if (list.isEmpty()){
                 Log.e("TransactionsViewModel", "vazio")
             } else {

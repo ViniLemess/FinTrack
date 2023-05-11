@@ -6,7 +6,7 @@ import org.fundatec.vinilemess.tcc.fintrackapp.usecase.LoginUsecase
 import kotlinx.coroutines.launch
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.request.UserRequest
 
-class ProfileViewModel: ViewModel() {
+class UserRegistryViewModel: ViewModel() {
     private val usecase: LoginUsecase by lazy {
         LoginUsecase()
     }
@@ -17,5 +17,3 @@ class ProfileViewModel: ViewModel() {
         }
     }
 }
-
-data class User(val name:String, val email:String, val password:String)

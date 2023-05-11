@@ -2,19 +2,19 @@ package org.fundatec.vinilemess.tcc.fintrackapp.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import org.fundatec.vinilemess.tcc.fintrackapp.databinding.ActivityProfileBinding
-import org.fundatec.vinilemess.tcc.fintrackapp.viewmodel.ProfileViewModel
+import org.fundatec.vinilemess.tcc.fintrackapp.databinding.ActivityUserRegistryBinding
+import org.fundatec.vinilemess.tcc.fintrackapp.viewmodel.UserRegistryViewModel
 
-class ProfileActivity : AppCompatActivity() {
+class UserRegistryActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityProfileBinding
-    private lateinit var viewModel: ProfileViewModel
+    private lateinit var binding: ActivityUserRegistryBinding
+    private lateinit var viewModel: UserRegistryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ActivityProfileBinding.inflate(layoutInflater).run {
+        ActivityUserRegistryBinding.inflate(layoutInflater).run {
             binding = this
-            viewModel = ProfileViewModel()
+            viewModel = UserRegistryViewModel()
             setContentView(root)
         }
 

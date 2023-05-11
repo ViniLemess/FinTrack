@@ -34,6 +34,11 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        viewModel.userSignature.observe(this) { userSignature ->
+            val sharedPreferences = getSharedPreferences("UserCache", MODE_PRIVATE)
+            sharedPreferences.edit().putString("userSignature", userSignature).apply()
+        }
+
         viewModel.shouldShowError.observe(this) { shouldShow ->
             if (shouldShow){
                 Toast.makeText(
@@ -45,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.registryLink.setOnClickListener {
-            val intent  = Intent(this, ProfileActivity::class.java)
+            val intent  = Intent(this, UserRegistryActivity::class.java)
             startActivity(intent)
         }
     }

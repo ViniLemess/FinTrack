@@ -1,5 +1,6 @@
 package org.fundatec.vinilemess.tcc.fintrackapp
 
+import android.content.SharedPreferences
 import org.fundatec.vinilemess.tcc.fintrackapp.data.Transaction
 import org.fundatec.vinilemess.tcc.fintrackapp.data.TransactionOperation
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.TransactionResponse
@@ -27,6 +28,10 @@ fun TransactionResponse.toModel(): Transaction {
 
 fun getCurrentDateAsString(): String {
     return LocalDate.now().format(DateTimeFormatter.ISO_DATE).toString()
+}
+
+fun getUserSignature(preferences: SharedPreferences): String {
+    return preferences.getString("userSignature", null) ?: "abc"
 }
 
 

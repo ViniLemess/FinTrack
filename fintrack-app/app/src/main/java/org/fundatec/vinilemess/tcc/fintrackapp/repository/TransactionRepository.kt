@@ -14,7 +14,7 @@ class TransactionRepository {
         dataSource.registerTransaction(transaction)
     }
 
-    suspend fun findTransactions(): List<Transaction> {
-        return dataSource.findTransactions().map { it.toModel() }
+    suspend fun findTransactions(userSignature: String): List<Transaction> {
+        return dataSource.findTransactions(userSignature).map { it.toModel() }
     }
 }
