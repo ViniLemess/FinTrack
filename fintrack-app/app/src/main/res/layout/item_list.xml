@@ -25,7 +25,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:src="@drawable/market"
+                tools:src="@drawable/expense_arrow"
                 android:layout_marginEnd="20dp"/>
 
             <TextView
