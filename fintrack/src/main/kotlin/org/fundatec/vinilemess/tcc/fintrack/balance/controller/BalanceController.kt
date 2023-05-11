@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
 @RestController
-@RequestMapping("balances")
+@RequestMapping("/balances")
 class BalanceController(private val balanceService: BalanceService) {
 
     @GetMapping("/user-signature/{userSignature}")

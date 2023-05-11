@@ -16,7 +16,7 @@ class UserController(private val userService: UserService) {
         return ResponseEntity.ok(userService.registerUser(userRequest))
     }
 
-    @GetMapping("login")
+    @GetMapping("/login")
     fun login(
         @RequestParam("email") email: String,
         @RequestParam("password") password: String

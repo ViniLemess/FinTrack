@@ -38,7 +38,7 @@ class TransactionController(private val transactionService: TransactionService) 
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("recurrent/{userSignature}")
+    @PostMapping("/recurrent/{userSignature}")
     fun transactRecurrence(
             @RequestBody recurrentTransactionRequest: RecurrentTransactionRequest,
             @PathVariable("userSignature") userSignature: UserSignature
