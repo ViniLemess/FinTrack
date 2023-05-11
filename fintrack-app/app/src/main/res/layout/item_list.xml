@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/transaction_card"
         android:layout_width="match_parent"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/black_500"
         android:layout_height="80dp"
         android:layout_margin="8dp"
         app:cardElevation="6dp"
         app:cardCornerRadius="20dp"
-        app:strokeColor="@color/fintrack_green"
+        app:strokeColor="@color/black"
         app:strokeWidth="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,12 +21,12 @@
 
             <ImageView
                 android:id="@+id/transaction_img"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:src="@drawable/expense_arrow"
+                tools:src="@drawable/income_icon"
                 android:layout_marginEnd="20dp"/>
 
             <TextView
@@ -33,10 +34,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/transaction_img"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="15dp"
                 app:layout_constraintTop_toTopOf="@id/transaction_img"
                 android:textSize="15sp"
-                android:textColor="@color/fintrack_green"
+                android:textColor="@color/white"
                 tools:text="2022/09/22" />
 
             <TextView
@@ -46,18 +47,20 @@
                 app:layout_constraintStart_toStartOf="@id/transaction_date"
                 app:layout_constraintTop_toBottomOf="@id/transaction_date"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:textColor="@color/fintrack_green"
+                android:textColor="@color/white"
+
                 tools:text="Fresh fish and frozen potato fries" />
 
             <TextView
                 android:id="@+id/transaction_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/transaction_img"
                 android:textSize="15sp"
-                android:textColor="@color/fintrack_green"
-                tools:text="R$ 19,50" />
+                android:textColor="@color/white"
+                tools:text="+ R$19,50" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

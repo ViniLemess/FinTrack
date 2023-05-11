@@ -9,7 +9,7 @@
     <string name="man">Male</string>
     <string name="woman">Female</string>
     <string name="other">Non Binary</string>
-    <string name="save">Save</string>
+    <string name="save">Register</string>
     <string name="home_hello">Hello!</string>
     <string name="home_new_transaction">New Transaction</string>
     <string name="home_bank_balance">R$ 0,00</string>

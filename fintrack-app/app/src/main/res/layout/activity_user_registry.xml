@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="16dp"
+        android:background="@color/black"
         tools:context="org.fundatec.vinilemess.tcc.fintrackapp.activities.UserRegistryActivity">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -58,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:imeOptions="actionNext"
-                android:inputType="textShortMessage" />
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -66,6 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/save"
+            android:backgroundTint="@color/fintrack_green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

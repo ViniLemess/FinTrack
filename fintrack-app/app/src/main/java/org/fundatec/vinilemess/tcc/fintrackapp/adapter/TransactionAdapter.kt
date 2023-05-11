@@ -1,5 +1,6 @@
 package org.fundatec.vinilemess.tcc.fintrackapp.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -48,8 +49,14 @@ class TransactionViewHolder(
         "- ${transaction.amount.toCurrency()}".also { binding.transactionPrice.text = it }
 
         when (transaction.transactionOperation) {
-            TransactionOperation.INCOME -> binding.transactionImg.setImageResource(R.drawable.income_arrow)
-            TransactionOperation.EXPENSE -> binding.transactionImg.setImageResource(R.drawable.expense_arrow)
+            TransactionOperation.INCOME -> {
+                binding.transactionImg.setImageResource(R.drawable.income_icon)
+                binding.transactionCard.setBackgroundColor(Color.parseColor("#000F00"))
+            }
+            TransactionOperation.EXPENSE -> {
+                binding.transactionImg.setImageResource(R.drawable.expense_icon)
+                binding.transactionCard.setBackgroundColor(Color.parseColor("#0F0000"))
+            }
             else -> {}
         }
 
