@@ -10,8 +10,8 @@ class TransactionUsecase {
         TransactionRepository()
     }
 
-    suspend fun saveTransaction(transaction: TransactionRequest) {
-        repository.saveTransaction(transaction)
+    suspend fun saveTransaction(transaction: TransactionRequest, userSignature: String) {
+        repository.saveTransaction(transaction, userSignature)
     }
 
     suspend fun findTransactions(userSignature: String): List<Transaction> {

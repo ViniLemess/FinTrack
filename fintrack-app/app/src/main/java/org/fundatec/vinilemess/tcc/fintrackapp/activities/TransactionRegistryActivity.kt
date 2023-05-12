@@ -22,7 +22,7 @@ class TransactionRegistryActivity : AppCompatActivity(), DatePickerDialog.OnDate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityTransactionRegistryBinding.inflate(layoutInflater)
-        viewModel = TransactionRegistryViewModel()
+        viewModel = TransactionRegistryViewModel(this)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 

@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         app:cardBackgroundColor="@color/black_500"
         android:layout_height="80dp"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         app:cardElevation="6dp"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="10dp"
         app:strokeColor="@color/black"
         app:strokeWidth="2dp">
 

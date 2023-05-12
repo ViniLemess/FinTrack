@@ -13,8 +13,8 @@ data class TransactionResponse(
     val id: String?,
     val userSignature: String,
     val recurrenceId: String?,
-    val date: LocalDate,
-    val amount: BigDecimal,
+    val date: String,
+    val amount: Double,
     val description: String?,
     val transactionOperation: String
 )

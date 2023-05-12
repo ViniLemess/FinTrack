@@ -11,7 +11,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val TRANSACTIONS_PATH = "/transactions"
-private const val USER_SIGNATURE_PATH_VARIABLE = "{userSignatrue}"
+private const val USER_SIGNATURE_PATH_VARIABLE = "{userSignature}"
 
 interface TransactionsApi {
 

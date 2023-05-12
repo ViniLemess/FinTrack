@@ -7,15 +7,16 @@ import kotlinx.coroutines.withContext
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.RetrofitNetworkClient
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.api.TransactionsApi
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.request.TransactionRequest
+import org.fundatec.vinilemess.tcc.fintrackapp.getCurrentDateAsString
 
 class TransactionDataSource {
     private val client = RetrofitNetworkClient.createNetworkClient()
         .create(TransactionsApi::class.java)
 
-    suspend fun registerTransaction(transaction: TransactionRequest) {
+    suspend fun registerTransaction(transaction: TransactionRequest, userSignature: String) {
         withContext(Dispatchers.IO) {
             try {
-                client.registerTransaction("", transaction)
+                client.registerTransaction(userSignature, transaction)
             } catch (exception:Exception) {
                 Log.e("msg: {}, error is {}", exception.message, exception)
             }
@@ -25,7 +26,7 @@ class TransactionDataSource {
     suspend fun findTransactions(userSignature: String): List<TransactionResponse> {
         return withContext(Dispatchers.IO) {
             try {
-                client.findTransactions(userSignature, null)
+                client.findTransactions(userSignature, getCurrentDateAsString())
             } catch (exception:Exception) {
                 Log.e("msg: {}, error is {}", exception.message, exception)
                 emptyList()

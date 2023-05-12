@@ -1,5 +1,6 @@
 package org.fundatec.vinilemess.tcc.fintrackapp.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,12 +11,16 @@ import kotlinx.coroutines.launch
 import org.fundatec.vinilemess.tcc.fintrackapp.data.TransactionOperation
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.request.TransactionRequest
 import org.fundatec.vinilemess.tcc.fintrackapp.getCurrentDateAsString
+import org.fundatec.vinilemess.tcc.fintrackapp.usecase.UserUseCase
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class TransactionRegistryViewModel : ViewModel() {
+class TransactionRegistryViewModel(context: Context) : ViewModel() {
     private val usecase by lazy {
         TransactionUsecase()
+    }
+    private val userUseCase by lazy {
+        UserUseCase(context)
     }
     private val state: MutableLiveData<TransactionState> = MutableLiveData()
     val viewState: LiveData<TransactionState> = state
@@ -36,7 +41,8 @@ class TransactionRegistryViewModel : ViewModel() {
                 operation = operation.toString()
             )
             Log.i("objeto ====>", newTransaction.toString())
-            usecase.saveTransaction(newTransaction)
+            userUseCase.findUser()
+                ?.let { usecase.saveTransaction(newTransaction, it.userSignature) }
             state.value = TransactionState.ValidTransaction
         }
     }

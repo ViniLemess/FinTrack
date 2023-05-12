@@ -9,6 +9,9 @@ import org.fundatec.vinilemess.tcc.fintrackapp.databinding.ItemListBinding
 import org.fundatec.vinilemess.tcc.fintrackapp.data.Transaction
 import org.fundatec.vinilemess.tcc.fintrackapp.data.TransactionOperation
 import org.fundatec.vinilemess.tcc.fintrackapp.toCurrency
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
 
 class TransactionAdapter(private val listener: Listener) :
     RecyclerView.Adapter<TransactionViewHolder>() {
@@ -45,17 +48,19 @@ class TransactionViewHolder(
 ): RecyclerView.ViewHolder(binding.root) {
 
     fun bind(transaction: Transaction) {
+        binding.transactionDate.text = transaction.date
         binding.transactionDescription.text = transaction.description
-        "- ${transaction.amount.toCurrency()}".also { binding.transactionPrice.text = it }
 
         when (transaction.transactionOperation) {
             TransactionOperation.INCOME -> {
+                "+ ${transaction.amount.toCurrency()}".also { binding.transactionPrice.text = it }
                 binding.transactionImg.setImageResource(R.drawable.income_icon)
-                binding.transactionCard.setBackgroundColor(Color.parseColor("#000F00"))
+                binding.transactionCard.setCardBackgroundColor(Color.parseColor("#000F00"))
             }
             TransactionOperation.EXPENSE -> {
+                "- ${transaction.amount.toCurrency()}".also { binding.transactionPrice.text = it }
                 binding.transactionImg.setImageResource(R.drawable.expense_icon)
-                binding.transactionCard.setBackgroundColor(Color.parseColor("#0F0000"))
+                binding.transactionCard.setCardBackgroundColor(Color.parseColor("#0F0000"))
             }
             else -> {}
         }

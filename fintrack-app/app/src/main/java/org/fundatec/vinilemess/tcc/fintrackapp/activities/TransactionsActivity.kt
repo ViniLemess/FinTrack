@@ -48,7 +48,7 @@ class TransactionsActivity : AppCompatActivity(), TransactionAdapter.Listener {
 
     override fun onStart() {
         super.onStart()
-        viewModel.findTransactions("")
+        viewModel.findTransactions("3a6fc532-620b-4847-b77c-7512e04640e5")
     }
 }
 

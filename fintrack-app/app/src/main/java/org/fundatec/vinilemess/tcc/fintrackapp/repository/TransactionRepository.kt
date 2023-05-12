@@ -10,8 +10,8 @@ class TransactionRepository {
         TransactionDataSource()
     }
 
-    suspend fun saveTransaction(transaction: TransactionRequest) {
-        dataSource.registerTransaction(transaction)
+    suspend fun saveTransaction(transaction: TransactionRequest, userSignature: String) {
+        dataSource.registerTransaction(transaction, userSignature)
     }
 
     suspend fun findTransactions(userSignature: String): List<Transaction> {
