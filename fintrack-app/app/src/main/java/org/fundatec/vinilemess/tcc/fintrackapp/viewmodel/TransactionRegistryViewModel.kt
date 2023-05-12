@@ -20,7 +20,7 @@ class TransactionRegistryViewModel : ViewModel() {
     private val state: MutableLiveData<TransactionState> = MutableLiveData()
     val viewState: LiveData<TransactionState> = state
 
-    fun saveTransaction(operation: TransactionOperation, amount: String, description: String) {
+    fun saveTransaction(operation: TransactionOperation, amount: String, description: String, date: String) {
         viewModelScope.launch {
             if (amount.isBlank()) {
                 state.value = TransactionState.EmptyTransaction
@@ -30,9 +30,9 @@ class TransactionRegistryViewModel : ViewModel() {
                 return@launch
             }
             val newTransaction = TransactionRequest(
-                description= description,
+                description = description,
                 amount = amount.trim().toDouble(),
-                date = getCurrentDateAsString(),
+                date = date,
                 operation = operation.toString()
             )
             Log.i("objeto ====>", newTransaction.toString())

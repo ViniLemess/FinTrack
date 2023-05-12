@@ -28,4 +28,5 @@
     <string name="successfully_registered_transaction_msg">Successfully registered transaction</string>
     <string name="empty_transaction_msg">Transaction cannot be empty!</string>
     <string name="register_now">New here? <u>Register now!</u></string>
+    <string name="date">Transaction Date</string>
 </resources>
