@@ -7,16 +7,15 @@ import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.request.UserRequest
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.UserResponse
 
 class LoginRepository {
-
-    private val remoteDataSource by lazy {
+    private val loginDataSource by lazy {
         LoginDataSource()
     }
 
     suspend fun login(email:String, password:String): Result<UserResponse, ErrorModel> {
-        return remoteDataSource.login(email = email, password = password)
+        return loginDataSource.login(email = email, password = password)
     }
 
     suspend fun registerUser(user: UserRequest) {
-        remoteDataSource.registerUser(user)
+        loginDataSource.registerUser(user)
     }
 }

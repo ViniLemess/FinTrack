@@ -7,7 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import org.fundatec.vinilemess.tcc.fintrackapp.usecase.LoginUsecase
 import kotlinx.coroutines.launch
+import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.datasource.ErrorModel
+import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.datasource.Result
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.UserResponse
+import org.fundatec.vinilemess.tcc.fintrackapp.toModel
+import org.fundatec.vinilemess.tcc.fintrackapp.usecase.UserUseCase
 
 class LoginViewModel : ViewModel() {
 
@@ -15,28 +19,35 @@ class LoginViewModel : ViewModel() {
         LoginUsecase()
     }
 
+    private val userUseCase by lazy {
+        UserUseCase()
+    }
+
     private val error: MutableLiveData<Boolean> = MutableLiveData(false)
     private val home: MutableLiveData<Boolean> = MutableLiveData(false)
-    private val mutableUserSignature: MutableLiveData<String> = MutableLiveData("")
-    val userSignature: LiveData<String> = mutableUserSignature
     val shouldShowError: LiveData<Boolean> = error
     val shouldShowHome: LiveData<Boolean> = home
 
     fun login(email: String?, password: String?) {
         viewModelScope.launch {
             if (email != null && password != null) {
-                val user = loginUsecase.login(email = email, password = password)
-                Log.d("Login: ",user.get().toString())
-                val userResponse: UserResponse? = user.get()
+                val loginResult = executeLogin(email, password)
+                val userResponse: UserResponse? = loginResult.get()
                 if (userResponse != null) {
-                    mutableUserSignature.value = userResponse.userSignature
+                    userUseCase.upsertUser(userResponse.toModel())
                     home.value = true
-                } else {
-                    error.value = true
+                    return@launch
                 }
-            } else {
                 error.value = true
+                return@launch
             }
+            error.value = true
         }
+    }
+
+    private suspend fun executeLogin(email: String, password: String): Result<UserResponse, ErrorModel> {
+        val user = loginUsecase.login(email = email, password = password)
+        Log.d("Login: ", user.get().toString())
+        return user
     }
 }

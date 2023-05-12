@@ -1,9 +1,11 @@
 package org.fundatec.vinilemess.tcc.fintrackapp
 
-import android.content.SharedPreferences
 import org.fundatec.vinilemess.tcc.fintrackapp.data.Transaction
 import org.fundatec.vinilemess.tcc.fintrackapp.data.TransactionOperation
+import org.fundatec.vinilemess.tcc.fintrackapp.data.User
+import org.fundatec.vinilemess.tcc.fintrackapp.data.local.entity.UserEntity
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.TransactionResponse
+import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.UserResponse
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -26,13 +28,26 @@ fun TransactionResponse.toModel(): Transaction {
     )
 }
 
+fun User.toEntity() = UserEntity(
+    name = name,
+    userSignature = userSignature
+)
+
+fun UserEntity.toModel() = User(
+    name = name,
+    userSignature = userSignature
+)
+
+fun UserResponse.toModel() = User(
+    name = name,
+    userSignature = userSignature
+)
+
 fun getCurrentDateAsString(): String {
     return LocalDate.now().format(DateTimeFormatter.ISO_DATE).toString()
 }
 
-fun getUserSignature(preferences: SharedPreferences): String {
-    return preferences.getString("userSignature", null) ?: "abc"
-}
+
 
 
 

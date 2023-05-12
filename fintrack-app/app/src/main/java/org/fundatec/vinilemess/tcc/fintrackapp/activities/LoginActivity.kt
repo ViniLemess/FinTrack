@@ -34,11 +34,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.userSignature.observe(this) { userSignature ->
-            val sharedPreferences = getSharedPreferences("UserCache", MODE_PRIVATE)
-            sharedPreferences.edit().putString("userSignature", userSignature).apply()
-        }
-
         viewModel.shouldShowError.observe(this) { shouldShow ->
             if (shouldShow){
                 Toast.makeText(

@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.fundatec.vinilemess.tcc.fintrackapp.adapter.TransactionAdapter
 import org.fundatec.vinilemess.tcc.fintrackapp.databinding.ActivityTransactionsBinding
-import org.fundatec.vinilemess.tcc.fintrackapp.getUserSignature
 import org.fundatec.vinilemess.tcc.fintrackapp.viewmodel.TransactionsViewModel
 
 class TransactionsActivity : AppCompatActivity(), TransactionAdapter.Listener {
@@ -49,8 +48,7 @@ class TransactionsActivity : AppCompatActivity(), TransactionAdapter.Listener {
 
     override fun onStart() {
         super.onStart()
-        val preferences = getSharedPreferences("UserCache", MODE_PRIVATE)
-        viewModel.findTransactions(getUserSignature(preferences))
+        viewModel.findTransactions("")
     }
 }
 
