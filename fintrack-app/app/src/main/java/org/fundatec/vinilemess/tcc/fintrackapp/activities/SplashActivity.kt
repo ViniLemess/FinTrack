@@ -16,7 +16,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = LoginViewModel()
+        viewModel = LoginViewModel(this)
 
         viewModel.shouldShowHome.observe(this) {
             if (!it) {

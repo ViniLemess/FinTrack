@@ -1,5 +1,6 @@
 package org.fundatec.vinilemess.tcc.fintrackapp.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,14 +14,14 @@ import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.UserResponse
 import org.fundatec.vinilemess.tcc.fintrackapp.toModel
 import org.fundatec.vinilemess.tcc.fintrackapp.usecase.UserUseCase
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(private val context: Context) : ViewModel() {
 
     private val loginUsecase by lazy {
         LoginUsecase()
     }
 
     private val userUseCase by lazy {
-        UserUseCase()
+        UserUseCase(context)
     }
 
     private val error: MutableLiveData<Boolean> = MutableLiveData(false)
