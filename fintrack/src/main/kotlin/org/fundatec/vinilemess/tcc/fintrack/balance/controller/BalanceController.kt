@@ -2,7 +2,7 @@ package org.fundatec.vinilemess.tcc.fintrack.balance.controller
 
 import org.fundatec.vinilemess.tcc.fintrack.balance.domain.BalanceResponse
 import org.fundatec.vinilemess.tcc.fintrack.balance.service.BalanceService
-import org.fundatec.vinilemess.tcc.fintrack.validation.UserSignature
+import org.fundatec.vinilemess.tcc.fintrack.user.domain.UserSignature
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

@@ -1,4 +1,6 @@
-package org.fundatec.vinilemess.tcc.fintrack.validation
+package org.fundatec.vinilemess.tcc.fintrack.user.domain
+
+import org.fundatec.vinilemess.tcc.fintrack.validation.DataValidator
 
 class UserSignature(val userSignature: String) {
     init {
