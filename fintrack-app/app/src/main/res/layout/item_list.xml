@@ -6,13 +6,12 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/transaction_card"
         android:layout_width="match_parent"
-        app:cardBackgroundColor="@color/black_500"
+        app:cardBackgroundColor="@color/black_700"
         android:layout_height="80dp"
         android:layout_margin="4dp"
         app:cardElevation="6dp"
         app:cardCornerRadius="10dp"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:strokeColor="@color/black">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -26,7 +25,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:src="@drawable/income_icon"
+                tools:src="@drawable/expense_icon"
                 android:layout_marginEnd="20dp"/>
 
             <TextView
@@ -60,7 +59,7 @@
                 app:layout_constraintTop_toTopOf="@id/transaction_img"
                 android:textSize="15sp"
                 android:textColor="@color/white"
-                tools:text="+ R$19,50" />
+                tools:text="- R$19,50" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
