@@ -53,12 +53,12 @@ class TransactionViewHolder(
 
         when (transaction.transactionOperation) {
             TransactionOperation.INCOME -> {
-                "+ ${transaction.amount.toCurrency()}".also { binding.transactionPrice.text = it }
+                "+${transaction.amount.toCurrency()}".also { binding.transactionPrice.text = it }
                 binding.transactionImg.setImageResource(R.drawable.income_icon)
                 binding.transactionCard.setCardBackgroundColor(Color.parseColor("#000F00"))
             }
             TransactionOperation.EXPENSE -> {
-                "- ${transaction.amount.toCurrency()}".also { binding.transactionPrice.text = it }
+                transaction.amount.toCurrency().also { binding.transactionPrice.text = it }
                 binding.transactionImg.setImageResource(R.drawable.expense_icon)
                 binding.transactionCard.setCardBackgroundColor(Color.parseColor("#0F0000"))
             }
