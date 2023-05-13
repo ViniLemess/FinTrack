@@ -14,7 +14,7 @@ import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.UserResponse
 import org.fundatec.vinilemess.tcc.fintrackapp.toModel
 import org.fundatec.vinilemess.tcc.fintrackapp.usecase.UserUseCase
 
-class LoginViewModel(private val context: Context) : ViewModel() {
+class LoginViewModel(context: Context) : ViewModel() {
 
     private val loginUsecase by lazy {
         LoginUsecase()

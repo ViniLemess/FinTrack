@@ -9,7 +9,7 @@ import org.fundatec.vinilemess.tcc.fintrackapp.adapter.TransactionAdapter
 import org.fundatec.vinilemess.tcc.fintrackapp.databinding.ActivityTransactionsBinding
 import org.fundatec.vinilemess.tcc.fintrackapp.viewmodel.TransactionsViewModel
 
-class TransactionsActivity : AppCompatActivity(), TransactionAdapter.Listener {
+class TransactionsActivity: AppCompatActivity(), TransactionAdapter.Listener {
     private lateinit var binding: ActivityTransactionsBinding
     private val adapter: TransactionAdapter by lazy {
         TransactionAdapter(this)
@@ -20,7 +20,7 @@ class TransactionsActivity : AppCompatActivity(), TransactionAdapter.Listener {
         super.onCreate(savedInstanceState)
         binding = ActivityTransactionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = TransactionsViewModel()
+        viewModel = TransactionsViewModel(this)
 
         Log.e("====> Tela listagem", "passei aqui")
 
