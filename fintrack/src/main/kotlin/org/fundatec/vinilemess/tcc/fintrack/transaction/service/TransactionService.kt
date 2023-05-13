@@ -46,7 +46,7 @@ class TransactionService(private val transactionRepository: TransactionRepositor
         id = null,
         userSignature = userSignature,
         recurrenceId = null,
-        amount = amount,
+        amount = this.getAmount(),
         date = date,
         description = description,
         transactionOperation = operation
@@ -61,7 +61,7 @@ class TransactionService(private val transactionRepository: TransactionRepositor
             id = null,
             userSignature = userSignature,
             recurrenceId = recurrenceId,
-            amount = amount,
+            amount = this.getAmount(),
             date = date,
             description = description,
             transactionOperation = operation

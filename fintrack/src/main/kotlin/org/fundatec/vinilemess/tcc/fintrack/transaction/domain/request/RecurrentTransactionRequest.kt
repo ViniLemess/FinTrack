@@ -10,7 +10,7 @@ import java.time.LocalDate
 import java.util.*
 
 class RecurrentTransactionRequest(
-    val amount: BigDecimal,
+    private var amount: BigDecimal,
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     val inititalDate: LocalDate,
     val description: String?,
@@ -19,6 +19,11 @@ class RecurrentTransactionRequest(
     val frequency: Long,
     val recurrenceCount: Int
 ) : Request {
+
+    init {
+        this.amount = negateIfExpense(amount)
+    }
+
     override fun validateRequest() {
         DataValidator()
             .addCustomConstraint(isAmountNullOrZero(), "amount", "amount cannot be null or 0")
@@ -35,6 +40,17 @@ class RecurrentTransactionRequest(
     private fun isFrequencyNegative() = { -> Objects.isNull(frequency) || frequency <= 0 }
 
     private fun isRecurrenceCountNegative() = { -> Objects.isNull(recurrenceCount) || recurrenceCount <= 0 }
+
+    private fun negateIfExpense(amount: BigDecimal): BigDecimal {
+        if (operation == TransactionOperation.EXPENSE) {
+            return amount.negate()
+        }
+        return amount
+    }
+
+    fun getAmount(): BigDecimal {
+        return this.amount
+    }
 
     private fun isRecurrenceCountBiggerThenAllowed() = { ->
         Objects.isNull(recurrenceCount) || when (recurrence) {

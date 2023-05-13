@@ -9,12 +9,17 @@ import java.time.LocalDate
 import java.util.*
 
 data class TransactionRequest(
-    val amount: BigDecimal,
+    private var amount: BigDecimal,
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     val date: LocalDate,
     val description: String?,
     val operation: TransactionOperation
 ) : Request {
+
+    init {
+        this.amount = negateIfExpense(amount)
+    }
+
     override fun validateRequest() {
         DataValidator()
             .addCustomConstraint(isAmountZero(), "amount", "amount cannot be 0")
@@ -23,4 +28,15 @@ data class TransactionRequest(
     }
 
     private fun isAmountZero() = { -> Objects.isNull(amount) || amount == BigDecimal.ZERO }
+
+    private fun negateIfExpense(amount: BigDecimal): BigDecimal {
+        if (operation == TransactionOperation.EXPENSE) {
+            return amount.negate()
+        }
+        return amount
+    }
+
+    fun getAmount(): BigDecimal {
+        return this.amount
+    }
 }
