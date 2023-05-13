@@ -12,9 +12,12 @@
         tools:context="org.fundatec.vinilemess.tcc.fintrackapp.activities.LoginActivity">
 
         <ImageView
+            android:id="@+id/imgv_fintrack_logo"
             android:layout_width="500dp"
             android:layout_height="200dp"
             android:src="@drawable/fintrack_logo_black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintBottom_toTopOf="@id/ti_email"
             app:layout_constraintEnd_toEndOf="@id/ti_email"
             app:layout_constraintHorizontal_bias="0.497"
@@ -27,8 +30,8 @@
             android:layout_marginHorizontal="16dp"
             android:hint="@string/email"
             android:textColorHint="@color/fintrack_green"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintBottom_toTopOf="@id/ti_password"
+            app:layout_constraintTop_toBottomOf="imgv_fintrack_logo">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
