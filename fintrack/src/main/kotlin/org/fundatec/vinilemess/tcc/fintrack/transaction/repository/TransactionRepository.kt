@@ -26,7 +26,7 @@ class TransactionRepository(private val mongoTemplate: MongoTemplate) {
 
     fun findTransactionsBeforeDateByUserSignature(userSignature: String, date: LocalDate): List<Transaction> {
         return mongoTemplate.find(
-            filterByUserSignatureBeforeDate(userSignature, date).with(sortAscending()),
+            filterByUserSignatureBeforeDate(userSignature, date).with(sortDescending()),
             Transaction::class.java,
             TRANSACTIONS_COLLECTION
         )
@@ -48,5 +48,5 @@ class TransactionRepository(private val mongoTemplate: MongoTemplate) {
     private fun filterByUserSignature(userSignature: String): Query = Query()
         .addCriteria(Criteria.where("userSignature").`is`(userSignature))
 
-    private fun sortAscending(): Sort = Sort.by(Sort.Direction.ASC, "date")
+    private fun sortDescending(): Sort = Sort.by(Sort.Direction.DESC, "date")
 }
