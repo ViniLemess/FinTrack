@@ -12,7 +12,7 @@ import java.time.LocalDate
 @RequestMapping("/balances")
 class BalanceController(private val balanceService: BalanceService) {
 
-    @GetMapping("/user-signature/{userSignature}")
+    @GetMapping("/{userSignature}")
     fun getUserBalanceForDate(
         @PathVariable("userSignature") userSignature: UserSignature,
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam("date") date: LocalDate?

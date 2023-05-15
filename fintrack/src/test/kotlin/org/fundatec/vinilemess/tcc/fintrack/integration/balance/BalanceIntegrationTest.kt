@@ -11,7 +11,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
-private const val BALANCE_URL = "/balances/user-signature/{userSignature}"
+private const val BALANCE_URL = "/balances/{userSignature}"
 
 class BalanceIntegrationTest : IntegrationTestSetup() {
 
