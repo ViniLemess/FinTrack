@@ -16,7 +16,7 @@
     <string name="home_balance_available">Current Balance</string>
     <string name="futurest_balance">Futurest Balance</string>
     <string name="new_transaction">ADD TRANSACTION</string>
-    <string name="transactions">TRANSACTIONS</string>
+    <string name="transactions">Transactions</string>
     <string name="transactions_str">Transactions</string>
     <string name="submit">Submit</string>
     <string name="expense">Expense</string>
