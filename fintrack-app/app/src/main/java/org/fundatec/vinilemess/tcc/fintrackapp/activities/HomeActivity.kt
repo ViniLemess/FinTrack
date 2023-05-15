@@ -15,12 +15,16 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ActivityHomeBinding.inflate(layoutInflater).run {
             binding = this
-            viewModel = HomeViewModel()
             setContentView(root)
         }
+        viewModel = HomeViewModel(this)
 
-        viewModel.showBill.observe(this) {
-            binding.tvCreditCard.text = it.toString()
+        viewModel.showBalance.observe(this) {
+            binding.tvAccountBalance.text = it
+        }
+
+        viewModel.showUsername.observe(this) {
+            binding.tvHelloUser.text = "Hello $it!"
         }
 
         binding.transactionButton.setOnClickListener {
@@ -36,6 +40,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.getTotalBill()
+        viewModel.getUsername()
+        viewModel.getBalance()
     }
 }

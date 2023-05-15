@@ -14,7 +14,7 @@ class TransactionUsecase {
         repository.saveTransaction(transaction, userSignature)
     }
 
-    suspend fun findTransactions(userSignature: String): List<Transaction> {
-        return repository.findTransactions(userSignature)
+    suspend fun findTransactions(userSignature: String, date: String?): List<Transaction> {
+        return repository.findTransactions(userSignature, date)
     }
 }

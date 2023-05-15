@@ -9,5 +9,5 @@ private const val BALANCE_PATH = "/balances/{userSignature}"
 interface BalanceApi {
 
     @GET(BALANCE_PATH)
-    fun findBalance(@Path("userSignature") userSignature: String): BalanceResponse
+    suspend fun findBalance(@Path("userSignature") userSignature: String): BalanceResponse
 }

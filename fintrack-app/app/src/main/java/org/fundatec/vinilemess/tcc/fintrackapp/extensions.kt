@@ -13,14 +13,14 @@ import java.time.format.DateTimeFormatter
 
 fun Double.toCurrency(): String {
     if (this == 0.0) {
-        return "USD$0.00"
+        return "$0.00"
     }
 
     val formatSymbols = DecimalFormatSymbols().apply {
         groupingSeparator = ','
         decimalSeparator = '.'
     }
-    val format = DecimalFormat("USD$#,##0.00", formatSymbols)
+    val format = DecimalFormat("$#,##0.00", formatSymbols)
     return format.format(this)
 }
 

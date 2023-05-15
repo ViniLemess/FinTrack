@@ -10,11 +10,11 @@
     <string name="woman">Female</string>
     <string name="other">Non Binary</string>
     <string name="save">Register</string>
-    <string name="home_hello">Hello!</string>
+    <string name="home_hello">Hello %s!</string>
     <string name="home_new_transaction">New Transaction</string>
-    <string name="home_bank_balance">R$ 0,00</string>
+    <string name="home_bank_balance">$0.00</string>
     <string name="home_balance_available">Current Balance</string>
-    <string name="home_next_invoice">Next Bill</string>
+    <string name="futurest_balance">Futurest Balance</string>
     <string name="new_transaction">ADD TRANSACTION</string>
     <string name="transactions">TRANSACTIONS</string>
     <string name="transactions_str">Transactions</string>
@@ -29,4 +29,5 @@
     <string name="empty_transaction_msg">Transaction cannot be empty!</string>
     <string name="register_now">New here? <u>Register now!</u></string>
     <string name="date">Transaction Date</string>
+    <string name="add_transactions_button">add transactions button</string>
 </resources>

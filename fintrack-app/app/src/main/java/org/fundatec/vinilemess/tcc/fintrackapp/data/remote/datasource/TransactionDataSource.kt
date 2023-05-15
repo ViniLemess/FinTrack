@@ -23,10 +23,10 @@ class TransactionDataSource {
         }
     }
 
-    suspend fun findTransactions(userSignature: String): List<TransactionResponse> {
+    suspend fun findTransactions(userSignature: String, date: String?): List<TransactionResponse> {
         return withContext(Dispatchers.IO) {
             try {
-                client.findTransactions(userSignature, getCurrentDateAsString())
+                client.findTransactions(userSignature, date?: getCurrentDateAsString())
             } catch (exception:Exception) {
                 Log.e("msg: {}, error is {}", exception.message, exception)
                 emptyList()

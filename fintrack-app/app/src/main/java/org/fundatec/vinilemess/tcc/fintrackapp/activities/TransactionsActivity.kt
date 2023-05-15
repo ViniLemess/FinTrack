@@ -1,15 +1,20 @@
 package org.fundatec.vinilemess.tcc.fintrackapp.activities
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.fundatec.vinilemess.tcc.fintrackapp.adapter.TransactionAdapter
 import org.fundatec.vinilemess.tcc.fintrackapp.databinding.ActivityTransactionsBinding
 import org.fundatec.vinilemess.tcc.fintrackapp.viewmodel.TransactionsViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
-class TransactionsActivity: AppCompatActivity(), TransactionAdapter.Listener {
+class TransactionsActivity: AppCompatActivity(), TransactionAdapter.Listener, DatePickerDialog.OnDateSetListener{
     private lateinit var binding: ActivityTransactionsBinding
     private val adapter: TransactionAdapter by lazy {
         TransactionAdapter(this)
@@ -36,6 +41,15 @@ class TransactionsActivity: AppCompatActivity(), TransactionAdapter.Listener {
             val intent  = Intent(this, TransactionRegistryActivity::class.java)
             startActivity(intent)
         }
+
+        binding.backArrow.setOnClickListener {
+            finish()
+        }
+
+        binding.listingDateButton.setOnClickListener {
+            val datePickerFragment = DatePickerFragment()
+            datePickerFragment.show(supportFragmentManager, "datePicker")
+        }
     }
 
     override fun onItemClick(text: String) {
@@ -48,7 +62,19 @@ class TransactionsActivity: AppCompatActivity(), TransactionAdapter.Listener {
 
     override fun onStart() {
         super.onStart()
-        viewModel.findTransactions("3a6fc532-620b-4847-b77c-7512e04640e5")
+        viewModel.getTransactions(null)
+    }
+
+    override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, day)
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val formattedDate: String = dateFormat.format(calendar.time)
+
+        viewModel.getTransactions(formattedDate)
     }
 }
 
