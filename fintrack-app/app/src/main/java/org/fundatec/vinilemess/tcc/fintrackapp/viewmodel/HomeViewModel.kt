@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.fundatec.vinilemess.tcc.fintrackapp.data.User
+import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.BalanceResponse
 import org.fundatec.vinilemess.tcc.fintrackapp.toCurrency
 import org.fundatec.vinilemess.tcc.fintrackapp.usecase.BalanceUseCase
 import org.fundatec.vinilemess.tcc.fintrackapp.usecase.UserUseCase
@@ -21,21 +22,21 @@ class HomeViewModel(context: Context): ViewModel(){
 
     private val username: MutableLiveData<String> = MutableLiveData()
     val showUsername: LiveData<String> = username
-    private val balance: MutableLiveData<String> = MutableLiveData()
-    val showBalance: LiveData<String> = balance
-    private val balanceProjection: MutableLiveData<String> = MutableLiveData()
-    val showBalanceProjection: LiveData<String> = balanceProjection
+    private val balance: MutableLiveData<BalanceResponse> = MutableLiveData()
+    val showBalance: LiveData<BalanceResponse> = balance
+    private val balanceProjection: MutableLiveData<BalanceResponse> = MutableLiveData()
+    val showBalanceProjection: LiveData<BalanceResponse> = balanceProjection
 
     fun getUsername() {
         viewModelScope.launch {
-            username.value = getUser()?.let { user -> user.name }
+            username.value = getUser()?.name
         }
     }
 
     fun getBalance() {
         viewModelScope.launch {
             balance.value = getUser()?.let {
-                balanceUseCase.findBalanceByUserSignature(it.userSignature, null).amount.toCurrency()
+                balanceUseCase.findBalanceByUserSignature(it.userSignature, null)
             }
         }
     }
@@ -43,7 +44,7 @@ class HomeViewModel(context: Context): ViewModel(){
     fun getBalanceProjection(date: String) {
         viewModelScope.launch {
             balanceProjection.value = getUser()?.let {
-                balanceUseCase.findBalanceByUserSignature(it.userSignature, date).amount.toCurrency()
+                balanceUseCase.findBalanceByUserSignature(it.userSignature, date)
             }
         }
     }

@@ -34,4 +34,5 @@
     <string name="project_balance">Project Balance</string>
     <string name="date_filter_button">Date filter button</string>
     <string name="back_arrow">back arrow</string>
+    <string name="balance_icon">balance_icon</string>
 </resources>

@@ -13,7 +13,6 @@
             android:id="@+id/v_header"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@color/black_gray"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -34,63 +33,158 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="10dp"
             android:src="@drawable/logout_icon"
-            app:layout_constraintTop_toTopOf="@id/tv_hello_user"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@drawable/toolbar_border"
-            app:layout_constraintTop_toBottomOf="@id/v_header" />
-
-
-        <TextView
-            android:id="@+id/tv_account_balance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/home_bank_balance"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_16"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/v_header" />
+            app:layout_constraintTop_toTopOf="@id/tv_hello_user" />
 
-        <TextView
-            android:id="@+id/tv_account_place_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/home_balance_available"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@id/tv_account_balance"
-            app:layout_constraintStart_toStartOf="@id/tv_account_balance"
-            app:layout_constraintTop_toBottomOf="@id/tv_account_balance" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/balance_card"
+            app:layout_constraintTop_toBottomOf="@id/imgv_exit"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="4dp"
+            app:cardBackgroundColor="@color/black_gray"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp"
+            app:strokeColor="@color/black">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/balance_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/current_balance_icon"
+                    android:contentDescription="@string/balance_icon" />
+
+                <TextView
+                    android:id="@+id/balance_fetch_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/balance_icon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="2022/09/22" />
+
+                <TextView
+                    android:id="@+id/tv_account_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="-$19,50" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/projection_balance_card"
+            app:layout_constraintTop_toBottomOf="@id/balance_card"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_margin="4dp"
+            app:cardBackgroundColor="@color/black_gray"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp"
+            app:strokeColor="@color/black">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/projection_balance_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/projection_icon"
+                    android:contentDescription="@string/balance_icon" />
+
+                <TextView
+                    android:id="@+id/projection_balance_fetch_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/projection_balance_icon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="2022/09/22" />
+
+                <TextView
+                    android:id="@+id/projection_account_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="-$19,50" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <Button
-            android:id="@+id/transaction_button"
-            android:layout_width="wrap_content"
+            android:id="@+id/transactions_button"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/fintrack_green"
             android:text="@string/transactions"
             android:textAllCaps="false"
             android:textSize="@dimen/text_size_14"
-            app:layout_constraintEnd_toEndOf="@+id/tv_account_place_holder"
-            app:layout_constraintStart_toStartOf="@+id/tv_account_place_holder"
-            app:layout_constraintTop_toBottomOf="@+id/tv_account_place_holder" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/projection_balance_card" />
 
         <Button
             android:id="@+id/transaction_rg_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/fintrack_green"
             android:text="@string/home_new_transaction"
             android:textAllCaps="false"
             android:textSize="@dimen/text_size_14"
-            app:layout_constraintEnd_toEndOf="@+id/transaction_button"
-            app:layout_constraintStart_toStartOf="@+id/transaction_button"
-            app:layout_constraintTop_toBottomOf="@id/transaction_button" />
+            app:layout_constraintEnd_toEndOf="@+id/transactions_button"
+            app:layout_constraintStart_toStartOf="@+id/transactions_button"
+            app:layout_constraintTop_toBottomOf="@id/transactions_button" />
+
+        <Button
+            android:id="@+id/tv_projection_balance_button"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/fintrack_green"
+            android:text="@string/project_balance"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_14"
+            app:layout_constraintEnd_toEndOf="@+id/transactions_button"
+            app:layout_constraintStart_toStartOf="@+id/transactions_button"
+            app:layout_constraintTop_toBottomOf="@id/transaction_rg_button" />
 
         <ImageView
             android:id="@+id/bank_icon"
@@ -100,42 +194,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_projection_balance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/home_bank_balance"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bank_icon" />
-
-        <TextView
-            android:id="@+id/tv_projection_balance_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/projected_balance_place_holder"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@id/tv_account_balance"
-            app:layout_constraintStart_toStartOf="@id/tv_account_balance"
-            app:layout_constraintTop_toBottomOf="@id/tv_projection_balance" />
-
-        <Button
-            android:id="@+id/tv_projection_balance_button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/fintrack_green"
-            android:text="@string/project_balance"
-            android:textAllCaps="false"
-            android:textSize="@dimen/text_size_14"
-            app:layout_constraintEnd_toEndOf="@+id/transaction_button"
-            app:layout_constraintStart_toStartOf="@+id/transaction_button"
-            app:layout_constraintTop_toBottomOf="@id/tv_projection_balance_holder" />
+            app:layout_constraintTop_toBottomOf="@id/tv_projection_balance_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.DatePicker
 import org.fundatec.vinilemess.tcc.fintrackapp.databinding.ActivityHomeBinding
+import org.fundatec.vinilemess.tcc.fintrackapp.getCurrentDateAsString
+import org.fundatec.vinilemess.tcc.fintrackapp.toCurrency
 import org.fundatec.vinilemess.tcc.fintrackapp.viewmodel.HomeViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,14 +30,16 @@ class HomeActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         }
 
         viewModel.showBalance.observe(this) {
-            binding.tvAccountBalance.text = it
+            binding.tvAccountBalance.text = it.amount.toCurrency()
+            binding.balanceFetchDate.text = it.date
         }
 
         viewModel.showBalanceProjection.observe(this) {
-            binding.tvProjectionBalance.text = it
+            binding.projectionAccountBalance.text = it.amount.toCurrency()
+            binding.projectionBalanceFetchDate.text = it.date
         }
 
-        binding.transactionButton.setOnClickListener {
+        binding.transactionsButton.setOnClickListener {
             val intent = Intent(this, TransactionsActivity::class.java)
             startActivity(intent)
         }
@@ -59,6 +63,8 @@ class HomeActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         super.onStart()
         viewModel.getUsername()
         viewModel.getBalance()
+        binding.projectionAccountBalance.text = 0.0.toCurrency()
+        binding.projectionBalanceFetchDate.text = getCurrentDateAsString()
     }
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
