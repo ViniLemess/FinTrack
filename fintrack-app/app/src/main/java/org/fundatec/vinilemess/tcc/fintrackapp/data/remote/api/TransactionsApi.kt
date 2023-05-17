@@ -34,5 +34,5 @@ interface TransactionsApi {
     ): List<TransactionResponse>
 
     @DELETE("/{id}")
-    suspend fun deleteTransaction(@Path("id") id: String)
+    suspend fun deleteTransaction(@Path("ids") id: List<String>)
 }

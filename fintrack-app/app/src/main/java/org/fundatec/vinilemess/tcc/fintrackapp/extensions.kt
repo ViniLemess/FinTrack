@@ -26,6 +26,7 @@ fun Double.toCurrency(): String {
 
 fun TransactionResponse.toModel(): Transaction {
     return Transaction(
+        id = id,
         description = description,
         amount = amount,
         transactionOperation = TransactionOperation.valueOf(transactionOperation),
@@ -34,6 +35,7 @@ fun TransactionResponse.toModel(): Transaction {
 }
 
 fun User.toEntity() = UserEntity(
+    id = 1,
     name = name,
     userSignature = userSignature
 )

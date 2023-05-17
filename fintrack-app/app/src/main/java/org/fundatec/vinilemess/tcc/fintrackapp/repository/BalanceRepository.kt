@@ -8,7 +8,7 @@ class BalanceRepository {
         BalanceDataSource()
     }
 
-    suspend fun findBalanceByUserSignature(userSignature: String): BalanceResponse {
-        return balanceDataSource.findBalance(userSignature)
+    suspend fun findBalanceByUserSignature(userSignature: String, date: String?): BalanceResponse {
+        return balanceDataSource.findBalance(userSignature, date)
     }
 }

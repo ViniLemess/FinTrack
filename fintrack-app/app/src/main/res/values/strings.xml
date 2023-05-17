@@ -30,4 +30,6 @@
     <string name="register_now">New here? <u>Register now!</u></string>
     <string name="date">Transaction Date</string>
     <string name="add_transactions_button">add transactions button</string>
+    <string name="projected_balance_place_holder">Projected Balance</string>
+    <string name="project_balance">Project Balance</string>
 </resources>

@@ -19,22 +19,32 @@ class HomeViewModel(context: Context): ViewModel(){
         UserUseCase(context)
     }
 
-    private val balance: MutableLiveData<String> = MutableLiveData()
-    val showBalance: LiveData<String> = balance
     private val username: MutableLiveData<String> = MutableLiveData()
     val showUsername: LiveData<String> = username
-
-    fun getBalance() {
-        viewModelScope.launch {
-            balance.value = getUser()?.let {
-                balanceUseCase.findBalanceByUserSignature(it.userSignature).amount.toCurrency()
-            }
-        }
-    }
+    private val balance: MutableLiveData<String> = MutableLiveData()
+    val showBalance: LiveData<String> = balance
+    private val balanceProjection: MutableLiveData<String> = MutableLiveData()
+    val showBalanceProjection: LiveData<String> = balanceProjection
 
     fun getUsername() {
         viewModelScope.launch {
             username.value = getUser()?.let { user -> user.name }
+        }
+    }
+
+    fun getBalance() {
+        viewModelScope.launch {
+            balance.value = getUser()?.let {
+                balanceUseCase.findBalanceByUserSignature(it.userSignature, null).amount.toCurrency()
+            }
+        }
+    }
+
+    fun getBalanceProjection(date: String) {
+        viewModelScope.launch {
+            balanceProjection.value = getUser()?.let {
+                balanceUseCase.findBalanceByUserSignature(it.userSignature, date).amount.toCurrency()
+            }
         }
     }
 

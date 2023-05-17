@@ -6,13 +6,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/black"
         tools:context="org.fundatec.vinilemess.tcc.fintrackapp.activities.HomeActivity">
 
         <View
             android:id="@+id/v_header"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@color/black"
+            android:background="@color/black_gray"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -24,7 +25,24 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_18"
             app:layout_constraintBottom_toBottomOf="@+id/v_header"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgv_exit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/logout_icon"
+            app:layout_constraintTop_toTopOf="@id/tv_hello_user"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/toolbar_border"
+            app:layout_constraintTop_toBottomOf="@id/v_header" />
+
 
         <TextView
             android:id="@+id/tv_account_balance"
@@ -32,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="@string/home_bank_balance"
-            android:textColor="@color/black_700"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_balance_available"
-            android:textColor="@color/gray"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/tv_account_balance"
             app:layout_constraintStart_toStartOf="@id/tv_account_balance"
             app:layout_constraintTop_toBottomOf="@id/tv_account_balance" />
@@ -53,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
-            android:background="@color/black_700"
+            android:backgroundTint="@color/fintrack_green"
             android:text="@string/transactions"
             android:textAllCaps="false"
             android:textSize="@dimen/text_size_14"
@@ -66,13 +84,58 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
-            android:background="@color/black_700"
+            android:backgroundTint="@color/fintrack_green"
             android:text="@string/home_new_transaction"
             android:textAllCaps="false"
             android:textSize="@dimen/text_size_14"
             app:layout_constraintEnd_toEndOf="@+id/transaction_button"
             app:layout_constraintStart_toStartOf="@+id/transaction_button"
             app:layout_constraintTop_toBottomOf="@id/transaction_button" />
+
+        <ImageView
+            android:id="@+id/bank_icon"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/account_bank_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_projection_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/home_bank_balance"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bank_icon" />
+
+        <TextView
+            android:id="@+id/tv_projection_balance_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/projected_balance_place_holder"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/tv_account_balance"
+            app:layout_constraintStart_toStartOf="@id/tv_account_balance"
+            app:layout_constraintTop_toBottomOf="@id/tv_projection_balance" />
+
+        <Button
+            android:id="@+id/tv_projection_balance_button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/fintrack_green"
+            android:text="@string/project_balance"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_14"
+            app:layout_constraintEnd_toEndOf="@+id/transaction_button"
+            app:layout_constraintStart_toStartOf="@+id/transaction_button"
+            app:layout_constraintTop_toBottomOf="@id/tv_projection_balance_holder" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

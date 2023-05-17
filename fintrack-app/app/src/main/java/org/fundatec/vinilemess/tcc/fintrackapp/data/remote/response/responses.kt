@@ -10,7 +10,7 @@ data class UserResponse(
 )
 
 data class TransactionResponse(
-    val id: String?,
+    val id: String,
     val userSignature: String,
     val recurrenceId: String?,
     val date: String,

@@ -12,13 +12,13 @@ class BalanceDataSource {
     private val client = RetrofitNetworkClient.createNetworkClient()
         .create(BalanceApi::class.java)
 
-    suspend fun findBalance(userSignature: String): BalanceResponse {
+    suspend fun findBalance(userSignature: String, date: String?): BalanceResponse {
         return withContext(Dispatchers.IO) {
             try {
-                client.findBalance(userSignature)
+                client.findBalance(userSignature, date?: getCurrentDateAsString())
             } catch (exception: Exception) {
                 Log.e("msg: {}, error is {}", exception.message, exception)
-                BalanceResponse(0.0, getCurrentDateAsString())
+                BalanceResponse(0.0, date?: getCurrentDateAsString())
             }
         }
     }

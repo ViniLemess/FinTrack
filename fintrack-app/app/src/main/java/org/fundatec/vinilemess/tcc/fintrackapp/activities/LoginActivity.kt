@@ -31,6 +31,7 @@ class LoginActivity : AppCompatActivity() {
             if (shouldOpen) {
                 val intent  = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
+                clearTextInputs(binding)
             }
         }
 
@@ -48,5 +49,12 @@ class LoginActivity : AppCompatActivity() {
             val intent  = Intent(this, UserRegistryActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun clearTextInputs(binding: ActivityLoginBinding) {
+        binding.etEmail.setText("")
+        binding.etPassword.setText("")
+        binding.etEmail.clearFocus()
+        binding.etPassword.clearFocus()
     }
 }
