@@ -28,8 +28,8 @@ class TransactionService(private val transactionRepository: TransactionRepositor
             }
     }
 
-    fun deleteTransactionById(id: String) {
-        transactionRepository.deleteById(id)
+    fun deleteTransactionsByIdList(idList: List<String>) {
+        transactionRepository.deleteByIdList(idList)
     }
 
     private fun RecurrentTransactionRequest.buildTransactions(userSignature: String): List<Transaction> {

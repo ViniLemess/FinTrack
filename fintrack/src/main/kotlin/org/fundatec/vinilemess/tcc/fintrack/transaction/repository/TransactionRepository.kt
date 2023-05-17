@@ -32,12 +32,13 @@ class TransactionRepository(private val mongoTemplate: MongoTemplate) {
         )
     }
 
-    fun deleteById(id: String) {
-        mongoTemplate.remove(filterById(id), Transaction::class.java, TRANSACTIONS_COLLECTION)
+    @Transactional
+    fun deleteByIdList(idList: List<String>) {
+        mongoTemplate.remove(filterById(idList), Transaction::class.java, TRANSACTIONS_COLLECTION)
     }
 
-    private fun filterById(id: String): Query =
-        Query().addCriteria(Criteria.where("id").`is`(id))
+    private fun filterById(ids: List<String>): Query =
+        Query().addCriteria(Criteria.where("_id").`in`(ids))
 
     private fun filterByUserSignatureBeforeDate(
         userSignature: String,

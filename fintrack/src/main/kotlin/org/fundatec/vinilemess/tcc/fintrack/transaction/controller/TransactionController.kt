@@ -47,8 +47,8 @@ class TransactionController(private val transactionService: TransactionService) 
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{id}")
-    fun deleteTransactionById(@PathVariable("id") id: String) {
-        transactionService.deleteTransactionById(id)
+    @DeleteMapping
+    fun deleteTransactionsByIdList(@RequestParam("ids") idList: List<String>) {
+        transactionService.deleteTransactionsByIdList(idList)
     }
 }

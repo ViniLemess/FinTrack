@@ -76,10 +76,11 @@ class TransactionServiceTest {
 
     @Test
     fun `Should call repository delete without throwing exception when deleteById is called`() {
-        justRun { transactionRepository.deleteById(id = testId) }
+        val idList = listOf(testId)
+        justRun { transactionRepository.deleteByIdList(idList = idList) }
 
-        assertDoesNotThrow { transactionService.deleteTransactionById(id = testId) }
+        assertDoesNotThrow { transactionService.deleteTransactionsByIdList(idList = listOf(testId)) }
 
-        verify { transactionRepository.deleteById(id = testId) }
+        verify { transactionRepository.deleteByIdList(idList = listOf(testId)) }
     }
 }
