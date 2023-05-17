@@ -17,4 +17,8 @@ class TransactionUsecase {
     suspend fun findTransactions(userSignature: String, date: String?): List<Transaction> {
         return repository.findTransactions(userSignature, date)
     }
+
+    suspend fun deleteTransactionsByIds(ids: List<String>) {
+        return repository.deleteTransactionsByIds(ids)
+    }
 }

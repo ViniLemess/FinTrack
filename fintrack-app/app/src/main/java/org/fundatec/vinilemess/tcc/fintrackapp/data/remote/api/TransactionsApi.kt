@@ -3,6 +3,7 @@ package org.fundatec.vinilemess.tcc.fintrackapp.data.remote.api
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.request.RecurrentTransactionRequest
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.request.TransactionRequest
 import org.fundatec.vinilemess.tcc.fintrackapp.data.remote.response.TransactionResponse
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -33,6 +34,6 @@ interface TransactionsApi {
         @Query("date") date: String?
     ): List<TransactionResponse>
 
-    @DELETE("/{id}")
-    suspend fun deleteTransaction(@Path("ids") id: List<String>)
+    @DELETE(TRANSACTIONS_PATH)
+    suspend fun deleteTransaction(@Query("id") id: List<String>): Response<Unit>
 }

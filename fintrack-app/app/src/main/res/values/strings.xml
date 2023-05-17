@@ -32,4 +32,6 @@
     <string name="add_transactions_button">add transactions button</string>
     <string name="projected_balance_place_holder">Projected Balance</string>
     <string name="project_balance">Project Balance</string>
+    <string name="date_filter_button">Date filter button</string>
+    <string name="back_arrow">back arrow</string>
 </resources>

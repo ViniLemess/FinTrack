@@ -11,7 +11,7 @@ import org.fundatec.vinilemess.tcc.fintrackapp.data.Transaction
 import org.fundatec.vinilemess.tcc.fintrackapp.usecase.TransactionUsecase
 import org.fundatec.vinilemess.tcc.fintrackapp.usecase.UserUseCase
 
-class TransactionsViewModel(context: Context): ViewModel() {
+class TransactionsViewModel(context: Context) : ViewModel() {
     private val transactionUsecase by lazy {
         TransactionUsecase()
     }
@@ -24,8 +24,8 @@ class TransactionsViewModel(context: Context): ViewModel() {
 
     fun getTransactions(date: String?) {
         viewModelScope.launch {
-            val list = findTransactions(date)?: listOf()
-            if (list.isEmpty()){
+            val list = findTransactions(date) ?: listOf()
+            if (list.isEmpty()) {
                 Log.e("TransactionsViewModel", "vazio")
             } else {
                 transactions.value = list
@@ -36,7 +36,17 @@ class TransactionsViewModel(context: Context): ViewModel() {
         }
     }
 
+
+    fun deleteTransactions(transactions: List<Transaction>) {
+        viewModelScope.launch {
+            val ids: List<String> = transactions.map { transaction -> transaction.id }
+            transactionUsecase.deleteTransactionsByIds(ids)
+        }
+    }
+
+
     private suspend fun findTransactions(date: String?): List<Transaction>? {
-        return userUseCase.findUser()?.let { transactionUsecase.findTransactions(it.userSignature, date = date) }
+        return userUseCase.findUser()
+            ?.let { transactionUsecase.findTransactions(it.userSignature, date = date) }
     }
 }

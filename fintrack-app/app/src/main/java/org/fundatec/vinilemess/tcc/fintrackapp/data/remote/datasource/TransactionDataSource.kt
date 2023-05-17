@@ -34,10 +34,10 @@ class TransactionDataSource {
         }
     }
 
-    suspend fun deleteTransaction(id:String) {
+    suspend fun deleteTransaction(ids: List<String>) {
         withContext(Dispatchers.IO) {
             try {
-                client.deleteTransaction(id)
+                client.deleteTransaction(ids)
             } catch  (exception:Exception) {
                 Log.e("msg: {}, error is {}", exception.message, exception)
             }

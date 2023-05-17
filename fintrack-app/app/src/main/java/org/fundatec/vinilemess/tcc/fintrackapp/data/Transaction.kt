@@ -5,5 +5,6 @@ data class Transaction(
     val date: String,
     val amount: Double,
     val description: String?,
-    val transactionOperation: TransactionOperation
+    val transactionOperation: TransactionOperation,
+    var isSelected: Boolean = false
 )

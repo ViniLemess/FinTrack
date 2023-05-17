@@ -1,5 +1,7 @@
 package org.fundatec.vinilemess.tcc.fintrackapp
 
+import android.content.Context
+import android.widget.Toast
 import org.fundatec.vinilemess.tcc.fintrackapp.data.Transaction
 import org.fundatec.vinilemess.tcc.fintrackapp.data.TransactionOperation
 import org.fundatec.vinilemess.tcc.fintrackapp.data.User
@@ -52,6 +54,14 @@ fun UserResponse.toModel() = User(
 
 fun getCurrentDateAsString(): String {
     return LocalDate.now().format(DateTimeFormatter.ISO_DATE).toString()
+}
+
+fun showToast(msg: String, context: Context) {
+    Toast.makeText(
+        context,
+        msg,
+        Toast.LENGTH_SHORT
+    ).show()
 }
 
 

@@ -9,14 +9,27 @@
         android:background="@color/black"
         tools:context="org.fundatec.vinilemess.tcc.fintrackapp.activities.TransactionsActivity">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/back_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/transactions_str"
-            android:src="@drawable/ic_baseline_arrow_back_24" />
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:contentDescription="@string/back_arrow" />
+
+        <ImageButton
+            android:id="@+id/delete_all"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/delete_sweep"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintStart_toEndOf="@id/back_arrow"
+            app:layout_constraintTop_toTopOf="@id/back_arrow"
+            android:contentDescription="@string/add_transactions_button" />
 
         <TextView
             android:id="@+id/transactions_str"
@@ -49,7 +62,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/back_arrow"
-            android:contentDescription="@string/add_transactions_button" />
+            android:contentDescription="@string/date_filter_button" />
 
         <View
             android:id="@+id/line_separator"

@@ -9,6 +9,7 @@ import android.widget.Toast
 import org.fundatec.vinilemess.tcc.fintrackapp.R
 import org.fundatec.vinilemess.tcc.fintrackapp.databinding.ActivityTransactionRegistryBinding
 import org.fundatec.vinilemess.tcc.fintrackapp.data.TransactionOperation
+import org.fundatec.vinilemess.tcc.fintrackapp.showToast
 import org.fundatec.vinilemess.tcc.fintrackapp.viewmodel.TransactionRegistryViewModel
 import org.fundatec.vinilemess.tcc.fintrackapp.viewmodel.TransactionState
 import java.text.SimpleDateFormat
@@ -37,23 +38,15 @@ class TransactionRegistryActivity : AppCompatActivity(), DatePickerDialog.OnDate
 
         viewModel.viewState.observe(this) { state ->
             when(state) {
-                TransactionState.ValidTransaction -> showToast(getString(R.string.successfully_registered_transaction_msg))
-                TransactionState.UnknownType -> showToast(getString(R.string.unknown_operation_msg))
-                TransactionState.EmptyTransaction -> showToast(getString(R.string.empty_transaction_msg))
+                TransactionState.ValidTransaction -> showToast(getString(R.string.successfully_registered_transaction_msg), this)
+                TransactionState.UnknownType -> showToast(getString(R.string.unknown_operation_msg), this)
+                TransactionState.EmptyTransaction -> showToast(getString(R.string.empty_transaction_msg), this)
             }
         }
 
         binding.backArrow.setOnClickListener {
             finish()
         }
-    }
-
-    private fun showToast(msg: String) {
-        Toast.makeText(
-            this,
-            msg,
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
     private fun getCheckedType(): TransactionOperation {

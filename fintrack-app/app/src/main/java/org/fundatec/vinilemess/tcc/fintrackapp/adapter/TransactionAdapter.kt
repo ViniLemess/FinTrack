@@ -5,22 +5,29 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.fundatec.vinilemess.tcc.fintrackapp.R
-import org.fundatec.vinilemess.tcc.fintrackapp.databinding.ItemListBinding
 import org.fundatec.vinilemess.tcc.fintrackapp.data.Transaction
 import org.fundatec.vinilemess.tcc.fintrackapp.data.TransactionOperation
+import org.fundatec.vinilemess.tcc.fintrackapp.databinding.ItemListBinding
 import org.fundatec.vinilemess.tcc.fintrackapp.toCurrency
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.*
+
+private const val GREEN_BLACK = "#000F00"
+private const val RED_BLACK = "#0F0000"
 
 class TransactionAdapter(private val listener: Listener) :
     RecyclerView.Adapter<TransactionViewHolder>() {
 
     interface Listener {
-        fun onItemClick(text: String)
+        fun onItemSelected(transaction: Transaction)
     }
 
     private val listItem: MutableList<Transaction> = mutableListOf()
+
+    fun getSelectedItems(): List<Transaction> = listItem.filter { it.isSelected }
+
+    fun clearSelections() {
+        listItem.forEach { it.isSelected = false }
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -55,18 +62,29 @@ class TransactionViewHolder(
             TransactionOperation.INCOME -> {
                 "+${transaction.amount.toCurrency()}".also { binding.transactionPrice.text = it }
                 binding.transactionImg.setImageResource(R.drawable.income_icon)
-                binding.transactionCard.setCardBackgroundColor(Color.parseColor("#000F00"))
+                updateCardBackgroundColor(transaction, GREEN_BLACK)
             }
             TransactionOperation.EXPENSE -> {
                 transaction.amount.toCurrency().also { binding.transactionPrice.text = it }
                 binding.transactionImg.setImageResource(R.drawable.expense_icon)
-                binding.transactionCard.setCardBackgroundColor(Color.parseColor("#0F0000"))
+                updateCardBackgroundColor(transaction, RED_BLACK)
             }
             else -> {}
         }
+        binding.root.setOnLongClickListener {
+            transaction.isSelected = !transaction.isSelected
 
-        binding.root.setOnClickListener {
-            listener.onItemClick(transaction.amount.toString())
+            when (transaction.transactionOperation) {
+                TransactionOperation.INCOME -> updateCardBackgroundColor(transaction, GREEN_BLACK)
+                TransactionOperation.EXPENSE -> updateCardBackgroundColor(transaction, RED_BLACK)
+                else -> {}
+            }
+            listener.onItemSelected(transaction)
+            true
         }
+    }
+
+    private fun updateCardBackgroundColor(transaction: Transaction, newColor: String) {
+        binding.transactionCard.setCardBackgroundColor(if (transaction.isSelected) Color.DKGRAY else Color.parseColor(newColor))
     }
 }

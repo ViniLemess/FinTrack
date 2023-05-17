@@ -17,4 +17,8 @@ class TransactionRepository {
     suspend fun findTransactions(userSignature: String, date: String?): List<Transaction> {
         return dataSource.findTransactions(userSignature, date).map { it.toModel() }
     }
+
+    suspend fun deleteTransactionsByIds(ids: List<String>) {
+        return dataSource.deleteTransaction(ids)
+    }
 }
