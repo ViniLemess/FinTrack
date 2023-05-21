@@ -16,7 +16,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "FINTRACK_API", "\"http://172.31.240.1:8080\"")
+        buildConfigField("String", "FINTRACK_API", "\"http://192.168.0.173:8080\"")
     }
 
     buildTypes {
