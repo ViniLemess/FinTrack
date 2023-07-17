@@ -27,7 +27,7 @@ class TransactionServiceTest {
         val transaction = TransactionRequest(testPositiveAmount, testDate, testDescription, TransactionOperation.INCOME)
         justRun { transactionRepository.save(any()) }
 
-        assertDoesNotThrow { transactionService.transact(transaction, testUserSignature) }
+        assertDoesNotThrow { transactionService.transact(transaction, testUserSignatureWithBalance) }
 
         verify { transactionRepository.save(any()) }
     }
@@ -45,7 +45,7 @@ class TransactionServiceTest {
         )
         justRun { transactionRepository.saveAll(any()) }
 
-        assertDoesNotThrow { transactionService.transactRecurrence(recurrentTransaction, testUserSignature) }
+        assertDoesNotThrow { transactionService.transactRecurrence(recurrentTransaction, testUserSignatureWithBalance) }
 
         verify { transactionRepository.saveAll(any()) }
     }
@@ -53,17 +53,17 @@ class TransactionServiceTest {
     @Test
     fun `Should return transactions mapped to response when method listTransactionsBeforeDateByUserSignature is called`() {
         val transactions = listOf(
-            Transaction(testId, testUserSignature, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
-            Transaction(testId, testUserSignature, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
-            Transaction(testId, testUserSignature, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME)
+            Transaction(testId, testUserSignatureWithBalance, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
+            Transaction(testId, testUserSignatureWithBalance, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
+            Transaction(testId, testUserSignatureWithBalance, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME)
         )
-        every { transactionRepository.findTransactionsBeforeDateByUserSignature(testUserSignature, testDate) } returns transactions
+        every { transactionRepository.findTransactionsBeforeDateByUserSignature(testUserSignatureWithBalance, testDate) } returns transactions
 
-        val result = transactionService.listTransactionsBeforeDateByUserSignature(testUserSignature, testDate)
+        val result = transactionService.listTransactionsBeforeDateByUserSignature(testUserSignatureWithBalance, testDate)
 
         assertThat(result).allSatisfy {
             assertEquals(testId, it.id)
-            assertEquals(testUserSignature, it.userSignature)
+            assertEquals(testUserSignatureWithBalance, it.userSignature)
             assertNull(it.recurrenceId)
             assertEquals(testDate, it.date)
             assertEquals(testPositiveAmount, it.amount)
@@ -71,7 +71,7 @@ class TransactionServiceTest {
             assertEquals(TransactionOperation.INCOME, it.transactionOperation)
         }
 
-        verify { transactionRepository.findTransactionsBeforeDateByUserSignature(testUserSignature, testDate) }
+        verify { transactionRepository.findTransactionsBeforeDateByUserSignature(testUserSignatureWithBalance, testDate) }
     }
 
     @Test

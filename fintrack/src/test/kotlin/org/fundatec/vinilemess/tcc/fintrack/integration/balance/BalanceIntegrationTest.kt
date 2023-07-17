@@ -1,97 +1,134 @@
 package org.fundatec.vinilemess.tcc.fintrack.integration.balance
 
-import org.fundatec.vinilemess.tcc.fintrack.integration.DATE_QUERY_NAME
+import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
+import org.fundatec.vinilemess.tcc.fintrack.balance.domain.BalanceResponse
 import org.fundatec.vinilemess.tcc.fintrack.integration.IntegrationTestSetup
 import org.fundatec.vinilemess.tcc.fintrack.integration.TEST_URL_QUERY_PARAM_DATE
 import org.fundatec.vinilemess.tcc.fintrack.testNegativeAmount
-import org.fundatec.vinilemess.tcc.fintrack.testUserSignature
+import org.fundatec.vinilemess.tcc.fintrack.testUserSignatureWithBalance
+import org.fundatec.vinilemess.tcc.fintrack.testUserSignatureWithNegativeBalance
+import org.fundatec.vinilemess.tcc.fintrack.testUserSignatureWithoutBalance
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.http.MediaType
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.http.HttpStatus
+import java.math.BigDecimal
+import java.time.format.DateTimeFormatter.ISO_DATE
 
 private const val BALANCE_URL = "/balances/{userSignature}"
 
 class BalanceIntegrationTest : IntegrationTestSetup() {
 
+    @BeforeEach
+    fun populateDatabase() {
+        insertUser(testUserSignatureWithBalance)
+        insertUser(testUserSignatureWithoutBalance)
+        insertUser(testUserSignatureWithNegativeBalance)
+        insertTransactions()
+        insertTransactions(2, testNegativeAmount)
+    }
+
     @Test
     fun `Should return todays balance for GET balance without using date filter`() {
-        insertTransactions()
-        mockMvc.perform(
-            MockMvcRequestBuilders.get(BALANCE_URL, testUserSignature)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value(50))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.date").value(getTodayDateAsString()))
+        val balanceResult = given()
+            .pathParam("userSignature", testUserSignatureWithBalance)
+            .`when`()
+            .get(BALANCE_URL)
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(ContentType.JSON)
+            .extract()
+            .`as`(BalanceResponse::class.java)
+
+        assertEquals(BigDecimal.valueOf(50), balanceResult.amount)
+        assertEquals(getTodayDateAsString(), ISO_DATE.format(balanceResult.date))
     }
 
     @Test
     fun `Should return balance calculation for GET balance using date filter`() {
-        insertTransactions()
-        mockMvc.perform(
-            MockMvcRequestBuilders.get(BALANCE_URL, testUserSignature)
-                .queryParam(DATE_QUERY_NAME, TEST_URL_QUERY_PARAM_DATE)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value(50))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.date").value(TEST_URL_QUERY_PARAM_DATE))
+        val balanceResult = given()
+            .pathParam("userSignature", testUserSignatureWithBalance)
+            .queryParam("date", TEST_URL_QUERY_PARAM_DATE)
+            .`when`()
+            .get(BALANCE_URL)
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(ContentType.JSON)
+            .extract()
+            .`as`(BalanceResponse::class.java)
+
+        assertEquals(BigDecimal.valueOf(50), balanceResult.amount)
+        assertEquals(TEST_URL_QUERY_PARAM_DATE, ISO_DATE.format(balanceResult.date))
     }
 
     @Test
     fun `Should return 0 balance for GET balance when no transactions are found without date filter`() {
-        mockMvc.perform(
-            MockMvcRequestBuilders.get(BALANCE_URL, testUserSignature)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value(0))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.date").value(getTodayDateAsString()))
+        val balanceResult = given()
+            .pathParam("userSignature", testUserSignatureWithoutBalance)
+            .`when`()
+            .get(BALANCE_URL)
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(ContentType.JSON)
+            .extract()
+            .`as`(BalanceResponse::class.java)
+
+        assertEquals(BigDecimal.ZERO, balanceResult.amount)
+        assertEquals(getTodayDateAsString(), ISO_DATE.format(balanceResult.date))
     }
 
     @Test
     fun `Should return 0 balance for GET balance when no transactions are found before date filter`() {
-        mockMvc.perform(
-            MockMvcRequestBuilders.get(BALANCE_URL, testUserSignature)
-                .queryParam(DATE_QUERY_NAME, TEST_URL_QUERY_PARAM_DATE)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value(0))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.date").value(TEST_URL_QUERY_PARAM_DATE))
+        val balanceResult = given()
+            .pathParam("userSignature", testUserSignatureWithoutBalance)
+            .queryParam("date", TEST_URL_QUERY_PARAM_DATE)
+            .`when`()
+            .get(BALANCE_URL)
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(ContentType.JSON)
+            .extract()
+            .`as`(BalanceResponse::class.java)
+
+        assertEquals(BigDecimal.ZERO, balanceResult.amount)
+        assertEquals(TEST_URL_QUERY_PARAM_DATE, ISO_DATE.format(balanceResult.date))
     }
 
     @Test
     fun `Should return negative balance amount for GET when calculation returns a negative value without date filter`() {
-        insertTransactions(2, testNegativeAmount)
-        mockMvc.perform(
-            MockMvcRequestBuilders.get(BALANCE_URL, testUserSignature)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value(-20))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.date").value(getTodayDateAsString()))
+        val balanceResult = given()
+            .pathParam("userSignature", testUserSignatureWithNegativeBalance)
+            .`when`()
+            .get(BALANCE_URL)
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(ContentType.JSON)
+            .extract()
+            .`as`(BalanceResponse::class.java)
+
+        assertEquals(BigDecimal.valueOf(-20), balanceResult.amount)
+        assertEquals(getTodayDateAsString(), ISO_DATE.format(balanceResult.date))
     }
 
     @Test
     fun `Should return negative balance amount for GET when calculation returns a negative value with date filter`() {
-        insertTransactions(2, testNegativeAmount)
-        mockMvc.perform(
-            MockMvcRequestBuilders.get(BALANCE_URL, testUserSignature)
-                .queryParam(DATE_QUERY_NAME, TEST_URL_QUERY_PARAM_DATE)
-                .contentType(MediaType.APPLICATION_JSON)
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value(-20))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.date").value(TEST_URL_QUERY_PARAM_DATE))
+        val balanceResult = given()
+            .pathParam("userSignature", testUserSignatureWithNegativeBalance)
+            .queryParam("date", TEST_URL_QUERY_PARAM_DATE)
+            .`when`()
+            .get(BALANCE_URL)
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(ContentType.JSON)
+            .extract()
+            .`as`(BalanceResponse::class.java)
+
+        assertEquals(BigDecimal.valueOf(-20), balanceResult.amount)
+        assertEquals(TEST_URL_QUERY_PARAM_DATE, ISO_DATE.format(balanceResult.date))
     }
 
     @AfterEach

@@ -1,14 +1,16 @@
 package org.fundatec.vinilemess.tcc.fintrack.integration
 
-import org.fundatec.vinilemess.tcc.fintrack.testDate
-import org.fundatec.vinilemess.tcc.fintrack.testDescription
-import org.fundatec.vinilemess.tcc.fintrack.testPositiveAmount
-import org.fundatec.vinilemess.tcc.fintrack.testUserSignature
+import io.restassured.RestAssured
+import org.fundatec.vinilemess.tcc.fintrack.*
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.Transaction
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
+import org.fundatec.vinilemess.tcc.fintrack.user.domain.User
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.test.context.ActiveProfiles
@@ -23,10 +25,11 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 private const val TRANSACTIONS_COLLECTION = "transactions"
+private const val USERS_COLLECTION = "users"
 const val TEST_URL_QUERY_PARAM_DATE = "2023-04-13"
 const val DATE_QUERY_NAME = "date"
 
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["integration"])
 @Testcontainers
@@ -39,25 +42,53 @@ class IntegrationTestSetup {
     @Autowired
     protected lateinit var mockMvc: MockMvc
 
+    @LocalServerPort
+    private lateinit var port: Number
+
+    @BeforeAll
+    fun setup() {
+        RestAssured.port = port.toInt()
+    }
+
     protected fun insertTransactions(
         amountToInsert: Int = 5,
         negativeAmount: BigDecimal? = null,
     ) {
         val transactionOperation =
             if (negativeAmount != null) TransactionOperation.EXPENSE else TransactionOperation.INCOME
+        val userSignature = if (negativeAmount != null) testUserSignatureWithNegativeBalance else testUserSignatureWithBalance
+
         for (i in 1..amountToInsert) {
-            mongoTemplate.save(
-                Transaction(
-                    id = null,
-                    userSignature = testUserSignature,
-                    recurrenceId = null,
-                    date = testDate,
-                    amount = negativeAmount ?: testPositiveAmount,
-                    description = testDescription,
-                    transactionOperation = transactionOperation
-                ), TRANSACTIONS_COLLECTION
-            )
+            createTransaction(userSignature, negativeAmount, transactionOperation)
         }
+    }
+
+    private fun createTransaction(
+        userSignature: String,
+        negativeAmount: BigDecimal?,
+        transactionOperation: TransactionOperation
+    ) {
+        mongoTemplate.save(
+            Transaction(
+                id = null,
+                userSignature = userSignature,
+                recurrenceId = null,
+                date = testDate,
+                amount = negativeAmount ?: testPositiveAmount,
+                description = testDescription,
+                transactionOperation = transactionOperation
+            ), TRANSACTIONS_COLLECTION
+        )
+    }
+
+    protected fun insertUser(transactionSignature: String) {
+        mongoTemplate.save(User(
+            id = null,
+            name = "tester",
+            email = "tester@tester.com",
+            password = "test123",
+            transactionSignature = transactionSignature
+        ), USERS_COLLECTION)
     }
 
     protected fun clearTransactions() {
