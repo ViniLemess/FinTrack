@@ -21,11 +21,40 @@ class BalanceServiceTest {
     @Test
     fun `Should return correct Balance when calculateBalanceForDate extracts positive amount`() {
         val transactions = listOf(
-            TransactionResponse(null, testUserSignatureWithBalance, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
-            TransactionResponse(null, testUserSignatureWithBalance, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
-            TransactionResponse(null, testUserSignatureWithBalance, null, testDate, testNegativeAmount, testDescription, TransactionOperation.EXPENSE)
+            TransactionResponse(
+                null,
+                testUserSignatureWithBalance,
+                null,
+                testDate,
+                testPositiveAmount,
+                testDescription,
+                TransactionOperation.INCOME
+            ),
+            TransactionResponse(
+                null,
+                testUserSignatureWithBalance,
+                null,
+                testDate,
+                testPositiveAmount,
+                testDescription,
+                TransactionOperation.INCOME
+            ),
+            TransactionResponse(
+                null,
+                testUserSignatureWithBalance,
+                null,
+                testDate,
+                testNegativeAmount,
+                testDescription,
+                TransactionOperation.EXPENSE
+            )
         )
-        every { transactionService.listTransactionsBeforeDateByUserSignature(testUserSignatureWithBalance, testDate) } returns transactions
+        every {
+            transactionService.listTransactionsBeforeDateByUserSignature(
+                testUserSignatureWithBalance,
+                testDate
+            )
+        } returns transactions
 
         val result = balanceService.calculateBalanceForDate(testUserSignatureWithBalance, testDate)
 
@@ -38,11 +67,40 @@ class BalanceServiceTest {
     @Test
     fun `Should return negative Balance when calculateBalanceForDate extracts negative amount`() {
         val transactions = listOf(
-            TransactionResponse(null, testUserSignatureWithBalance, null, testDate, testPositiveAmount, testDescription, TransactionOperation.INCOME),
-            TransactionResponse(null, testUserSignatureWithBalance, null, testDate, testNegativeAmount, testDescription, TransactionOperation.INCOME),
-            TransactionResponse(null, testUserSignatureWithBalance, null, testDate, testNegativeAmount, testDescription, TransactionOperation.EXPENSE)
+            TransactionResponse(
+                null,
+                testUserSignatureWithBalance,
+                null,
+                testDate,
+                testPositiveAmount,
+                testDescription,
+                TransactionOperation.INCOME
+            ),
+            TransactionResponse(
+                null,
+                testUserSignatureWithBalance,
+                null,
+                testDate,
+                testNegativeAmount,
+                testDescription,
+                TransactionOperation.INCOME
+            ),
+            TransactionResponse(
+                null,
+                testUserSignatureWithBalance,
+                null,
+                testDate,
+                testNegativeAmount,
+                testDescription,
+                TransactionOperation.EXPENSE
+            )
         )
-        every { transactionService.listTransactionsBeforeDateByUserSignature(testUserSignatureWithBalance, testDate) } returns transactions
+        every {
+            transactionService.listTransactionsBeforeDateByUserSignature(
+                testUserSignatureWithBalance,
+                testDate
+            )
+        } returns transactions
 
         val result = balanceService.calculateBalanceForDate(testUserSignatureWithBalance, testDate)
 
@@ -54,7 +112,12 @@ class BalanceServiceTest {
 
     @Test
     fun `Should return zero Balance when calculateBalanceForDate is called with no transactions till informed the date`() {
-        every { transactionService.listTransactionsBeforeDateByUserSignature(testUserSignatureWithBalance, testDate) } returns listOf()
+        every {
+            transactionService.listTransactionsBeforeDateByUserSignature(
+                testUserSignatureWithBalance,
+                testDate
+            )
+        } returns listOf()
 
         val result = balanceService.calculateBalanceForDate(testUserSignatureWithBalance, testDate)
 
