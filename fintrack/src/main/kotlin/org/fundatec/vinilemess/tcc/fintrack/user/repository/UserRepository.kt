@@ -19,6 +19,12 @@ class UserRepository(private val mongoTemplate: MongoTemplate) {
     fun findByEmail(email: String): User? =
         mongoTemplate.findOne(filterByEmail(email), User::class.java)
 
+    fun existsSignature(userSignature: String): Boolean =
+        mongoTemplate.exists(filterByTransactionSignature(userSignature), User::class.java)
+
+    private fun filterByTransactionSignature(userSignature: String) =
+        Query(Criteria.where("transactionSignature").`is`(userSignature))
+
     private fun filterByCredentials(email: String, password: String) =
         filterByEmail(email).addCriteria(Criteria.where("password").`is`(password))
 

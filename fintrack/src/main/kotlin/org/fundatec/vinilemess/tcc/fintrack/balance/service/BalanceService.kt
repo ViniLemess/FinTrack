@@ -1,16 +1,19 @@
 package org.fundatec.vinilemess.tcc.fintrack.balance.service
 
 import org.fundatec.vinilemess.tcc.fintrack.balance.domain.BalanceResponse
+import org.fundatec.vinilemess.tcc.fintrack.exception.NotFoundException
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.TransactionResponse
 import org.fundatec.vinilemess.tcc.fintrack.transaction.service.TransactionService
+import org.fundatec.vinilemess.tcc.fintrack.user.service.UserService
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.LocalDate
 
 @Service
-class BalanceService(private val transactionService: TransactionService) {
+class BalanceService(private val transactionService: TransactionService, private val userService: UserService) {
 
     fun calculateBalanceForDate(userSignature: String, date: LocalDate): BalanceResponse {
+        validateSignatureExistence(userSignature)
         val transactions = transactionService.listTransactionsBeforeDateByUserSignature(userSignature, date)
         val balance = extractAmountSum(transactions)
         return BalanceResponse(balance, date)
@@ -19,5 +22,12 @@ class BalanceService(private val transactionService: TransactionService) {
     private fun extractAmountSum(transactions: List<TransactionResponse>): BigDecimal {
         if (transactions.isEmpty()) return BigDecimal.ZERO
         return transactions.map { transaction -> transaction.amount }.reduce(BigDecimal::add)
+    }
+
+    private fun validateSignatureExistence(userSignature: String) {
+        if (userService.existsSignature(userSignature)) {
+            return
+        }
+        throw NotFoundException("The provided user signature does not exist!")
     }
 }

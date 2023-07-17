@@ -24,6 +24,9 @@ class UserService(private val userRepository: UserRepository) {
             ?: throw UnauthorizedException("Password or email incorrects")
     }
 
+    fun existsSignature(userSignature: String): Boolean =
+        userRepository.existsSignature(userSignature)
+
     private fun isEmailTaken(email: String) {
         val user = userRepository.findByEmail(email)
         if (user != null) {

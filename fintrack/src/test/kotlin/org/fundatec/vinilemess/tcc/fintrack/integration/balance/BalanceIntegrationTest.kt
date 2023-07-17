@@ -131,6 +131,23 @@ class BalanceIntegrationTest : IntegrationTestSetup() {
         assertEquals(TEST_URL_QUERY_PARAM_DATE, ISO_DATE.format(balanceResult.date))
     }
 
+    @Test
+    fun `Should return 404 resource not found for GET when userSignature does not exists`() {
+        val nonExistentUserSignature = "nonExistentSignature"
+
+        given()
+            .pathParam("userSignature", nonExistentUserSignature)
+            .`when`()
+            .get(BALANCE_URL)
+            .then()
+            .statusCode(HttpStatus.NOT_FOUND.value())
+            .contentType(ContentType.JSON)
+            .body("title", equalTo("Resource not found"))
+            .body("detail", equalTo("The provided user signature does not exist!"))
+            .body("type", equalTo("https://www.rfc-editor.org/rfc/rfc7807"))
+            .body("timestamp", notNullValue())
+    }
+
     @AfterEach
     fun cleanTransactions() {
         clearTransactions()
