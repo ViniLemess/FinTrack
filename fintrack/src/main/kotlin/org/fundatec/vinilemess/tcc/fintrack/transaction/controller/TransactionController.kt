@@ -17,8 +17,8 @@ class TransactionController(private val transactionService: TransactionService) 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{userSignature}")
     fun getTransactions(
-        @PathVariable("userSignature") userSignature: UserSignature,
-        @RequestParam("date") date: LocalDate?
+            @PathVariable("userSignature") userSignature: UserSignature,
+            @RequestParam("date") date: LocalDate?
     ): ResponseEntity<List<TransactionResponse>> {
         return ResponseEntity.ok(
                 transactionService.listTransactionsBeforeDateByUserSignature(
@@ -30,10 +30,8 @@ class TransactionController(private val transactionService: TransactionService) 
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{userSignature}")
-    fun transact(
-            @RequestBody transactionRequest: TransactionRequest,
-            @PathVariable("userSignature") userSignature: UserSignature
-    ) {
+    fun transact(@RequestBody transactionRequest: TransactionRequest,
+                 @PathVariable("userSignature") userSignature: UserSignature) {
         transactionService.transact(transactionRequest, userSignature.userSignature)
     }
 
