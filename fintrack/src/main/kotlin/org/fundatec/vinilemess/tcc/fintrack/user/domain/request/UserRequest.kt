@@ -1,7 +1,7 @@
 package org.fundatec.vinilemess.tcc.fintrack.user.domain.request
 
 import org.apache.logging.log4j.util.Strings
-import org.fundatec.vinilemess.tcc.fintrack.infra.Request
+import org.fundatec.vinilemess.tcc.fintrack.infra.ValidatableRequest
 import org.fundatec.vinilemess.tcc.fintrack.validation.DataValidator
 
 private const val EMAIL_REGEX = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
@@ -11,7 +11,7 @@ class UserRequest(
     val name: String,
     val email: String,
     val password: String,
-) : Request {
+) : ValidatableRequest {
     override fun validateRequest() {
         DataValidator()
             .addNotBlankConstraint(name, "name")

@@ -1,6 +1,6 @@
 package org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request
 
-import org.fundatec.vinilemess.tcc.fintrack.infra.Request
+import org.fundatec.vinilemess.tcc.fintrack.infra.ValidatableRequest
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
 import org.fundatec.vinilemess.tcc.fintrack.validation.DataValidator
 import org.springframework.format.annotation.DateTimeFormat
@@ -14,7 +14,7 @@ data class TransactionRequest(
     val date: LocalDate,
     val description: String?,
     val operation: TransactionOperation
-) : Request {
+) : ValidatableRequest {
 
     init {
         this.amount = negateIfExpense(amount)
@@ -27,7 +27,7 @@ data class TransactionRequest(
             .validate()
     }
 
-    private fun isAmountZero() = { -> Objects.isNull(amount) || amount == BigDecimal.ZERO }
+    private fun isAmountZero(): () -> Boolean = { Objects.isNull(amount) || amount == BigDecimal.ZERO }
 
     private fun negateIfExpense(amount: BigDecimal): BigDecimal {
         if (operation == TransactionOperation.EXPENSE) {

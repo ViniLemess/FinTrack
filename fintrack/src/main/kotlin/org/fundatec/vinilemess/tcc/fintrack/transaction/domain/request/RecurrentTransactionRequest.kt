@@ -1,6 +1,6 @@
 package org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request
 
-import org.fundatec.vinilemess.tcc.fintrack.infra.Request
+import org.fundatec.vinilemess.tcc.fintrack.infra.ValidatableRequest
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.Recurrence
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
 import org.fundatec.vinilemess.tcc.fintrack.validation.DataValidator
@@ -18,7 +18,7 @@ class RecurrentTransactionRequest(
     val recurrence: Recurrence,
     val frequency: Long,
     val recurrenceCount: Int
-) : Request {
+) : ValidatableRequest {
 
     init {
         this.amount = negateIfExpense(amount)

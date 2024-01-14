@@ -1,6 +1,6 @@
 package org.fundatec.vinilemess.tcc.fintrack.infra
 
-interface Request {
+interface ValidatableRequest {
 
     fun validateRequest()
 }

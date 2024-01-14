@@ -8,7 +8,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAd
 import java.lang.reflect.Type
 
 @ControllerAdvice
-class RequestValidatorAdvice : RequestBodyAdviceAdapter() {
+class RequestValidatorInterceptor : RequestBodyAdviceAdapter() {
 
     /**
      * This method always returns true, meaning that the afterBodyRead
@@ -27,7 +27,7 @@ class RequestValidatorAdvice : RequestBodyAdviceAdapter() {
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>
     ): Any {
-        if (body is Request) {
+        if (body is ValidatableRequest) {
             body.validateRequest()
         }
         return super.afterBodyRead(body, inputMessage, parameter, targetType, converterType)
