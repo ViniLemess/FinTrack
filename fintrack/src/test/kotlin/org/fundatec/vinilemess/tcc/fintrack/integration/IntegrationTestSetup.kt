@@ -50,44 +50,48 @@ class IntegrationTestSetup {
         RestAssured.port = port.toInt()
     }
 
-    protected fun insertTransactions(
-        amountToInsert: Int = 5,
-        negativeAmount: BigDecimal? = null,
-    ) {
-        val transactionOperation =
-            if (negativeAmount != null) TransactionOperation.EXPENSE else TransactionOperation.INCOME
-        val userSignature = if (negativeAmount != null) testUserSignatureWithNegativeBalance else testUserSignatureWithBalance
-
+    protected fun insertIncomeTransactions(amountToInsert: Int = 5,
+                                           userSignature: String,
+                                           date: LocalDate = LocalDate.now()) {
         for (i in 1..amountToInsert) {
-            createTransaction(userSignature, negativeAmount, transactionOperation)
+            createTransaction(userSignature, TransactionOperation.INCOME, BigDecimal.TEN, date)
+        }
+    }
+
+    protected fun insertExpenseTransactions(amountToInsert: Int = 5,
+                                            userSignature: String,
+                                            date: LocalDate = LocalDate.now()) {
+        for (i in 1..amountToInsert) {
+            createTransaction(userSignature, TransactionOperation.EXPENSE, BigDecimal.TEN.negate(), date)
         }
     }
 
     private fun createTransaction(
-        userSignature: String,
-        negativeAmount: BigDecimal?,
-        transactionOperation: TransactionOperation
+            userSignature: String,
+            transactionOperation: TransactionOperation,
+            amount: BigDecimal,
+            date: LocalDate
     ) {
         mongoTemplate.save(
-            Transaction(
-                id = null,
-                userSignature = userSignature,
-                recurrenceId = null,
-                date = testDate,
-                amount = negativeAmount ?: testPositiveAmount,
-                description = testDescription,
-                transactionOperation = transactionOperation
-            ), TRANSACTIONS_COLLECTION
+                Transaction(
+                        id = null,
+                        userSignature = userSignature,
+                        recurrenceId = null,
+                        date = date,
+                        amount = amount,
+                        description = testDescription,
+                        transactionOperation = transactionOperation
+                ), TRANSACTIONS_COLLECTION
         )
     }
 
     protected fun insertUser(transactionSignature: String) {
         mongoTemplate.save(User(
-            id = null,
-            name = "tester",
-            email = "tester@tester.com",
-            password = "test123",
-            transactionSignature = transactionSignature
+                id = null,
+                name = "tester",
+                email = "tester@tester.com",
+                password = "test123",
+                transactionSignature = transactionSignature
         ), USERS_COLLECTION)
     }
 

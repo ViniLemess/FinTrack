@@ -5,10 +5,7 @@ import io.restassured.http.ContentType
 import org.fundatec.vinilemess.tcc.fintrack.balance.domain.BalanceResponse
 import org.fundatec.vinilemess.tcc.fintrack.integration.IntegrationTestSetup
 import org.fundatec.vinilemess.tcc.fintrack.integration.TEST_URL_QUERY_PARAM_DATE
-import org.fundatec.vinilemess.tcc.fintrack.testNegativeAmount
-import org.fundatec.vinilemess.tcc.fintrack.testUserSignatureWithBalance
-import org.fundatec.vinilemess.tcc.fintrack.testUserSignatureWithNegativeBalance
-import org.fundatec.vinilemess.tcc.fintrack.testUserSignatureWithoutBalance
+import org.fundatec.vinilemess.tcc.fintrack.userSignature
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.jupiter.api.AfterEach
@@ -17,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import java.math.BigDecimal
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter.ISO_DATE
 
 private const val BALANCE_URL = "/balances/{userSignature}"
@@ -25,17 +23,16 @@ class BalanceIntegrationTest : IntegrationTestSetup() {
 
     @BeforeEach
     fun populateDatabase() {
-        insertUser(testUserSignatureWithBalance)
-        insertUser(testUserSignatureWithoutBalance)
-        insertUser(testUserSignatureWithNegativeBalance)
-        insertTransactions()
-        insertTransactions(2, testNegativeAmount)
+        insertUser(userSignature)
     }
 
     @Test
     fun `Should return todays balance for GET balance without using date filter`() {
+        insertIncomeTransactions(userSignature = userSignature)
+        insertIncomeTransactions(userSignature = userSignature, date = LocalDate.now().plusDays(10))
+
         val balanceResult = given()
-            .pathParam("userSignature", testUserSignatureWithBalance)
+            .pathParam("userSignature", userSignature)
             .`when`()
             .get(BALANCE_URL)
             .then()
@@ -50,9 +47,13 @@ class BalanceIntegrationTest : IntegrationTestSetup() {
 
     @Test
     fun `Should return balance calculation for GET balance using date filter`() {
+        insertIncomeTransactions(userSignature = userSignature)
+        val tenDaysFromNow = LocalDate.now().plusDays(10)
+        insertIncomeTransactions(userSignature = userSignature, date = tenDaysFromNow)
+
         val balanceResult = given()
-            .pathParam("userSignature", testUserSignatureWithBalance)
-            .queryParam("date", TEST_URL_QUERY_PARAM_DATE)
+            .pathParam("userSignature", userSignature)
+            .queryParam("date", ISO_DATE.format(tenDaysFromNow))
             .`when`()
             .get(BALANCE_URL)
             .then()
@@ -61,14 +62,17 @@ class BalanceIntegrationTest : IntegrationTestSetup() {
             .extract()
             .`as`(BalanceResponse::class.java)
 
-        assertEquals(BigDecimal.valueOf(50), balanceResult.amount)
-        assertEquals(TEST_URL_QUERY_PARAM_DATE, ISO_DATE.format(balanceResult.date))
+        assertEquals(BigDecimal.valueOf(100), balanceResult.amount)
+        assertEquals(tenDaysFromNow.toString(), ISO_DATE.format(balanceResult.date))
     }
 
     @Test
     fun `Should return 0 balance for GET balance when no transactions are found without date filter`() {
+        val tenDaysFromNow = LocalDate.now().plusDays(10)
+        insertIncomeTransactions(userSignature = userSignature, date = tenDaysFromNow)
+
         val balanceResult = given()
-            .pathParam("userSignature", testUserSignatureWithoutBalance)
+            .pathParam("userSignature", userSignature)
             .`when`()
             .get(BALANCE_URL)
             .then()
@@ -83,9 +87,13 @@ class BalanceIntegrationTest : IntegrationTestSetup() {
 
     @Test
     fun `Should return 0 balance for GET balance when no transactions are found before date filter`() {
+        val tenDaysFromNow = LocalDate.now().plusDays(10)
+        val nineDaysFromNow = LocalDate.now().plusDays(9)
+        insertIncomeTransactions(userSignature = userSignature, date = tenDaysFromNow)
+
         val balanceResult = given()
-            .pathParam("userSignature", testUserSignatureWithoutBalance)
-            .queryParam("date", TEST_URL_QUERY_PARAM_DATE)
+            .pathParam("userSignature", userSignature)
+            .queryParam("date", ISO_DATE.format(nineDaysFromNow))
             .`when`()
             .get(BALANCE_URL)
             .then()
@@ -95,13 +103,15 @@ class BalanceIntegrationTest : IntegrationTestSetup() {
             .`as`(BalanceResponse::class.java)
 
         assertEquals(BigDecimal.ZERO, balanceResult.amount)
-        assertEquals(TEST_URL_QUERY_PARAM_DATE, ISO_DATE.format(balanceResult.date))
+        assertEquals(ISO_DATE.format(nineDaysFromNow), ISO_DATE.format(balanceResult.date))
     }
 
     @Test
     fun `Should return negative balance amount for GET when calculation returns a negative value without date filter`() {
+        insertExpenseTransactions(amountToInsert = 2, userSignature = userSignature)
+
         val balanceResult = given()
-            .pathParam("userSignature", testUserSignatureWithNegativeBalance)
+            .pathParam("userSignature", userSignature)
             .`when`()
             .get(BALANCE_URL)
             .then()
@@ -116,9 +126,12 @@ class BalanceIntegrationTest : IntegrationTestSetup() {
 
     @Test
     fun `Should return negative balance amount for GET when calculation returns a negative value with date filter`() {
+        val tenDaysFromNow = LocalDate.now().plusDays(10)
+        insertExpenseTransactions(amountToInsert = 2, userSignature = userSignature, date = tenDaysFromNow)
+
         val balanceResult = given()
-            .pathParam("userSignature", testUserSignatureWithNegativeBalance)
-            .queryParam("date", TEST_URL_QUERY_PARAM_DATE)
+            .pathParam("userSignature", userSignature)
+            .queryParam("date", ISO_DATE.format(tenDaysFromNow))
             .`when`()
             .get(BALANCE_URL)
             .then()
@@ -128,7 +141,7 @@ class BalanceIntegrationTest : IntegrationTestSetup() {
             .`as`(BalanceResponse::class.java)
 
         assertEquals(BigDecimal.valueOf(-20), balanceResult.amount)
-        assertEquals(TEST_URL_QUERY_PARAM_DATE, ISO_DATE.format(balanceResult.date))
+        assertEquals(ISO_DATE.format(tenDaysFromNow), ISO_DATE.format(balanceResult.date))
     }
 
     @Test

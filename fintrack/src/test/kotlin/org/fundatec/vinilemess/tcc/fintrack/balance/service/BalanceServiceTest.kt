@@ -23,7 +23,7 @@ class BalanceServiceTest {
         val transactions = listOf(
             TransactionResponse(
                 null,
-                testUserSignatureWithBalance,
+                userSignature,
                 null,
                 testDate,
                 testPositiveAmount,
@@ -32,7 +32,7 @@ class BalanceServiceTest {
             ),
             TransactionResponse(
                 null,
-                testUserSignatureWithBalance,
+                userSignature,
                 null,
                 testDate,
                 testPositiveAmount,
@@ -41,7 +41,7 @@ class BalanceServiceTest {
             ),
             TransactionResponse(
                 null,
-                testUserSignatureWithBalance,
+                userSignature,
                 null,
                 testDate,
                 testNegativeAmount,
@@ -51,17 +51,19 @@ class BalanceServiceTest {
         )
         every {
             transactionService.listTransactionsBeforeDateByUserSignature(
-                testUserSignatureWithBalance,
+                userSignature,
                 testDate
             )
         } returns transactions
 
-        val result = balanceService.calculateBalanceForDate(testUserSignatureWithBalance, testDate)
+        every { userService.existsSignature(any()) } returns true
+
+        val result = balanceService.calculateBalanceForDate(userSignature, testDate)
 
         assertEquals(BigDecimal.TEN, result.amount)
         assertEquals(testDate, result.date)
 
-        verify { transactionService.listTransactionsBeforeDateByUserSignature(testUserSignatureWithBalance, testDate) }
+        verify { transactionService.listTransactionsBeforeDateByUserSignature(userSignature, testDate) }
     }
 
     @Test
@@ -69,7 +71,7 @@ class BalanceServiceTest {
         val transactions = listOf(
             TransactionResponse(
                 null,
-                testUserSignatureWithBalance,
+                userSignature,
                 null,
                 testDate,
                 testPositiveAmount,
@@ -78,7 +80,7 @@ class BalanceServiceTest {
             ),
             TransactionResponse(
                 null,
-                testUserSignatureWithBalance,
+                userSignature,
                 null,
                 testDate,
                 testNegativeAmount,
@@ -87,7 +89,7 @@ class BalanceServiceTest {
             ),
             TransactionResponse(
                 null,
-                testUserSignatureWithBalance,
+                userSignature,
                 null,
                 testDate,
                 testNegativeAmount,
@@ -97,33 +99,37 @@ class BalanceServiceTest {
         )
         every {
             transactionService.listTransactionsBeforeDateByUserSignature(
-                testUserSignatureWithBalance,
+                userSignature,
                 testDate
             )
         } returns transactions
 
-        val result = balanceService.calculateBalanceForDate(testUserSignatureWithBalance, testDate)
+        every { userService.existsSignature(any()) } returns true
+
+        val result = balanceService.calculateBalanceForDate(userSignature = userSignature, testDate)
 
         assertEquals(testNegativeAmount, result.amount)
         assertEquals(testDate, result.date)
 
-        verify { transactionService.listTransactionsBeforeDateByUserSignature(testUserSignatureWithBalance, testDate) }
+        verify { transactionService.listTransactionsBeforeDateByUserSignature(userSignature, testDate) }
     }
 
     @Test
     fun `Should return zero Balance when calculateBalanceForDate is called with no transactions till informed the date`() {
         every {
             transactionService.listTransactionsBeforeDateByUserSignature(
-                testUserSignatureWithBalance,
+                userSignature,
                 testDate
             )
         } returns listOf()
 
-        val result = balanceService.calculateBalanceForDate(testUserSignatureWithBalance, testDate)
+        every { userService.existsSignature(any()) } returns true
+
+        val result = balanceService.calculateBalanceForDate(userSignature, testDate)
 
         assertEquals(BigDecimal.ZERO, result.amount)
         assertEquals(testDate, result.date)
 
-        verify { transactionService.listTransactionsBeforeDateByUserSignature(testUserSignatureWithBalance, testDate) }
+        verify { transactionService.listTransactionsBeforeDateByUserSignature(userSignature = userSignature, testDate) }
     }
 }
