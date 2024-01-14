@@ -35,11 +35,11 @@ class RecurrentTransactionRequest(
             .validate()
     }
 
-    private fun isAmountNullOrZero() = { -> Objects.isNull(amount) || amount == BigDecimal.ZERO }
+    private fun isAmountNullOrZero(): () -> Boolean = { Objects.isNull(amount) || amount == BigDecimal.ZERO }
 
-    private fun isFrequencyNegative() = { -> Objects.isNull(frequency) || frequency <= 0 }
+    private fun isFrequencyNegative(): () -> Boolean = { Objects.isNull(frequency) || frequency <= 0 }
 
-    private fun isRecurrenceCountNegative() = { -> Objects.isNull(recurrenceCount) || recurrenceCount <= 0 }
+    private fun isRecurrenceCountNegative(): () -> Boolean = { Objects.isNull(recurrenceCount) || recurrenceCount <= 0 }
 
     private fun negateIfExpense(amount: BigDecimal): BigDecimal {
         if (operation == TransactionOperation.EXPENSE) {
