@@ -14,12 +14,9 @@ import java.time.LocalDate
 @RequestMapping("/transactions")
 class TransactionController(private val transactionService: TransactionService) {
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{userSignature}")
-    fun getTransactions(
-            @PathVariable("userSignature") userSignature: UserSignature,
-            @RequestParam("date") date: LocalDate?
-    ): ResponseEntity<List<TransactionResponse>> {
+    fun getTransactions(@PathVariable("userSignature") userSignature: UserSignature,
+                        @RequestParam("date") date: LocalDate?): ResponseEntity<List<TransactionResponse>> {
         return ResponseEntity.ok(
                 transactionService.listTransactionsBeforeDateByUserSignature(
                         userSignature.userSignature,
@@ -28,25 +25,24 @@ class TransactionController(private val transactionService: TransactionService) 
         )
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{userSignature}")
     fun transact(@RequestBody transactionRequest: TransactionRequest,
-                 @PathVariable("userSignature") userSignature: UserSignature) {
+                 @PathVariable("userSignature") userSignature: UserSignature): ResponseEntity<Unit> {
         transactionService.transact(transactionRequest, userSignature.userSignature)
+        return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/recurrent/{userSignature}")
-    fun transactRecurrence(
-            @RequestBody recurrentTransactionRequest: RecurrentTransactionRequest,
-            @PathVariable("userSignature") userSignature: UserSignature
-    ) {
+    fun transactRecurrence(@RequestBody recurrentTransactionRequest: RecurrentTransactionRequest,
+                           @PathVariable("userSignature") userSignature: UserSignature): ResponseEntity<Unit> {
         transactionService.transactRecurrence(recurrentTransactionRequest, userSignature.userSignature)
+        return ResponseEntity.status(HttpStatus.CREATED).build()
+
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping
-    fun deleteTransactionsByIdList(@RequestParam("id") idList: List<String>) {
+    fun deleteTransactionsByIdList(@RequestParam("id") idList: List<String>): ResponseEntity<Unit> {
         transactionService.deleteTransactionsByIdList(idList)
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
 }
