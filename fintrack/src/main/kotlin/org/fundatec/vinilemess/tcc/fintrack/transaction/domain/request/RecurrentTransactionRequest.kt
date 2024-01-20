@@ -52,7 +52,7 @@ class RecurrentTransactionRequest(
         return this.amount
     }
 
-    private fun isRecurrenceCountBiggerThenAllowed() = { ->
+    private fun isRecurrenceCountBiggerThenAllowed(): () -> Boolean = {
         Objects.isNull(recurrenceCount) || when (recurrence) {
             Recurrence.DAILY -> recurrenceCount > 30
             Recurrence.WEEKLY -> recurrenceCount > 15
