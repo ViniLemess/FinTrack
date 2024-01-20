@@ -5,6 +5,7 @@ import io.restassured.http.ContentType
 import org.assertj.core.api.Assertions.assertThat
 import org.fundatec.vinilemess.tcc.fintrack.integration.DATE_QUERY_NAME
 import org.fundatec.vinilemess.tcc.fintrack.integration.EndToEndTestSetup
+import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.Transaction
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.Recurrence
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.RecurrentTransactionRequest
@@ -136,6 +137,24 @@ class TransactionEndToEndTest : EndToEndTestSetup() {
             assertNotNull(transaction.id)
             assertEquals(firstTransaction.recurrenceId, transaction.recurrenceId)
         }
+    }
+
+    @Test
+    fun `Should delete transactions successfully`() {
+        insertIncomeTransactions(amountToInsert = 1, userSignature = userSignature)
+        val transaction = findAllTransactions()[0]
+
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .`when`()
+                .params("id", listOf(transaction.id))
+                .delete("/transactions")
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+
+        val transactions = findAllTransactions()
+
+        assertEquals(listOf<Transaction>(), transactions)
     }
 
     @AfterEach
