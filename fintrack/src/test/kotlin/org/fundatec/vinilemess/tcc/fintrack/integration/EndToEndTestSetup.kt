@@ -1,9 +1,9 @@
 package org.fundatec.vinilemess.tcc.fintrack.integration
 
 import io.restassured.RestAssured
-import org.fundatec.vinilemess.tcc.fintrack.*
+import org.fundatec.vinilemess.tcc.fintrack.data.factory.createExpenseTransactionForSignature
+import org.fundatec.vinilemess.tcc.fintrack.data.factory.createIncomeTransactionForSignature
 import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.Transaction
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
 import org.fundatec.vinilemess.tcc.fintrack.user.domain.User
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
@@ -20,21 +20,19 @@ import org.springframework.test.web.servlet.MockMvc
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
-import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 private const val TRANSACTIONS_COLLECTION = "transactions"
 private const val USERS_COLLECTION = "users"
-const val TEST_URL_QUERY_PARAM_DATE = "2023-04-13"
 const val DATE_QUERY_NAME = "date"
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
-@ActiveProfiles(profiles = ["integration"])
+@ActiveProfiles(profiles = ["e2e"])
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class IntegrationTestSetup {
+class EndToEndTestSetup {
 
     @Autowired
     protected lateinit var mongoTemplate: MongoTemplate
@@ -54,7 +52,7 @@ class IntegrationTestSetup {
                                            userSignature: String,
                                            date: LocalDate = LocalDate.now()) {
         for (i in 1..amountToInsert) {
-            createTransaction(userSignature, TransactionOperation.INCOME, BigDecimal.TEN, date)
+            saveTransaction(createIncomeTransactionForSignature(userSignature, date))
         }
     }
 
@@ -62,27 +60,12 @@ class IntegrationTestSetup {
                                             userSignature: String,
                                             date: LocalDate = LocalDate.now()) {
         for (i in 1..amountToInsert) {
-            createTransaction(userSignature, TransactionOperation.EXPENSE, BigDecimal.TEN.negate(), date)
+            saveTransaction(createExpenseTransactionForSignature(userSignature, date))
         }
     }
 
-    private fun createTransaction(
-            userSignature: String,
-            transactionOperation: TransactionOperation,
-            amount: BigDecimal,
-            date: LocalDate
-    ) {
-        mongoTemplate.save(
-                Transaction(
-                        id = null,
-                        userSignature = userSignature,
-                        recurrenceId = null,
-                        date = date,
-                        amount = amount,
-                        description = testDescription,
-                        transactionOperation = transactionOperation
-                ), TRANSACTIONS_COLLECTION
-        )
+    private fun saveTransaction(transaction: Transaction) {
+        mongoTemplate.save(transaction, TRANSACTIONS_COLLECTION)
     }
 
     protected fun insertUser(transactionSignature: String) {
@@ -97,6 +80,10 @@ class IntegrationTestSetup {
 
     protected fun clearTransactions() {
         mongoTemplate.findAllAndRemove(Query(), Transaction::class.java)
+    }
+
+    protected fun findAllTransactions(): List<Transaction> {
+        return mongoTemplate.findAll(Transaction::class.java)
     }
 
     protected fun getTodayDateAsString(): String {

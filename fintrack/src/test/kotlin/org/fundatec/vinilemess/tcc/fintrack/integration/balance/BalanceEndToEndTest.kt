@@ -3,8 +3,7 @@ package org.fundatec.vinilemess.tcc.fintrack.integration.balance
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.fundatec.vinilemess.tcc.fintrack.balance.domain.BalanceResponse
-import org.fundatec.vinilemess.tcc.fintrack.integration.IntegrationTestSetup
-import org.fundatec.vinilemess.tcc.fintrack.integration.TEST_URL_QUERY_PARAM_DATE
+import org.fundatec.vinilemess.tcc.fintrack.integration.EndToEndTestSetup
 import org.fundatec.vinilemess.tcc.fintrack.userSignature
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.notNullValue
@@ -19,7 +18,7 @@ import java.time.format.DateTimeFormatter.ISO_DATE
 
 private const val BALANCE_URL = "/balances/{userSignature}"
 
-class BalanceIntegrationTest : IntegrationTestSetup() {
+class BalanceEndToEndTest : EndToEndTestSetup() {
 
     @BeforeEach
     fun populateDatabase() {
