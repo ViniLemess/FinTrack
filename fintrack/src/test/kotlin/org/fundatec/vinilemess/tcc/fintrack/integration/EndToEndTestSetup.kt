@@ -37,9 +37,6 @@ class EndToEndTestSetup {
     @Autowired
     protected lateinit var mongoTemplate: MongoTemplate
 
-    @Autowired
-    protected lateinit var mockMvc: MockMvc
-
     @LocalServerPort
     private lateinit var port: Number
 
