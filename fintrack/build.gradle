@@ -39,7 +39,7 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured:5.4.0'
 }
 
-tasks.register('EndToEndTests', Test) {
+tasks.register('endToEndTests', Test) {
     group 'verification'
     include '**/*EndToEndTest.*'
     systemProperty 'spring.profiles.active', 'e2e'
