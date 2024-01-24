@@ -1,7 +1,6 @@
 package org.fundatec.vinilemess.fintrack.user.domain.request
 
 import org.apache.logging.log4j.util.Strings
-import org.fundatec.vinilemess.fintrack.infra.ValidatableRequest
 import org.fundatec.vinilemess.fintrack.validation.DataValidator
 
 private const val EMAIL_REGEX = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"

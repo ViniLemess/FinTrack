@@ -10,7 +10,7 @@ import java.time.LocalDate
 
 @RestController
 @RequestMapping("/balances")
-class BalanceController(private val balanceService: org.fundatec.vinilemess.fintrack.balance.service.BalanceService) {
+class BalanceController(private val balanceService: BalanceService) {
 
     @GetMapping("/{userSignature}")
     fun getUserBalanceForDate(

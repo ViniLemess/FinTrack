@@ -7,13 +7,12 @@ import org.fundatec.vinilemess.fintrack.integration.DATE_QUERY_NAME
 import org.fundatec.vinilemess.fintrack.integration.EndToEndTestSetup
 import org.fundatec.vinilemess.fintrack.transaction.domain.Transaction
 import org.fundatec.vinilemess.fintrack.transaction.domain.enums.Recurrence
-import org.fundatec.vinilemess.fintrack.transaction.domain.enums.TransactionOperation
 import org.fundatec.vinilemess.fintrack.transaction.domain.enums.TransactionOperation.EXPENSE
 import org.fundatec.vinilemess.fintrack.transaction.domain.enums.TransactionOperation.INCOME
 import org.fundatec.vinilemess.fintrack.transaction.domain.request.RecurrentTransactionRequest
 import org.fundatec.vinilemess.fintrack.transaction.domain.request.TransactionRequest
 import org.fundatec.vinilemess.fintrack.userSignature
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.hasSize
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

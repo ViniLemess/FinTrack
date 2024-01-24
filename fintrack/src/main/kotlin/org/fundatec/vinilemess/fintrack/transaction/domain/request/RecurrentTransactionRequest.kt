@@ -1,6 +1,5 @@
 package org.fundatec.vinilemess.fintrack.transaction.domain.request
 
-import org.fundatec.vinilemess.fintrack.infra.ValidatableRequest
 import org.fundatec.vinilemess.fintrack.transaction.domain.enums.Recurrence
 import org.fundatec.vinilemess.fintrack.transaction.domain.enums.TransactionOperation
 import org.fundatec.vinilemess.fintrack.validation.DataValidator
