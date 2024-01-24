@@ -1,7 +1,7 @@
-package org.fundatec.vinilemess.tcc.fintrack.validation
+package org.fundatec.vinilemess.fintrack.validation
 
-import org.fundatec.vinilemess.tcc.fintrack.assertProblemDetailsContainsViolation
-import org.fundatec.vinilemess.tcc.fintrack.exception.InvalidBodyException
+import org.fundatec.vinilemess.fintrack.assertProblemDetailsContainsViolation
+import org.fundatec.vinilemess.fintrack.exception.InvalidBodyException
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test

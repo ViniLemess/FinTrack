@@ -1,13 +1,13 @@
-package org.fundatec.vinilemess.tcc.fintrack.balance.service
+package org.fundatec.vinilemess.fintrack.balance.service
 
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.fundatec.vinilemess.tcc.fintrack.*
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.TransactionResponse
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
-import org.fundatec.vinilemess.tcc.fintrack.transaction.service.TransactionService
-import org.fundatec.vinilemess.tcc.fintrack.user.service.UserService
+import org.fundatec.vinilemess.fintrack.*
+import org.fundatec.vinilemess.fintrack.transaction.domain.TransactionResponse
+import org.fundatec.vinilemess.fintrack.transaction.domain.enums.TransactionOperation
+import org.fundatec.vinilemess.fintrack.transaction.service.TransactionService
+import org.fundatec.vinilemess.fintrack.user.service.UserService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
@@ -16,7 +16,7 @@ class BalanceServiceTest {
 
     private val transactionService: TransactionService = mockk()
     private val userService: UserService = mockk()
-    private val balanceService = BalanceService(transactionService, userService)
+    private val balanceService = org.fundatec.vinilemess.fintrack.balance.service.BalanceService(transactionService, userService)
 
     @Test
     fun `Should return correct Balance when calculateBalanceForDate extracts positive amount`() {

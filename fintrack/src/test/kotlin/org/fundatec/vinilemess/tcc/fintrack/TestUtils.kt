@@ -1,4 +1,4 @@
-package org.fundatec.vinilemess.tcc.fintrack
+package org.fundatec.vinilemess.fintrack
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions

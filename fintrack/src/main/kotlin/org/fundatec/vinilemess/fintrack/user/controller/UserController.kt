@@ -1,0 +1,28 @@
+package org.fundatec.vinilemess.fintrack.user.controller
+
+import org.fundatec.vinilemess.fintrack.user.domain.request.LoginRequest
+import org.fundatec.vinilemess.fintrack.user.domain.request.UserRequest
+import org.fundatec.vinilemess.fintrack.user.domain.response.UserResponse
+import org.fundatec.vinilemess.fintrack.user.service.UserService
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/users")
+class UserController(private val userService: UserService) {
+
+    @PostMapping
+    fun registerUser(@RequestBody userRequest: UserRequest): ResponseEntity<UserResponse> {
+        return ResponseEntity.ok(userService.registerUser(userRequest))
+    }
+
+    @GetMapping("/login")
+    fun login(
+        @RequestParam("email") email: String,
+        @RequestParam("password") password: String
+    ): ResponseEntity<UserResponse> {
+        val loginRequest = LoginRequest(email, password)
+        loginRequest.validateRequest()
+        return ResponseEntity.ok(userService.login(loginRequest))
+    }
+}

@@ -1,11 +1,11 @@
-package org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request
+package org.fundatec.vinilemess.fintrack.transaction.domain.request
 
-import org.fundatec.vinilemess.tcc.fintrack.assertProblemDetailsContainsViolation
-import org.fundatec.vinilemess.tcc.fintrack.exception.InvalidBodyException
-import org.fundatec.vinilemess.tcc.fintrack.testDate
-import org.fundatec.vinilemess.tcc.fintrack.testDescription
-import org.fundatec.vinilemess.tcc.fintrack.testPositiveAmount
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
+import org.fundatec.vinilemess.fintrack.assertProblemDetailsContainsViolation
+import org.fundatec.vinilemess.fintrack.exception.InvalidBodyException
+import org.fundatec.vinilemess.fintrack.testDate
+import org.fundatec.vinilemess.fintrack.testDescription
+import org.fundatec.vinilemess.fintrack.testPositiveAmount
+import org.fundatec.vinilemess.fintrack.transaction.domain.enums.TransactionOperation
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal

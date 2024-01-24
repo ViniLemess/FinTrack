@@ -1,10 +1,10 @@
-package org.fundatec.vinilemess.tcc.fintrack.integration
+package org.fundatec.vinilemess.fintrack.integration
 
 import io.restassured.RestAssured
-import org.fundatec.vinilemess.tcc.fintrack.data.factory.createExpenseTransactionForSignature
-import org.fundatec.vinilemess.tcc.fintrack.data.factory.createIncomeTransactionForSignature
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.Transaction
-import org.fundatec.vinilemess.tcc.fintrack.user.domain.User
+import org.fundatec.vinilemess.fintrack.data.factory.createExpenseTransactionForSignature
+import org.fundatec.vinilemess.fintrack.data.factory.createIncomeTransactionForSignature
+import org.fundatec.vinilemess.fintrack.transaction.domain.Transaction
+import org.fundatec.vinilemess.fintrack.user.domain.User
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired

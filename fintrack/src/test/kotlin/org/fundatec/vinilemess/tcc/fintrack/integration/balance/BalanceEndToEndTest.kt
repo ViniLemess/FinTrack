@@ -1,10 +1,10 @@
-package org.fundatec.vinilemess.tcc.fintrack.integration.balance
+package org.fundatec.vinilemess.fintrack.integration.balance
 
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.fundatec.vinilemess.tcc.fintrack.balance.domain.BalanceResponse
-import org.fundatec.vinilemess.tcc.fintrack.integration.EndToEndTestSetup
-import org.fundatec.vinilemess.tcc.fintrack.userSignature
+import org.fundatec.vinilemess.fintrack.balance.domain.BalanceResponse
+import org.fundatec.vinilemess.fintrack.integration.EndToEndTestSetup
+import org.fundatec.vinilemess.fintrack.userSignature
 import org.hamcrest.CoreMatchers.equalTo
 import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.jupiter.api.AfterEach

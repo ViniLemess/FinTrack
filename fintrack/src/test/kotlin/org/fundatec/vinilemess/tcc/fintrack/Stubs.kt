@@ -1,4 +1,4 @@
-package org.fundatec.vinilemess.tcc.fintrack
+package org.fundatec.vinilemess.fintrack
 
 import java.math.BigDecimal
 import java.time.LocalDate

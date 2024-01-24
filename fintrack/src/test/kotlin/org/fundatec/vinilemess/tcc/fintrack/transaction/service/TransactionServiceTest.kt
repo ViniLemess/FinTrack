@@ -1,17 +1,17 @@
-package org.fundatec.vinilemess.tcc.fintrack.transaction.service
+package org.fundatec.vinilemess.fintrack.transaction.service
 
 import io.mockk.every
 import io.mockk.justRun
 import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
-import org.fundatec.vinilemess.tcc.fintrack.*
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.Transaction
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.Recurrence
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.enums.TransactionOperation
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.RecurrentTransactionRequest
-import org.fundatec.vinilemess.tcc.fintrack.transaction.domain.request.TransactionRequest
-import org.fundatec.vinilemess.tcc.fintrack.transaction.repository.TransactionRepository
+import org.fundatec.vinilemess.fintrack.*
+import org.fundatec.vinilemess.fintrack.transaction.domain.Transaction
+import org.fundatec.vinilemess.fintrack.transaction.domain.enums.Recurrence
+import org.fundatec.vinilemess.fintrack.transaction.domain.enums.TransactionOperation
+import org.fundatec.vinilemess.fintrack.transaction.domain.request.RecurrentTransactionRequest
+import org.fundatec.vinilemess.fintrack.transaction.domain.request.TransactionRequest
+import org.fundatec.vinilemess.fintrack.transaction.repository.TransactionRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
