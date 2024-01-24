@@ -25,8 +25,8 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0-Beta'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.8.20-RC'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.mockk:mockk:1.13.4'
@@ -54,7 +54,7 @@ tasks.withType(KotlinCompile).configureEach {
 }
 
 tasks.named('test') {
-    exclude '**/*IntegrationTest.*'
+    exclude '**/*EndToEndTest.*'
     useJUnitPlatform()
 }
 
