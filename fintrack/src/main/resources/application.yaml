@@ -17,3 +17,12 @@ management:
 logging:
   level:
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+
+application:
+  security:
+    jwt:
+      secret-key: ${FINTRACK_SECRET_KEY}
+      token:
+        expiration: 9000000000
+      refresh-token:
+        expiration: 604800000
