@@ -20,4 +20,12 @@ class TokenRepository(private val mongoTemplate: MongoTemplate) {
                         .and("isRevoked").`is`(false)),
                 Token::class.java)
     }
+
+    fun upsert(token: Token) {
+        mongoTemplate.save(token)
+    }
+
+    fun saveAll(userTokens: Collection<Token>) {
+        mongoTemplate.insertAll(userTokens)
+    }
 }

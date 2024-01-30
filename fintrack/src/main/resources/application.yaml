@@ -3,11 +3,11 @@ spring:
     location: banner.txt
   data:
     mongodb:
-      host: fintrack-mongodb
+      host: localhost
       port: 27017
       database: fin_track_db
-      username: ${MONGODB_USERNAME}
-      password: ${MONGODB_PASSWORD}
+      username: VINI_LEMESS
+      password: REMOVED
       authentication-database: admin
 management:
   endpoints:
@@ -21,7 +21,7 @@ logging:
 application:
   security:
     jwt:
-      secret-key: ${FINTRACK_SECRET_KEY}
+      secret-key: REMOVED
       token:
         expiration: 9000000000
       refresh-token:

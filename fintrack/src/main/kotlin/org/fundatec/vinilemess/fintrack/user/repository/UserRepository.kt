@@ -13,9 +13,6 @@ class UserRepository(private val mongoTemplate: MongoTemplate) {
 
     fun save(user: User): User = mongoTemplate.save(user, USERS_COLLECTION)
 
-    fun findByCredentials(email: String, password: String): User? =
-        mongoTemplate.findOne(filterByCredentials(email, password), User::class.java)
-
     fun findByEmail(email: String): User? =
         mongoTemplate.findOne(filterByEmail(email), User::class.java)
 
@@ -24,9 +21,6 @@ class UserRepository(private val mongoTemplate: MongoTemplate) {
 
     private fun filterByTransactionSignature(userSignature: String) =
         Query(Criteria.where("transactionSignature").`is`(userSignature))
-
-    private fun filterByCredentials(email: String, password: String) =
-        filterByEmail(email).addCriteria(Criteria.where("password").`is`(password))
 
     private fun filterByEmail(email: String): Query =
         Query().addCriteria(Criteria.where("email").`is`(email))

@@ -27,7 +27,7 @@ class RequestValidatorInterceptor : RequestBodyAdviceAdapter() {
         targetType: Type,
         converterType: Class<out HttpMessageConverter<*>>
     ): Any {
-        if (body is org.fundatec.vinilemess.fintrack.infra.ValidatableRequest) {
+        if (body is ValidatableRequest) {
             body.validateRequest()
         }
         return super.afterBodyRead(body, inputMessage, parameter, targetType, converterType)

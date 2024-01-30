@@ -1,4 +1,4 @@
-package org.fundatec.vinilemess.fintrack.user.domain.request
+package org.fundatec.vinilemess.fintrack.security.contract.request
 
 import org.apache.logging.log4j.util.Strings
 import org.fundatec.vinilemess.fintrack.validation.DataValidator

@@ -1,5 +1,6 @@
 package org.fundatec.vinilemess.fintrack.transaction.domain.request
 
+import org.fundatec.vinilemess.fintrack.infra.ValidatableRequest
 import org.fundatec.vinilemess.fintrack.transaction.domain.enums.TransactionOperation
 import org.fundatec.vinilemess.fintrack.validation.DataValidator
 import org.springframework.format.annotation.DateTimeFormat
@@ -13,7 +14,7 @@ data class TransactionRequest(
     val date: LocalDate,
     val description: String?,
     val operation: TransactionOperation
-) : org.fundatec.vinilemess.fintrack.infra.ValidatableRequest {
+) : ValidatableRequest {
 
     init {
         this.amount = negateIfExpense(amount)

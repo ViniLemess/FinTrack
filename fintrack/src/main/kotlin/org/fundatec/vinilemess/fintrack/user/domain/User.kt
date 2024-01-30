@@ -8,9 +8,9 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 @Document(collection = "users")
-class User(
+data class User(
         @Id
-        val id: String?,
+        var id: String?,
         val name: String,
         val email: String,
         private val password: String,

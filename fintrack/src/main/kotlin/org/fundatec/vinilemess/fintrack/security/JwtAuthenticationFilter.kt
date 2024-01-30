@@ -21,8 +21,13 @@ class JwtAuthenticationFilter(
         private val userDetailsService: UserDetailsService
 ) : OncePerRequestFilter() {
 
+    private fun doesNotHaveValidAuthorizationHeader(request: HttpServletRequest): Boolean {
+        val authorizationHeader = request.getHeader("Authorization")
+        return authorizationHeader.isNullOrEmpty() && !hasValidAuthorizationHeader(request)
+    }
+
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
-        if (isLoginRequest(request)) {
+        if (isLoginRequest(request) || doesNotHaveValidAuthorizationHeader(request)) {
             filterChain.doFilter(request, response)
             return
         }
@@ -58,7 +63,7 @@ class JwtAuthenticationFilter(
     } ?: false
 
     private fun isLoginRequest(request: HttpServletRequest): Boolean {
-        return request.method == HttpMethod.POST.name() && request.servletPath == "/users/login"
+        return request.method == HttpMethod.POST.name() && request.servletPath == "/login"
     }
 
     private fun hasValidAuthorizationHeader(request: HttpServletRequest): Boolean {

@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document
 private const val BEARER = "Bearer"
 
 @Document(collection = "tokens")
-class Token(
+data class Token(
         @Id
-        val id: String?,
+        val id: String? = null,
         @Indexed(unique = true)
         val token: String,
         val type: String = BEARER,
@@ -20,4 +20,7 @@ class Token(
         @DBRef(lazy = true)
         val user: User
 ) {
+    fun invalidateToken(): Token {
+        return this.copy(isExpired = true, isRevoked = true)
+    }
 }
