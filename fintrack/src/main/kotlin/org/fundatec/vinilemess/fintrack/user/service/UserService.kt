@@ -1,10 +1,8 @@
 package org.fundatec.vinilemess.fintrack.user.service
 
 import org.fundatec.vinilemess.fintrack.exception.EmailTakenException
-import org.fundatec.vinilemess.fintrack.exception.UnauthorizedException
 import org.fundatec.vinilemess.fintrack.user.domain.Role
 import org.fundatec.vinilemess.fintrack.user.domain.User
-import org.fundatec.vinilemess.fintrack.security.contract.request.LoginRequest
 import org.fundatec.vinilemess.fintrack.user.domain.request.UserRequest
 import org.fundatec.vinilemess.fintrack.user.domain.response.UserResponse
 import org.fundatec.vinilemess.fintrack.user.repository.UserRepository
