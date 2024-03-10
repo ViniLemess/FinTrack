@@ -4,6 +4,7 @@ import io.restassured.RestAssured
 import org.fundatec.vinilemess.fintrack.data.factory.createExpenseTransactionForSignature
 import org.fundatec.vinilemess.fintrack.data.factory.createIncomeTransactionForSignature
 import org.fundatec.vinilemess.fintrack.transaction.domain.Transaction
+import org.fundatec.vinilemess.fintrack.user.domain.Role
 import org.fundatec.vinilemess.fintrack.user.domain.User
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
@@ -70,7 +71,9 @@ class EndToEndTestSetup {
                 name = "tester",
                 email = "tester@tester.com",
                 password = "test123",
-                transactionSignature = transactionSignature
+                transactionSignature = transactionSignature,
+                role = Role.USER,
+                tokens = listOf()
         ), USERS_COLLECTION)
     }
 
