@@ -20,6 +20,7 @@ class LoginService(
 ) {
 
     fun authenticateUser(loginRequest: LoginRequest): LoginResponse {
+        loginRequest.validateRequest()
         performAuthentication(loginRequest.email, loginRequest.password)
 
         return userRepository.findByEmail(loginRequest.email)?.let { user ->
