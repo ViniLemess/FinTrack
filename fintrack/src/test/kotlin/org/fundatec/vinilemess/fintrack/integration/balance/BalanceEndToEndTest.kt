@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
+import org.springframework.security.test.context.support.WithMockUser
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter.ISO_DATE
@@ -26,15 +27,19 @@ class BalanceEndToEndTest : EndToEndTestSetup() {
     }
 
     @Test
+    @WithMockUser(username = "johndoe@test.com", roles = ["USER"])
     fun `Should return todays balance for GET balance without using date filter`() {
         insertIncomeTransactions(userSignature = userSignature)
         insertIncomeTransactions(userSignature = userSignature, date = LocalDate.now().plusDays(10))
 
         val balanceResult = given()
+            .spec(authenticatedRequestSpec())
             .pathParam("userSignature", userSignature)
             .`when`()
             .get(BALANCE_URL)
             .then()
+            .log()
+            .ifValidationFails()
             .statusCode(HttpStatus.OK.value())
             .contentType(ContentType.JSON)
             .extract()
@@ -51,6 +56,7 @@ class BalanceEndToEndTest : EndToEndTestSetup() {
         insertIncomeTransactions(userSignature = userSignature, date = tenDaysFromNow)
 
         val balanceResult = given()
+            .spec(authenticatedRequestSpec())
             .pathParam("userSignature", userSignature)
             .queryParam("date", ISO_DATE.format(tenDaysFromNow))
             .`when`()
@@ -71,6 +77,7 @@ class BalanceEndToEndTest : EndToEndTestSetup() {
         insertIncomeTransactions(userSignature = userSignature, date = tenDaysFromNow)
 
         val balanceResult = given()
+            .spec(authenticatedRequestSpec())
             .pathParam("userSignature", userSignature)
             .`when`()
             .get(BALANCE_URL)
@@ -91,6 +98,7 @@ class BalanceEndToEndTest : EndToEndTestSetup() {
         insertIncomeTransactions(userSignature = userSignature, date = tenDaysFromNow)
 
         val balanceResult = given()
+            .spec(authenticatedRequestSpec())
             .pathParam("userSignature", userSignature)
             .queryParam("date", ISO_DATE.format(nineDaysFromNow))
             .`when`()
@@ -110,6 +118,7 @@ class BalanceEndToEndTest : EndToEndTestSetup() {
         insertExpenseTransactions(amountToInsert = 2, userSignature = userSignature)
 
         val balanceResult = given()
+            .spec(authenticatedRequestSpec())
             .pathParam("userSignature", userSignature)
             .`when`()
             .get(BALANCE_URL)
@@ -129,6 +138,7 @@ class BalanceEndToEndTest : EndToEndTestSetup() {
         insertExpenseTransactions(amountToInsert = 2, userSignature = userSignature, date = tenDaysFromNow)
 
         val balanceResult = given()
+            .spec(authenticatedRequestSpec())
             .pathParam("userSignature", userSignature)
             .queryParam("date", ISO_DATE.format(tenDaysFromNow))
             .`when`()
@@ -148,6 +158,7 @@ class BalanceEndToEndTest : EndToEndTestSetup() {
         val nonExistentUserSignature = "nonExistentSignature"
 
         given()
+            .spec(authenticatedRequestSpec())
             .pathParam("userSignature", nonExistentUserSignature)
             .`when`()
             .get(BALANCE_URL)

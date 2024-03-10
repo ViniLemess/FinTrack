@@ -1,8 +1,12 @@
 package org.fundatec.vinilemess.fintrack.integration
 
 import io.restassured.RestAssured
+import io.restassured.http.ContentType
+import io.restassured.specification.RequestSpecification
 import org.fundatec.vinilemess.fintrack.data.factory.createExpenseTransactionForSignature
 import org.fundatec.vinilemess.fintrack.data.factory.createIncomeTransactionForSignature
+import org.fundatec.vinilemess.fintrack.security.contract.request.LoginRequest
+import org.fundatec.vinilemess.fintrack.security.contract.response.LoginResponse
 import org.fundatec.vinilemess.fintrack.transaction.domain.Transaction
 import org.fundatec.vinilemess.fintrack.user.domain.Role
 import org.fundatec.vinilemess.fintrack.user.domain.User
@@ -87,6 +91,19 @@ class EndToEndTestSetup {
 
     protected fun getTodayDateAsString(): String {
         return LocalDate.now().format(DateTimeFormatter.ISO_DATE)
+    }
+
+    protected fun authenticatedRequestSpec(): RequestSpecification {
+        val loginResponse: LoginResponse = RestAssured.given()
+            .body(LoginRequest("johndoe@example.com", "password123"))
+            .contentType(ContentType.JSON)
+            .`when`()
+            .post("/login")
+            .thenReturn()
+            .`as`(LoginResponse::class.java)
+
+        return RestAssured.given()
+            .headers("Authorization", "Bearer ${loginResponse.token}")
     }
 
     companion object {

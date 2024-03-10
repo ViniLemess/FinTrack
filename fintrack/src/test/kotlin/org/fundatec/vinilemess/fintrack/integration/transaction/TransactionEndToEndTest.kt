@@ -31,15 +31,16 @@ class TransactionEndToEndTest : EndToEndTestSetup() {
         insertExpenseTransactions(userSignature = userSignature)
 
         val transactions: List<Transaction> = given()
-                .contentType(ContentType.JSON)
-                .get(TRANSACTIONS_PATH_USER_SIGNATURE, userSignature)
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .extract()
-                .response()
-                .jsonPath()
-                .getList("$", Transaction::class.java)
+            .spec(authenticatedRequestSpec())
+            .contentType(ContentType.JSON)
+            .get(TRANSACTIONS_PATH_USER_SIGNATURE, userSignature)
+            .then()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .extract()
+            .response()
+            .jsonPath()
+            .getList("$", Transaction::class.java)
 
         assertEquals(10, transactions.size)
         assertThat(transactions).allSatisfy { transaction ->
@@ -56,16 +57,17 @@ class TransactionEndToEndTest : EndToEndTestSetup() {
         insertExpenseTransactions(3, userSignature = userSignature)
 
         val transactions = given()
-                .contentType(ContentType.JSON)
-                .queryParam(DATE_QUERY_NAME, ISO_DATE.format(LocalDate.now()))
-                .get(TRANSACTIONS_PATH_USER_SIGNATURE, userSignature)
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .extract()
-                .response()
-                .jsonPath()
-                .getList("$", Transaction::class.java)
+            .spec(authenticatedRequestSpec())
+            .contentType(ContentType.JSON)
+            .queryParam(DATE_QUERY_NAME, ISO_DATE.format(LocalDate.now()))
+            .get(TRANSACTIONS_PATH_USER_SIGNATURE, userSignature)
+            .then()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .extract()
+            .response()
+            .jsonPath()
+            .getList("$", Transaction::class.java)
 
         assertEquals(3, transactions.size)
         assertThat(transactions).allSatisfy { transaction ->
@@ -80,12 +82,13 @@ class TransactionEndToEndTest : EndToEndTestSetup() {
     @Test
     fun `Should return empty list for GET when no transactions are found for the userSignature`() {
         given()
-                .contentType(ContentType.JSON)
-                .get(TRANSACTIONS_PATH_USER_SIGNATURE, userSignature)
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("$", hasSize<Any>(0))
+            .spec(authenticatedRequestSpec())
+            .contentType(ContentType.JSON)
+            .get(TRANSACTIONS_PATH_USER_SIGNATURE, userSignature)
+            .then()
+            .statusCode(200)
+            .contentType(ContentType.JSON)
+            .body("$", hasSize<Any>(0))
     }
 
     @Test
@@ -93,12 +96,13 @@ class TransactionEndToEndTest : EndToEndTestSetup() {
         val date = LocalDate.parse("2030-01-01")
         val description = "test transaction"
         given()
-                .contentType(ContentType.JSON)
-                .body(TransactionRequest(BigDecimal.TEN, date, description, INCOME))
-                .`when`()
-                .post(TRANSACTIONS_PATH_USER_SIGNATURE, userSignature)
-                .then()
-                .statusCode(HttpStatus.CREATED.value())
+            .spec(authenticatedRequestSpec())
+            .contentType(ContentType.JSON)
+            .body(TransactionRequest(BigDecimal.TEN, date, description, INCOME))
+            .`when`()
+            .post(TRANSACTIONS_PATH_USER_SIGNATURE, userSignature)
+            .then()
+            .statusCode(HttpStatus.CREATED.value())
 
         val transactions = findAllTransactions()
 
@@ -118,21 +122,22 @@ class TransactionEndToEndTest : EndToEndTestSetup() {
         val description = "test transaction"
         val inititalDate = LocalDate.parse("2030-01-01")
         val recurrentTransactionRequest = RecurrentTransactionRequest(
-                amount = BigDecimal.TEN,
-                inititalDate = inititalDate,
-                description = description,
-                operation = INCOME,
-                frequency = 1,
-                recurrenceCount = 10,
-                recurrence = Recurrence.MONTHLY
+            amount = BigDecimal.TEN,
+            inititalDate = inititalDate,
+            description = description,
+            operation = INCOME,
+            frequency = 1,
+            recurrenceCount = 10,
+            recurrence = Recurrence.MONTHLY
         )
         given()
-                .contentType(ContentType.JSON)
-                .body(recurrentTransactionRequest)
-                .`when`()
-                .post("/transactions/recurrent/{userSignature}", userSignature)
-                .then()
-                .statusCode(HttpStatus.CREATED.value())
+            .spec(authenticatedRequestSpec())
+            .contentType(ContentType.JSON)
+            .body(recurrentTransactionRequest)
+            .`when`()
+            .post("/transactions/recurrent/{userSignature}", userSignature)
+            .then()
+            .statusCode(HttpStatus.CREATED.value())
 
         val transactions = findAllTransactions().sortedBy { it.date }
         val firstTransaction = transactions[0]
@@ -157,12 +162,13 @@ class TransactionEndToEndTest : EndToEndTestSetup() {
         val transaction = findAllTransactions()[0]
 
         given()
-                .contentType(ContentType.JSON)
-                .`when`()
-                .params("id", listOf(transaction.id))
-                .delete("/transactions")
-                .then()
-                .statusCode(HttpStatus.NO_CONTENT.value())
+            .spec(authenticatedRequestSpec())
+            .contentType(ContentType.JSON)
+            .`when`()
+            .params("id", listOf(transaction.id))
+            .delete("/transactions")
+            .then()
+            .statusCode(HttpStatus.NO_CONTENT.value())
 
         val transactions = findAllTransactions()
 
