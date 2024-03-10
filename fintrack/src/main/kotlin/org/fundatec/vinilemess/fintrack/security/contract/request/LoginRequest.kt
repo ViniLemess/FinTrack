@@ -9,7 +9,7 @@ data class LoginRequest(val email: String, val password: String) {
 
     fun validateRequest() {
         DataValidator()
-            .addCustomConstraint(isEmailValid(), "email", "Invalid email")
+            .addCustomConstraint(isEmailValid(), "email", "Invalid email format")
             .addNotBlankConstraint(password, "password")
             .validate("Invalid login json body, violations must be corrected")
     }
