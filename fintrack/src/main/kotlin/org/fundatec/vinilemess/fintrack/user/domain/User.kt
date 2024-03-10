@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 @Document(collection = "users")
-data class User(
+open class User(
         @Id
         var id: String?,
         val name: String,
