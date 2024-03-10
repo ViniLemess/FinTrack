@@ -41,6 +41,7 @@ class JwtAuthenticationFilter(
         }
 
         authenticateUser(request, token, username)
+        filterChain.doFilter(request, response)
     }
 
     private fun authenticateUser(request: HttpServletRequest, jwtToken: String, username: String) {
