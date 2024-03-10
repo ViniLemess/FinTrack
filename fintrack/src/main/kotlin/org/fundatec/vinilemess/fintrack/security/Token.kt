@@ -10,15 +10,15 @@ private const val BEARER = "Bearer"
 
 @Document(collection = "tokens")
 data class Token(
-        @Id
-        val id: String? = null,
-        @Indexed(unique = true)
-        val token: String,
-        val type: String = BEARER,
-        val isExpired: Boolean,
-        val isRevoked: Boolean,
-        @DBRef(lazy = true)
-        val user: User
+    @Id
+    val id: String? = null,
+    @Indexed(unique = true)
+    val token: String,
+    val type: String = BEARER,
+    val isExpired: Boolean,
+    val isRevoked: Boolean,
+    @DBRef(lazy = true)
+    val user: User
 ) {
     fun invalidateToken(): Token {
         return this.copy(isExpired = true, isRevoked = true)

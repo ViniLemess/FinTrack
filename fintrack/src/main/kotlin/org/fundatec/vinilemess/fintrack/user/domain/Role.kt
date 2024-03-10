@@ -5,12 +5,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 
 enum class Role(private val permissions: Set<Permission>) {
 
-    USER(setOf(
+    USER(
+        setOf(
             Permission.USER_READ,
             Permission.USER_CREATE,
             Permission.USER_UPDATE,
             Permission.USER_DELETE
-    ));
+        )
+    );
 
     fun getAuthorities(): Set<SimpleGrantedAuthority> {
         return permissions.map {

@@ -15,10 +15,13 @@ class TokenRepository(private val mongoTemplate: MongoTemplate) {
 
     fun findValidTokensByUser(userId: String): Collection<Token> {
         return mongoTemplate.find(
-                Query(Criteria.where("user.id").`is`(userId)
-                        .and("isExpired").`is`(false)
-                        .and("isRevoked").`is`(false)),
-                Token::class.java)
+            Query(
+                Criteria.where("user.id").`is`(userId)
+                    .and("isExpired").`is`(false)
+                    .and("isRevoked").`is`(false)
+            ),
+            Token::class.java
+        )
     }
 
     fun upsert(token: Token) {

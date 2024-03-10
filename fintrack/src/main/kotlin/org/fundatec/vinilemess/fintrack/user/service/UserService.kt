@@ -20,7 +20,7 @@ class UserService(private val userRepository: UserRepository, private val passwo
     }
 
     fun existsSignature(userSignature: String): Boolean =
-            userRepository.existsSignature(userSignature)
+        userRepository.existsSignature(userSignature)
 
     private fun isEmailTaken(email: String) {
         userRepository.findByEmail(email)?.let {
@@ -29,13 +29,13 @@ class UserService(private val userRepository: UserRepository, private val passwo
     }
 
     private fun UserRequest.buildUser() = User(
-            id = null,
-            name = this.name,
-            email = this.email,
-            password = passwordEncoder.encode(this.password),
-            transactionSignature = UUID.randomUUID().toString(),
-            role = Role.USER,
-            listOf()
+        id = null,
+        name = this.name,
+        email = this.email,
+        password = passwordEncoder.encode(this.password),
+        transactionSignature = UUID.randomUUID().toString(),
+        role = Role.USER,
+        listOf()
     )
 
     private fun User.buildResponse() = UserResponse(this.name, this.email, this.transactionSignature)

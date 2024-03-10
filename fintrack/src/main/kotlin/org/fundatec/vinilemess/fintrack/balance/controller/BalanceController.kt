@@ -17,6 +17,11 @@ class BalanceController(private val balanceService: BalanceService) {
         @PathVariable("userSignature") userSignature: UserSignature,
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam("date") date: LocalDate?
     ): ResponseEntity<BalanceResponse> {
-        return ResponseEntity.ok(balanceService.calculateBalanceForDate(userSignature.userSignature, date ?: LocalDate.now()))
+        return ResponseEntity.ok(
+            balanceService.calculateBalanceForDate(
+                userSignature.userSignature,
+                date ?: LocalDate.now()
+            )
+        )
     }
 }

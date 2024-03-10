@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class LoginService(
-        private val jwtService: JwtService,
-        private val userRepository: UserRepository,
-        private val tokenRepository: TokenRepository,
-        private val authenticationManager: AuthenticationManager
+    private val jwtService: JwtService,
+    private val userRepository: UserRepository,
+    private val tokenRepository: TokenRepository,
+    private val authenticationManager: AuthenticationManager
 ) {
 
     fun authenticateUser(loginRequest: LoginRequest): LoginResponse {
@@ -34,7 +34,7 @@ class LoginService(
 
     private fun performAuthentication(username: String, password: String) {
         val authRequest =
-                UsernamePasswordAuthenticationToken(username, password)
+            UsernamePasswordAuthenticationToken(username, password)
         authenticationManager.authenticate(authRequest)
     }
 
@@ -48,23 +48,24 @@ class LoginService(
 
     private fun saveTokenForUser(savedUser: User, token: String) {
         val createdToken = Token(
-                id = null,
-                user = savedUser,
-                token = token,
-                isExpired = false,
-                isRevoked = false)
+            id = null,
+            user = savedUser,
+            token = token,
+            isExpired = false,
+            isRevoked = false
+        )
 
         tokenRepository.upsert(createdToken)
     }
 
     private fun createAuthorizedOutput(user: User, token: String, refreshToken: String): LoginResponse {
         return LoginResponse(
-                name = user.name,
-                email = user.email,
-                token = token,
-                refreshToken = refreshToken,
-                userSignature = user.transactionSignature,
-                role = user.role.name
+            name = user.name,
+            email = user.email,
+            token = token,
+            refreshToken = refreshToken,
+            userSignature = user.transactionSignature,
+            role = user.role.name
         )
     }
 }

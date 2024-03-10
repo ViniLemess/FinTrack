@@ -16,9 +16,9 @@ import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
 class JwtAuthenticationFilter(
-        private val jwtService: JwtService,
-        private val tokenRepository: TokenRepository,
-        private val userDetailsService: UserDetailsService
+    private val jwtService: JwtService,
+    private val tokenRepository: TokenRepository,
+    private val userDetailsService: UserDetailsService
 ) : OncePerRequestFilter() {
 
     private fun doesNotHaveValidAuthorizationHeader(request: HttpServletRequest): Boolean {
@@ -26,7 +26,11 @@ class JwtAuthenticationFilter(
         return authorizationHeader.isNullOrEmpty() && !hasValidAuthorizationHeader(request)
     }
 
-    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
+    override fun doFilterInternal(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        filterChain: FilterChain
+    ) {
         if (isLoginRequest(request) || doesNotHaveValidAuthorizationHeader(request)) {
             filterChain.doFilter(request, response)
             return
@@ -50,9 +54,9 @@ class JwtAuthenticationFilter(
 
         if (jwtService.isTokenValid(jwtToken, userDetails) && isTokenValid(token)) {
             val authToken = UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.authorities
+                userDetails,
+                null,
+                userDetails.authorities
             )
             authToken.details = WebAuthenticationDetailsSource().buildDetails(request)
             SecurityContextHolder.getContext().authentication = authToken

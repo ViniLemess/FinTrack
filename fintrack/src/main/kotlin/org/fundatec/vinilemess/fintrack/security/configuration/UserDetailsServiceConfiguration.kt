@@ -13,7 +13,7 @@ class UserDetailsServiceConfiguration {
     fun userDetailsService(userRepository: UserRepository): UserDetailsService {
         return UserDetailsService { username ->
             userRepository.findByEmail(username)
-                    ?: throw UsernameNotFoundException("No user found with the $username email.")
+                ?: throw UsernameNotFoundException("No user found with the $username email.")
         }
     }
 }

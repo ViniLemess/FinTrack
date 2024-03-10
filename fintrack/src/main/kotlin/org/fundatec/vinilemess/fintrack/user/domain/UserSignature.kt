@@ -9,8 +9,8 @@ class UserSignature(val userSignature: String) {
 
     private fun validateUserSignature() {
         DataValidator()
-                .addNotBlankConstraint(userSignature, "userSignature")
-                .validate()
+            .addNotBlankConstraint(userSignature, "userSignature")
+            .validate()
     }
 }
 

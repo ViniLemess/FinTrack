@@ -17,10 +17,12 @@ class FinTrackApplication {
     fun commandLineRunner(userService: UserService): CommandLineRunner {
         return CommandLineRunner {
             try {
-                userService.registerUser(UserRequest(
+                userService.registerUser(
+                    UserRequest(
                         name = "John Doe",
                         email = "johndoe@example.com",
-                        password = "password123")
+                        password = "password123"
+                    )
                 )
             } catch (e: Exception) {
                 logger.warn("Initial user already registered", e)

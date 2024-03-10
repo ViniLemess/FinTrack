@@ -6,7 +6,7 @@ import org.springframework.web.ErrorResponseException
 import java.net.URI
 import java.time.LocalDateTime
 
-class NotFoundException(errorMessage: String):
+class NotFoundException(errorMessage: String) :
     ErrorResponseException(HttpStatus.NOT_FOUND, asProblemDetail(errorMessage), null)
 
 private fun asProblemDetail(message: String): ProblemDetail {

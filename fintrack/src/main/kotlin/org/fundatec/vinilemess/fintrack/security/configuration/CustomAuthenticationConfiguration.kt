@@ -10,8 +10,10 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 
 @Configuration
-class CustomAuthenticationConfiguration(private val passwordEncoder: PasswordEncoder,
-                                        private val userDetailsService: UserDetailsService) {
+class CustomAuthenticationConfiguration(
+    private val passwordEncoder: PasswordEncoder,
+    private val userDetailsService: UserDetailsService
+) {
     @Bean
     fun authenticationProvider(): AuthenticationProvider {
         return DaoAuthenticationProvider().apply {

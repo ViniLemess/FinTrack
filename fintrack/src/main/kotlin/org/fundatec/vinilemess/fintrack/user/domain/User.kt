@@ -9,15 +9,15 @@ import org.springframework.security.core.userdetails.UserDetails
 
 @Document(collection = "users")
 open class User(
-        @Id
-        var id: String?,
-        val name: String,
-        val email: String,
-        private val password: String,
-        val transactionSignature: String,
-        val role: Role,
-        @DBRef(lazy = true)
-        val tokens: Collection<Token>
+    @Id
+    var id: String?,
+    val name: String,
+    val email: String,
+    private val password: String,
+    val transactionSignature: String,
+    val role: Role,
+    @DBRef(lazy = true)
+    val tokens: Collection<Token>
 ) : UserDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority> {

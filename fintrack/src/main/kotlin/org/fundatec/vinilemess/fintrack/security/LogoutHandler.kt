@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler
 import org.springframework.stereotype.Component
 
 @Component
-class LogoutHandler(private val tokenRepository: TokenRepository):  LogoutHandler {
+class LogoutHandler(private val tokenRepository: TokenRepository) : LogoutHandler {
 
     override fun logout(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
         request.getHeader(HttpHeaders.AUTHORIZATION)?.let {

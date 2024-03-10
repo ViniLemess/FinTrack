@@ -15,26 +15,32 @@ import java.time.LocalDate
 class TransactionController(private val transactionService: TransactionService) {
 
     @GetMapping("/{userSignature}")
-    fun getTransactions(@PathVariable("userSignature") userSignature: UserSignature,
-                        @RequestParam("date") date: LocalDate?): ResponseEntity<List<TransactionResponse>> {
+    fun getTransactions(
+        @PathVariable("userSignature") userSignature: UserSignature,
+        @RequestParam("date") date: LocalDate?
+    ): ResponseEntity<List<TransactionResponse>> {
         return ResponseEntity.ok(
-                transactionService.listTransactionsBeforeDateByUserSignature(
-                        userSignature.userSignature,
-                        date ?: LocalDate.now()
-                )
+            transactionService.listTransactionsBeforeDateByUserSignature(
+                userSignature.userSignature,
+                date ?: LocalDate.now()
+            )
         )
     }
 
     @PostMapping("/{userSignature}")
-    fun transact(@RequestBody transactionRequest: TransactionRequest,
-                 @PathVariable("userSignature") userSignature: UserSignature): ResponseEntity<Unit> {
+    fun transact(
+        @RequestBody transactionRequest: TransactionRequest,
+        @PathVariable("userSignature") userSignature: UserSignature
+    ): ResponseEntity<Unit> {
         transactionService.transact(transactionRequest, userSignature.userSignature)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
     @PostMapping("/recurrent/{userSignature}")
-    fun transactRecurrence(@RequestBody recurrentTransactionRequest: RecurrentTransactionRequest,
-                           @PathVariable("userSignature") userSignature: UserSignature): ResponseEntity<Unit> {
+    fun transactRecurrence(
+        @RequestBody recurrentTransactionRequest: RecurrentTransactionRequest,
+        @PathVariable("userSignature") userSignature: UserSignature
+    ): ResponseEntity<Unit> {
         transactionService.transactRecurrence(recurrentTransactionRequest, userSignature.userSignature)
         return ResponseEntity.status(HttpStatus.CREATED).build()
 

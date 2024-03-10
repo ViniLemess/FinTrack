@@ -14,15 +14,15 @@ import java.util.function.Function
 
 @Service
 class JwtService(
-        @Value("\${application.security.jwt.secret-key}") val secretKey: String,
-        @Value("\${application.security.jwt.token.expiration}") val tokenExpiration: Long,
-        @Value("\${application.security.jwt.refresh-token.expiration}") val refreshTokenExpiration: Long
+    @Value("\${application.security.jwt.secret-key}") val secretKey: String,
+    @Value("\${application.security.jwt.token.expiration}") val tokenExpiration: Long,
+    @Value("\${application.security.jwt.refresh-token.expiration}") val refreshTokenExpiration: Long
 ) {
 
     fun generateToken(userDetails: UserDetails): String {
         val extraClaims = mapOf(
-                Pair("role", userDetails.authorities),
-                Pair("email", userDetails.username)
+            Pair("role", userDetails.authorities),
+            Pair("email", userDetails.username)
         )
         return generateToken(extraClaims, userDetails)
     }
@@ -46,12 +46,12 @@ class JwtService(
 
     private fun buildToken(extraClaims: Map<String, *>, userDetails: UserDetails, expiration: Long): String {
         return Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.username)
-                .setIssuedAt(Date(System.currentTimeMillis()))
-                .setExpiration(Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-                .compact()
+            .setClaims(extraClaims)
+            .setSubject(userDetails.username)
+            .setIssuedAt(Date(System.currentTimeMillis()))
+            .setExpiration(Date(System.currentTimeMillis() + expiration))
+            .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+            .compact()
     }
 
     private fun <T> extractClaim(token: String, claimsResolver: Function<Claims, T>): T {
@@ -61,11 +61,11 @@ class JwtService(
 
     private fun extractAllClaims(token: String): Claims {
         return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .body
+            .parserBuilder()
+            .setSigningKey(getSignInKey())
+            .build()
+            .parseClaimsJws(token)
+            .body
     }
 
     private fun getSignInKey(): Key {

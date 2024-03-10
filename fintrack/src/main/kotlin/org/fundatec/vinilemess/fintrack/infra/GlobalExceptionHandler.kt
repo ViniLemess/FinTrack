@@ -19,7 +19,8 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
         request: HttpServletRequest
     ): ResponseEntity<ProblemDetail> {
         logger.error("Authentication Error", authenticationException)
-        val unauthorizedMessage = authenticationException.message ?: "Unauthorized, please make sure you are authenticated correctly"
+        val unauthorizedMessage =
+            authenticationException.message ?: "Unauthorized, please make sure you are authenticated correctly"
         val problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, unauthorizedMessage)
         problemDetail.instance = URI.create(request.requestURI)
         problemDetail.title = "Authentication Error"
