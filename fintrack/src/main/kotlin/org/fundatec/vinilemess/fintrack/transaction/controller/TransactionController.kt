@@ -7,6 +7,7 @@ import org.fundatec.vinilemess.fintrack.transaction.service.TransactionService
 import org.fundatec.vinilemess.fintrack.user.domain.UserSignature
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
@@ -15,6 +16,7 @@ import java.time.LocalDate
 class TransactionController(private val transactionService: TransactionService) {
 
     @GetMapping("/{userSignature}")
+    @PreAuthorize("hasAnyRole('USER')")
     fun getTransactions(
         @PathVariable("userSignature") userSignature: UserSignature,
         @RequestParam("date") date: LocalDate?
@@ -28,6 +30,7 @@ class TransactionController(private val transactionService: TransactionService) 
     }
 
     @PostMapping("/{userSignature}")
+    @PreAuthorize("hasAnyRole('USER')")
     fun transact(
         @RequestBody transactionRequest: TransactionRequest,
         @PathVariable("userSignature") userSignature: UserSignature
@@ -37,6 +40,7 @@ class TransactionController(private val transactionService: TransactionService) 
     }
 
     @PostMapping("/recurrent/{userSignature}")
+    @PreAuthorize("hasAnyRole('USER')")
     fun transactRecurrence(
         @RequestBody recurrentTransactionRequest: RecurrentTransactionRequest,
         @PathVariable("userSignature") userSignature: UserSignature
@@ -47,6 +51,7 @@ class TransactionController(private val transactionService: TransactionService) 
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAnyRole('USER')")
     fun deleteTransactionsByIdList(@RequestParam("id") idList: List<String>): ResponseEntity<Unit> {
         transactionService.deleteTransactionsByIdList(idList)
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build()

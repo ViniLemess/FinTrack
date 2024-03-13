@@ -5,6 +5,7 @@ import org.fundatec.vinilemess.fintrack.balance.service.BalanceService
 import org.fundatec.vinilemess.fintrack.user.domain.UserSignature
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 
@@ -13,6 +14,7 @@ import java.time.LocalDate
 class BalanceController(private val balanceService: BalanceService) {
 
     @GetMapping("/{userSignature}")
+    @PreAuthorize("hasAnyRole('USER')")
     fun getUserBalanceForDate(
         @PathVariable("userSignature") userSignature: UserSignature,
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam("date") date: LocalDate?
