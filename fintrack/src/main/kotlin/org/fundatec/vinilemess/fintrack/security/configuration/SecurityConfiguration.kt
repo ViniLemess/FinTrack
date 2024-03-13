@@ -27,7 +27,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 class SecurityConfiguration(
     private val logoutHandler: LogoutHandler,
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
-    private val authenticationProvider: AuthenticationProvider
+    private val authenticationProvider: AuthenticationProvider,
+    private val delegatedAuthenticationEntryPoint: DelegatedAuthenticationEntryPoint
 ) {
 
     private val whiteListUrls: Array<String> = arrayOf(
@@ -72,6 +73,7 @@ class SecurityConfiguration(
                         SecurityContextHolder.clearContext()
                     }
             }
+            .httpBasic { it.authenticationEntryPoint(this.delegatedAuthenticationEntryPoint) }
             .exceptionHandling(Customizer.withDefaults())
             .build()
     }
