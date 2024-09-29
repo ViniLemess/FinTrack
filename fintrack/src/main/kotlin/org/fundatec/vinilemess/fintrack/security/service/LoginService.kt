@@ -5,8 +5,8 @@ import org.fundatec.vinilemess.fintrack.security.Token
 import org.fundatec.vinilemess.fintrack.security.contract.request.LoginRequest
 import org.fundatec.vinilemess.fintrack.security.contract.response.LoginResponse
 import org.fundatec.vinilemess.fintrack.security.repository.TokenRepository
-import org.fundatec.vinilemess.fintrack.user.domain.User
-import org.fundatec.vinilemess.fintrack.user.repository.UserRepository
+import org.fundatec.vinilemess.fintrack.user.contract.User
+import org.fundatec.vinilemess.fintrack.user.UserRepository
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Service

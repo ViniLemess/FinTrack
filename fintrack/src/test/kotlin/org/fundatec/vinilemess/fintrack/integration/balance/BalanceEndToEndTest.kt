@@ -2,7 +2,7 @@ package org.fundatec.vinilemess.fintrack.integration.balance
 
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.fundatec.vinilemess.fintrack.balance.domain.BalanceResponse
+import org.fundatec.vinilemess.fintrack.balance.BalanceResponse
 import org.fundatec.vinilemess.fintrack.integration.EndToEndTestSetup
 import org.fundatec.vinilemess.fintrack.userSignature
 import org.hamcrest.CoreMatchers.equalTo

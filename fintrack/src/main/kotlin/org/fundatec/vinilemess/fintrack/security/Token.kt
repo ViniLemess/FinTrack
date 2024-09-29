@@ -1,6 +1,6 @@
 package org.fundatec.vinilemess.fintrack.security
 
-import org.fundatec.vinilemess.fintrack.user.domain.User
+import org.fundatec.vinilemess.fintrack.user.contract.User
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.DBRef

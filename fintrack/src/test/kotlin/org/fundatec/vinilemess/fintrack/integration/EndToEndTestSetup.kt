@@ -7,9 +7,9 @@ import org.fundatec.vinilemess.fintrack.data.factory.createExpenseTransactionFor
 import org.fundatec.vinilemess.fintrack.data.factory.createIncomeTransactionForSignature
 import org.fundatec.vinilemess.fintrack.security.contract.request.LoginRequest
 import org.fundatec.vinilemess.fintrack.security.contract.response.LoginResponse
-import org.fundatec.vinilemess.fintrack.transaction.domain.Transaction
-import org.fundatec.vinilemess.fintrack.user.domain.Role
-import org.fundatec.vinilemess.fintrack.user.domain.User
+import org.fundatec.vinilemess.fintrack.transaction.contract.Transaction
+import org.fundatec.vinilemess.fintrack.user.contract.Role
+import org.fundatec.vinilemess.fintrack.user.contract.User
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired

@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.fundatec.vinilemess.fintrack.security.JwtAuthenticationFilter
 import org.fundatec.vinilemess.fintrack.security.LogoutHandler
-import org.fundatec.vinilemess.fintrack.user.domain.enums.Permission
+import org.fundatec.vinilemess.fintrack.user.contract.enums.Permission
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod

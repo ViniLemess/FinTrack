@@ -1,6 +1,6 @@
 package org.fundatec.vinilemess.fintrack.infra
 
-import org.fundatec.vinilemess.fintrack.user.domain.UserSignature
+import org.fundatec.vinilemess.fintrack.user.contract.UserSignature
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
 

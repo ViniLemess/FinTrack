@@ -1,7 +1,7 @@
 package org.fundatec.vinilemess.fintrack
 
-import org.fundatec.vinilemess.fintrack.user.domain.request.UserRequest
-import org.fundatec.vinilemess.fintrack.user.service.UserService
+import org.fundatec.vinilemess.fintrack.user.contract.request.UserRequest
+import org.fundatec.vinilemess.fintrack.user.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication

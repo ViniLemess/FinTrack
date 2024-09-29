@@ -1,7 +1,7 @@
 package org.fundatec.vinilemess.fintrack.data.factory
 
-import org.fundatec.vinilemess.fintrack.transaction.domain.Transaction
-import org.fundatec.vinilemess.fintrack.transaction.domain.enums.TransactionOperation
+import org.fundatec.vinilemess.fintrack.transaction.contract.Transaction
+import org.fundatec.vinilemess.fintrack.transaction.contract.enums.TransactionOperation
 import java.math.BigDecimal
 import java.time.LocalDate
 
