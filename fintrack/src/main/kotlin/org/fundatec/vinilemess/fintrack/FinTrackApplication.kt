@@ -16,7 +16,7 @@ class FinTrackApplication {
     @Bean
     fun commandLineRunner(userService: UserService): CommandLineRunner {
         return CommandLineRunner {
-            try {
+            runCatching {
                 userService.registerUser(
                     UserRequest(
                         name = "John Doe",
@@ -24,9 +24,7 @@ class FinTrackApplication {
                         password = "password123"
                     )
                 )
-            } catch (e: Exception) {
-                logger.warn("Initial user already registered", e)
-            }
+            }.fold({ logger.info("Initial user ${it.name} successfully registered.") }, { logger.warn("Initial user already registered.", it) })
         }
     }
 }
