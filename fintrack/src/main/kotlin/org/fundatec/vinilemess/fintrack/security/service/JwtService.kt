@@ -2,15 +2,15 @@ package org.fundatec.vinilemess.fintrack.security.service
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.Jwts.SIG.HS256
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
-import java.security.Key
 import java.util.*
 import java.util.function.Function
+import javax.crypto.SecretKey
 
 @Service
 class JwtService(
@@ -46,11 +46,11 @@ class JwtService(
 
     private fun buildToken(extraClaims: Map<String, *>, userDetails: UserDetails, expiration: Long): String {
         return Jwts.builder()
-            .setClaims(extraClaims)
-            .setSubject(userDetails.username)
-            .setIssuedAt(Date(System.currentTimeMillis()))
-            .setExpiration(Date(System.currentTimeMillis() + expiration))
-            .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+            .claims(extraClaims)
+            .subject(userDetails.username)
+            .issuedAt(Date(System.currentTimeMillis()))
+            .expiration(Date(System.currentTimeMillis() + expiration))
+            .signWith(getSignInKey(), HS256)
             .compact()
     }
 
@@ -61,14 +61,14 @@ class JwtService(
 
     private fun extractAllClaims(token: String): Claims {
         return Jwts
-            .parserBuilder()
-            .setSigningKey(getSignInKey())
+            .parser()
+            .verifyWith(getSignInKey())
             .build()
-            .parseClaimsJws(token)
-            .body
+            .parseSignedClaims(token)
+            .payload
     }
 
-    private fun getSignInKey(): Key {
+    private fun getSignInKey(): SecretKey {
         val keyBytes = Decoders.BASE64.decode(secretKey)
         return Keys.hmacShaKeyFor(keyBytes)
     }

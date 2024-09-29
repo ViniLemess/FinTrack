@@ -33,7 +33,7 @@ const val DATE_QUERY_NAME = "date"
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
-@ActiveProfiles(profiles = ["e2e"])
+@ActiveProfiles(profiles = ["test"])
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EndToEndTestSetup {
