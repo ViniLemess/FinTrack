@@ -1,0 +1,73 @@
+openapi: 3.0.0
+info:
+  title: Sample Ktor API
+  version: 1.0.0
+  description: This is a simple API documentation for the `/` endpoint built with Ktor.
+servers:
+  - url: "http://0.0.0.0:8080"
+    description: Local development server
+paths:
+  /:
+    get:
+      summary: Retrieve an error response
+      operationId: getError
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: 'Invalid parameters'
+                  status:
+                    type: integer
+                    format: int32
+                    example: 400
+                  detail:
+                    type: string
+                    example: 'Invalid parameters informed'
+                  instance:
+                    type: string
+                    format: uri
+                    example: '/'
+                  properties:
+                    type: object
+                    additionalProperties: true
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'Invalid parameters'
+        status:
+          type: integer
+          format: int32
+          example: 400
+        detail:
+          type: string
+          example: 'Invalid parameters informed'
+        instance:
+          type: string
+          format: uri
+          example: '/'
+        properties:
+          type: object
+          additionalProperties: true
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    SuccessResponse:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
