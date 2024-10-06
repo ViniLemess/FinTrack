@@ -1,1 +1,1 @@
-rootProject.name = "fintrack"
+rootProject.name = "br.com.vinilemess.fintrack"
