@@ -1,4 +1,4 @@
-package transaction
+package br.com.vinilemess.fintrack.transaction
 
 enum class TransactionType {
     INCOME,

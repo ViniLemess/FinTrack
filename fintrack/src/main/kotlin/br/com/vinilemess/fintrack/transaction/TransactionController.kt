@@ -1,6 +1,7 @@
-package transaction
+package br.com.vinilemess.fintrack.transaction
 
 import br.com.vinilemess.fintrack.ProblemDetail
+import com.google.common.net.HttpHeaders.AUTHORIZATION
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -9,7 +10,7 @@ import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import java.net.URI
 
-private const val TRANSACTION_PATH = "/transaction"
+private const val TRANSACTION_PATH = "/br/com/vinilemess/fintrack/transaction"
 
 class TransactionController(private val service: TransactionService) {
 

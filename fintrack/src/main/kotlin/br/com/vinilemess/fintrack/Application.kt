@@ -10,7 +10,7 @@ import kotlinx.serialization.json.Json
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import org.kodein.di.ktor.di
-import transaction.TransactionController
+import br.com.vinilemess.fintrack.transaction.TransactionController
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)

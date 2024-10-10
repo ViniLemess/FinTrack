@@ -1,9 +1,9 @@
-package transaction
+package br.com.vinilemess.fintrack.transaction
 
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
-class TransactionRepository {
-    private val transactions = mutableMapOf<String?, Transaction>()
+class TransactionRepository(private val transactions: MutableMap<String?, Transaction> = ConcurrentHashMap<String?, Transaction>()) {
 
     fun saveTransaction(transaction: Transaction): Transaction = transaction.generateTransactionWithId().also {
         transactions[it.id] = it
