@@ -43,6 +43,7 @@ dependencies {
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
+    testImplementation("io.ktor:ktor-server-tests")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }
 

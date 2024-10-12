@@ -1,5 +1,6 @@
 package br.com.vinilemess.fintrack
 
+import br.com.vinilemess.fintrack.transaction.TransactionController
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
@@ -10,7 +11,6 @@ import kotlinx.serialization.json.Json
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import org.kodein.di.ktor.di
-import br.com.vinilemess.fintrack.transaction.TransactionController
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
@@ -28,6 +28,16 @@ fun Application.module() {
     routing {
         configureSwagger()
         registerControllerRoutes()
+    }
+}
+
+fun Application.testModule() {
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+            ignoreUnknownKeys = true
+        })
     }
 }
 

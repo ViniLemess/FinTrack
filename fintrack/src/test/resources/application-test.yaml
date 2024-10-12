@@ -1,0 +1,6 @@
+ktor:
+  application:
+    modules:
+      - br.com.vinilemess.fintrack.ApplicationKt.testModule
+  deployment:
+    port: 8080
