@@ -1,16 +1,14 @@
 package br.com.vinilemess.fintrack.transaction
 
 import br.com.vinilemess.fintrack.ProblemDetail
-import com.google.common.net.HttpHeaders.AUTHORIZATION
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
-import java.net.URI
 
-private const val TRANSACTION_PATH = "/br/com/vinilemess/fintrack/transaction"
+private const val TRANSACTION_PATH = "/transaction"
 
 class TransactionController(private val service: TransactionService) {
 
@@ -32,7 +30,7 @@ class TransactionController(private val service: TransactionService) {
                         title = "Resource not found",
                         status = 404,
                         detail = "Transaction not found",
-                        instance = URI.create(TRANSACTION_PATH)
+                        instance = TRANSACTION_PATH
                     )
                 )
             }
