@@ -6,6 +6,7 @@ val kodeinDiVersion = "7.22.0"
 val mockkVersion = "1.13.12"
 val kotlinxSerializationVersion = "1.7.3"
 val junitVersion = "5.8.1"
+val mongodbKotlinVersion = "5.2.0"
 
 plugins {
     kotlin("jvm") version "2.0.20"
@@ -14,7 +15,7 @@ plugins {
 }
 
 group = "br.com.vinilemess.fintrack"
-version = "0.0.1"
+version = "1.0.0"
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
@@ -28,18 +29,33 @@ repositories {
 }
 
 dependencies {
+    // Server
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
+    implementation("io.ktor:ktor-server-config-yaml")
+
+    // Logging
+    implementation("ch.qos.logback:logback-classic:$logback_version")
+
+    // Documentation
     implementation("io.ktor:ktor-server-openapi")
+    implementation("io.swagger.codegen.v3:swagger-codegen-generators:$swagger_codegen_version")
+
+    // DI
     implementation("org.kodein.di:kodein-di:$kodeinDiVersion")
     implementation("org.kodein.di:kodein-di-framework-ktor-server-jvm:$kodeinDiVersion")
-    implementation("io.swagger.codegen.v3:swagger-codegen-generators:$swagger_codegen_version")
+
+    // Serialization
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
-    implementation("io.ktor:ktor-server-config-yaml")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
 
+
+    // Database
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:$mongodbKotlinVersion")
+    implementation("org.mongodb:bson-kotlinx:$mongodbKotlinVersion")
+
+    // Testing
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
