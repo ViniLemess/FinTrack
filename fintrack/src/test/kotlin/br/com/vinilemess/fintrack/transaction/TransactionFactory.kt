@@ -5,13 +5,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
 fun defaultTransaction(
-    id: String = "transactionId",
+    transactionSignature: String = "transactionSignature",
     description: String = "test transaction",
     date: LocalDateTime = LocalDateTime.MAX,
     type: TransactionType = TransactionType.INCOME,
     amount: BigDecimal = BigDecimal.TEN
 ) = Transaction(
-    id = id,
+    transactionSignature = transactionSignature,
     description = description,
     date = date,
     type = type,
@@ -19,13 +19,13 @@ fun defaultTransaction(
 )
 
 fun defaultTransactionResponse(
-    id: String = "transactionId",
+    transactionSignature: String = "transactionSignature",
     description: String = "test transaction",
     date: String = ISO_LOCAL_DATE_TIME.format(LocalDateTime.MAX),
     type: TransactionType = TransactionType.INCOME,
     amount: String = BigDecimal.TEN.toString()
 ) = defaultTransaction(
-    id = id,
+    transactionSignature = transactionSignature,
     description = description,
     date = LocalDateTime.parse(date, ISO_LOCAL_DATE_TIME),
     type = type,
@@ -33,8 +33,15 @@ fun defaultTransactionResponse(
 ).toResponse()
 
 fun defaultCreateTransactionRequest(
+    transactionSignature: String = "transactionSignature",
     description: String = "test transaction",
     date: String = ISO_LOCAL_DATE_TIME.format(LocalDateTime.MAX),
     type: TransactionType = TransactionType.INCOME,
     amount: String = BigDecimal.TEN.toString()
-) = CreateTransactionRequest(description = description, date = date, type = type, amount = amount)
+) = CreateTransactionRequest(
+    transactionSignature = transactionSignature,
+    description = description,
+    date = date,
+    type = type,
+    amount = amount
+)

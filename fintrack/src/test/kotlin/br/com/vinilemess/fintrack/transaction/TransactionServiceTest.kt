@@ -2,9 +2,9 @@ package br.com.vinilemess.fintrack.transaction
 
 import io.mockk.every
 import io.mockk.mockk
-import org.junit.jupiter.api.Test
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter.ISO_DATE_TIME
@@ -17,47 +17,37 @@ class TransactionServiceTest {
     @Test
     fun `should save transaction`() {
         val createTransactionRequest = defaultCreateTransactionRequest()
+        every { runBlocking { repository.saveTransaction(any()) } } returns defaultTransaction()
 
-        every { repository.saveTransaction(any()) } returns defaultTransaction()
-
-        val transactionResponse = service.saveTransaction(createTransactionRequest)
-
-        assertNotNull(transactionResponse.id)
-        assertEquals(ISO_DATE_TIME.format(LocalDateTime.MAX), transactionResponse.date)
-        assertEquals(TransactionType.INCOME, transactionResponse.type)
-        assertEquals("test transaction", transactionResponse.description)
-        assertEquals(BigDecimal.TEN.toString(), transactionResponse.amount)
+        runBlocking {
+            service.saveTransaction(createTransactionRequest).onSuccess {
+                assertEquals("transactionSignature", it.transactionSignature)
+                assertEquals(ISO_DATE_TIME.format(LocalDateTime.MAX), it.date)
+                assertEquals(TransactionType.INCOME, it.type)
+                assertEquals("test transaction", it.description)
+                assertEquals(BigDecimal.TEN.toString(), it.amount)
+            }
+        }
     }
 
     @Test
-    fun testFindTransaction() {
-        val transaction = defaultTransaction()
-        val expectedTransactionResponse = defaultTransactionResponse()
-
-        every { repository.findTransaction(any()) } returns transaction
-
-        val foundTransaction = service.findTransaction("transactionId")
-
-        assertEquals(expectedTransactionResponse, foundTransaction)
-    }
-
-    @Test
-    fun testFindAllTransactions() {
+    fun `should return transactions with with provided signature`() {
         val transactions = listOf(
-            defaultTransaction(id = "1"),
-            defaultTransaction(id = "2"),
-            defaultTransaction(id = "3"),
+            defaultTransaction(transactionSignature = "1"),
+            defaultTransaction(transactionSignature = "2"),
+            defaultTransaction(transactionSignature = "3"),
         )
         val expectedTransactions = listOf(
-            defaultTransactionResponse(id = "1"),
-            defaultTransactionResponse(id = "2"),
-            defaultTransactionResponse(id = "3")
+            defaultTransactionResponse(transactionSignature = "1"),
+            defaultTransactionResponse(transactionSignature = "2"),
+            defaultTransactionResponse(transactionSignature = "3")
         )
-        every { repository.findTransactions() } returns transactions
 
-        val foundTransactions = service.findAllTransactions()
+        every { runBlocking { repository.findTransactionsBySignature(any()) } } returns transactions
 
-        assertEquals(3, foundTransactions.size)
-        assertEquals(expectedTransactions, foundTransactions)
+        runBlocking {
+            val foundTransactions = service.findTransactionsBySignature("transactionSignature")
+            assertEquals(expectedTransactions, foundTransactions)
+        }
     }
 }
