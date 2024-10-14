@@ -1,5 +1,6 @@
 package br.com.vinilemess.fintrack
 
+import br.com.vinilemess.fintrack.configuration.MongoProperties
 import br.com.vinilemess.fintrack.transaction.TransactionController
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
@@ -17,7 +18,14 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    di { import(Modules.appModule) }
+    val mongoProperties = MongoProperties(
+        host = environment.config.property("mongodb.host").getString(),
+        database = environment.config.property("mongodb.database").getString(),
+        username = environment.config.property("mongodb.username").getString(),
+        password = environment.config.property("mongodb.password").getString(),
+        authenticateAsAdmin = environment.config.property("mongodb.admin").getString().toBoolean()
+    )
+    di { import(Modules.initializeDependencies(mongoProperties)) }
     install(ContentNegotiation) {
         json(Json {
             prettyPrint = true

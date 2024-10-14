@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
 data class Transaction(
-    val id: String? = null,
+    val transactionSignature: String,
     val amount: BigDecimal,
     val description: String,
     val type: TransactionType,
@@ -15,6 +15,7 @@ data class Transaction(
 
 @Serializable
 data class CreateTransactionRequest(
+    val transactionSignature: String,
     val amount: String,
     val description: String,
     val type: TransactionType,
@@ -22,6 +23,7 @@ data class CreateTransactionRequest(
 )
 
 fun createTransactionFromRequest(createTransactionRequest: CreateTransactionRequest) = Transaction(
+    transactionSignature = createTransactionRequest.transactionSignature,
     amount = BigDecimal(createTransactionRequest.amount),
     description = createTransactionRequest.description,
     type = createTransactionRequest.type,
@@ -30,7 +32,7 @@ fun createTransactionFromRequest(createTransactionRequest: CreateTransactionRequ
 
 @Serializable
 data class TransactionResponse(
-    val id: String?,
+    val transactionSignature: String,
     val amount: String,
     val description: String,
     val type: TransactionType,
@@ -38,7 +40,7 @@ data class TransactionResponse(
 )
 
 fun Transaction.toResponse() = TransactionResponse(
-    id = this.id,
+    transactionSignature = this.transactionSignature,
     amount = this.amount.toString(),
     description = this.description,
     type = this.type,
