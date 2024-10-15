@@ -10,7 +10,6 @@ import kotlinx.serialization.serializer
 import org.junit.jupiter.api.Test
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import java.math.BigDecimal.TEN
 import kotlin.test.assertEquals
 
 private const val TRANSACTION_PATH = "/transaction"
