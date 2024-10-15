@@ -4,10 +4,12 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
+const val TEST_DATE = "2034-12-03T10:15:30"
+
 fun defaultTransaction(
     transactionSignature: String = "transactionSignature",
     description: String = "test transaction",
-    date: LocalDateTime = LocalDateTime.MAX,
+    date: LocalDateTime = LocalDateTime.parse(TEST_DATE, ISO_LOCAL_DATE_TIME),
     type: TransactionType = TransactionType.INCOME,
     amount: BigDecimal = BigDecimal.TEN
 ) = Transaction(
@@ -21,7 +23,7 @@ fun defaultTransaction(
 fun defaultTransactionResponse(
     transactionSignature: String = "transactionSignature",
     description: String = "test transaction",
-    date: String = ISO_LOCAL_DATE_TIME.format(LocalDateTime.MAX),
+    date: String = TEST_DATE,
     type: TransactionType = TransactionType.INCOME,
     amount: String = BigDecimal.TEN.toString()
 ) = defaultTransaction(
@@ -32,10 +34,11 @@ fun defaultTransactionResponse(
     amount = BigDecimal(amount)
 ).toResponse()
 
+
 fun defaultCreateTransactionRequest(
     transactionSignature: String = "transactionSignature",
     description: String = "test transaction",
-    date: String = ISO_LOCAL_DATE_TIME.format(LocalDateTime.MAX),
+    date: String = TEST_DATE,
     type: TransactionType = TransactionType.INCOME,
     amount: String = BigDecimal.TEN.toString()
 ) = CreateTransactionRequest(
