@@ -18,13 +18,7 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    val mongoProperties = MongoProperties(
-        host = environment.config.property("mongodb.host").getString(),
-        database = environment.config.property("mongodb.database").getString(),
-        username = environment.config.property("mongodb.username").getString(),
-        password = environment.config.property("mongodb.password").getString(),
-        authenticateAsAdmin = environment.config.property("mongodb.admin").getString().toBoolean()
-    )
+    val mongoProperties = initializeMongoProperties()
     di { import(Modules.initializeDependencies(mongoProperties)) }
     install(ContentNegotiation) {
         json(Json {
@@ -39,15 +33,14 @@ fun Application.module() {
     }
 }
 
-fun Application.testModule() {
-    install(ContentNegotiation) {
-        json(Json {
-            prettyPrint = true
-            isLenient = true
-            ignoreUnknownKeys = true
-        })
-    }
-}
+private fun Application.initializeMongoProperties() = MongoProperties(
+    host = environment.config.property("mongodb.host").getString(),
+    database = environment.config.property("mongodb.database").getString(),
+    username = environment.config.property("mongodb.username").getString(),
+    password = environment.config.property("mongodb.password").getString(),
+    authenticateAsAdmin = environment.config.property("mongodb.admin").getString().toBoolean(),
+    connectionString = environment.config.propertyOrNull("mongodb.connection-string")?.getString()
+)
 
 private fun Routing.configureSwagger() {
     openAPI(path = "openapi", swaggerFile = "openapi/documentation.yaml") {

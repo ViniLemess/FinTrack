@@ -13,7 +13,7 @@ import org.kodein.di.singleton
 
 object Modules {
     fun initializeDependencies(mongoProperties: MongoProperties) = DI.Module("appModule") {
-        bind<MongoClient>() with singleton { MongoClient.create(mongoProperties.generateConnectionStringWithAuthentication()) }
+        bind<MongoClient>() with singleton { MongoClient.create(mongoProperties.getConnectionStr()) }
         bind<MongoDatabase>() with singleton { instance<MongoClient>().getDatabase(mongoProperties.database) }
         bind<TransactionRepository>() with singleton { TransactionRepository(instance()) }
         bind<TransactionService>() with singleton { TransactionService(instance()) }
