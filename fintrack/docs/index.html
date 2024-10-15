@@ -689,6 +689,21 @@
   <script>
     // Script section to load models into a JS Var
     var defs = {}
+            defs["CreateTransactionRequest"] = {
+  "type" : "object",
+  "properties" : {
+    "amount" : {
+      "type" : "number"
+    },
+    "date" : {
+      "type" : "string",
+      "format" : "date-time"
+    },
+    "description" : {
+      "type" : "string"
+    }
+  }
+};
             defs["ProblemDetail"] = {
   "type" : "object",
   "properties" : {
@@ -742,14 +757,11 @@
             <li class="nav-fixed nav-header active" data-group="_"><a href="#api-_">API Summary</a></li>
 
                   <li class="nav-header" data-group="Default"><a href="#api-Default">API Methods - Default</a></li>
-                    <li data-group="Default" data-name="transactionGet" class="">
-                      <a href="#api-Default-transactionGet">transactionGet</a>
-                    </li>
-                    <li data-group="Default" data-name="transactionIdGet" class="">
-                      <a href="#api-Default-transactionIdGet">transactionIdGet</a>
-                    </li>
                     <li data-group="Default" data-name="transactionPost" class="">
                       <a href="#api-Default-transactionPost">transactionPost</a>
+                    </li>
+                    <li data-group="Default" data-name="transactionTransactionSignatureGet" class="">
+                      <a href="#api-Default-transactionTransactionSignatureGet">transactionTransactionSignatureGet</a>
                     </li>
           </ul>
         </nav>
@@ -772,609 +784,6 @@
         <div id="sections">
                 <section id="api-Default">
                   <h1>Default</h1>
-                    <div id="api-Default-transactionGet">
-                      <article id="api-Default-transactionGet-0" data-group="User" data-name="transactionGet" data-version="0">
-                        <div class="pull-left">
-                          <h1>transactionGet</h1>
-                          <p>Get all transactions</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked"></p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/transaction</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Default-transactionGet-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-Default-transactionGet-0-java">Java</a></li>
-                          <li class=""><a href="#examples-Default-transactionGet-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-Default-transactionGet-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-Default-transactionGet-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-Default-transactionGet-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-Default-transactionGet-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-Default-transactionGet-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-Default-transactionGet-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-Default-transactionGet-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-Default-transactionGet-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-Default-transactionGet-0-curl">
-                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
--H "Accept: application/json"\
-"http://0.0.0.0:8080/transaction"</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-Default-transactionGet-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.DefaultApi;
-
-import java.io.File;
-import java.util.*;
-
-public class DefaultApiExample {
-
-    public static void main(String[] args) {
-        
-        DefaultApi apiInstance = new DefaultApi();
-        try {
-            array[Transaction] result = apiInstance.transactionGet();
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#transactionGet");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-Default-transactionGet-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
-
-public class DefaultApiExample {
-
-    public static void main(String[] args) {
-        DefaultApi apiInstance = new DefaultApi();
-        try {
-            array[Transaction] result = apiInstance.transactionGet();
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#transactionGet");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-Default-transactionGet-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-Default-transactionGet-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-DefaultApi *apiInstance = [[DefaultApi alloc] init];
-
-// Get all transactions
-[apiInstance transactionGetWithCompletionHandler: 
-              ^(array[Transaction] output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Default-transactionGet-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var Fintrack = require('fintrack');
-
-var api = new Fintrack.DefaultApi()
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully. Returned data: ' + data);
-  }
-};
-api.transactionGet(callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-Default-transactionGet-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-Default-transactionGet-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class transactionGetExample
-    {
-        public void main()
-        {
-
-            var apiInstance = new DefaultApi();
-
-            try
-            {
-                // Get all transactions
-                array[Transaction] result = apiInstance.transactionGet();
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling DefaultApi.transactionGet: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Default-transactionGet-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new Swagger\Client\ApiDefaultApi();
-
-try {
-    $result = $api_instance->transactionGet();
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling DefaultApi->transactionGet: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Default-transactionGet-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::DefaultApi;
-
-my $api_instance = WWW::SwaggerClient::DefaultApi->new();
-
-eval { 
-    my $result = $api_instance->transactionGet();
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling DefaultApi->transactionGet: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Default-transactionGet-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.DefaultApi()
-
-try: 
-    # Get all transactions
-    api_response = api_instance.transaction_get()
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling DefaultApi->transactionGet: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-
-
-
-
-
-                          <h2>Responses</h2>
-                            <h3> Status: 200 - A list of transactions </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-transactionGet-200-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-transactionGet-200-schema">
-                                  <div id='responses-transactionGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "A list of transactions",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/Transaction"
-        },
-        "x-content-type" : "application/json"
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-transactionGet-200-schema-data').val(stringify(schema));
-                                        var result = $('#responses-transactionGet-200-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-transactionGet-200-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                        </article>
-                      </div>
-                      <hr>
-                    <div id="api-Default-transactionIdGet">
-                      <article id="api-Default-transactionIdGet-0" data-group="User" data-name="transactionIdGet" data-version="0">
-                        <div class="pull-left">
-                          <h1>transactionIdGet</h1>
-                          <p>Get a transaction by ID</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked"></p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/transaction/{id}</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Default-transactionIdGet-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-Default-transactionIdGet-0-java">Java</a></li>
-                          <li class=""><a href="#examples-Default-transactionIdGet-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-Default-transactionIdGet-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-Default-transactionIdGet-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-Default-transactionIdGet-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-Default-transactionIdGet-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-Default-transactionIdGet-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-Default-transactionIdGet-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-Default-transactionIdGet-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-Default-transactionIdGet-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-Default-transactionIdGet-0-curl">
-                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
--H "Accept: application/json"\
-"http://0.0.0.0:8080/transaction/{id}"</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-Default-transactionIdGet-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.DefaultApi;
-
-import java.io.File;
-import java.util.*;
-
-public class DefaultApiExample {
-
-    public static void main(String[] args) {
-        
-        DefaultApi apiInstance = new DefaultApi();
-        String id = id_example; // String | 
-        try {
-            Transaction result = apiInstance.transactionIdGet(id);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#transactionIdGet");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-Default-transactionIdGet-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
-
-public class DefaultApiExample {
-
-    public static void main(String[] args) {
-        DefaultApi apiInstance = new DefaultApi();
-        String id = id_example; // String | 
-        try {
-            Transaction result = apiInstance.transactionIdGet(id);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#transactionIdGet");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-Default-transactionIdGet-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-Default-transactionIdGet-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *id = id_example; // 
-
-DefaultApi *apiInstance = [[DefaultApi alloc] init];
-
-// Get a transaction by ID
-[apiInstance transactionIdGetWith:id
-              completionHandler: ^(Transaction output, NSError* error) {
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Default-transactionIdGet-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var Fintrack = require('fintrack');
-
-var api = new Fintrack.DefaultApi()
-var id = id_example; // {{String}} 
-
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully. Returned data: ' + data);
-  }
-};
-api.transactionIdGet(id, callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-Default-transactionIdGet-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-Default-transactionIdGet-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class transactionIdGetExample
-    {
-        public void main()
-        {
-
-            var apiInstance = new DefaultApi();
-            var id = id_example;  // String | 
-
-            try
-            {
-                // Get a transaction by ID
-                Transaction result = apiInstance.transactionIdGet(id);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling DefaultApi.transactionIdGet: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Default-transactionIdGet-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new Swagger\Client\ApiDefaultApi();
-$id = id_example; // String | 
-
-try {
-    $result = $api_instance->transactionIdGet($id);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling DefaultApi->transactionIdGet: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Default-transactionIdGet-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::DefaultApi;
-
-my $api_instance = WWW::SwaggerClient::DefaultApi->new();
-my $id = id_example; # String | 
-
-eval { 
-    my $result = $api_instance->transactionIdGet(id => $id);
-    print Dumper($result);
-};
-if ($@) {
-    warn "Exception when calling DefaultApi->transactionIdGet: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Default-transactionIdGet-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.DefaultApi()
-id = id_example # String | 
-
-try: 
-    # Get a transaction by ID
-    api_response = api_instance.transaction_id_get(id)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling DefaultApi->transactionIdGet: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-                            <div class="methodsubtabletitle">Path parameters</div>
-                            <table id="methodsubtable">
-                                <tr>
-                                  <th width="150px">Name</th>
-                                  <th>Description</th>
-                                </tr>
-                                  <tr><td style="width:150px;">id*</td>
-                                  <td>
-                                  
-                                  
-                                      <div id="d2e199_transactionIdGet_id">
-                                          <div class="json-schema-view">
-                                              <div class="primitive">
-                                                  <span class="type">
-                                                      String
-                                                  </span>
-                                  
-                                              </div>
-                                                  <div class="inner required">
-                                                      Required
-                                                  </div>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  </tr>
-                            </table>
-
-
-
-
-
-                          <h2>Responses</h2>
-                            <h3> Status: 200 - Transaction found </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-transactionIdGet-200-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-transactionIdGet-200-schema">
-                                  <div id='responses-transactionIdGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "Transaction found",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/Transaction"
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-transactionIdGet-200-schema-data').val(stringify(schema));
-                                        var result = $('#responses-transactionIdGet-200-schema-200');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-transactionIdGet-200-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                            <h3> Status: 404 - Transaction not found </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                                <li class="active">
-                                  <a data-toggle="tab" href="#responses-transactionIdGet-404-schema">Schema</a>
-                                </li>
-
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-transactionIdGet-404-schema">
-                                  <div id='responses-transactionIdGet-404-schema-404' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
-                                    <script>
-                                      $(document).ready(function() {
-                                        var schemaWrapper = {
-  "description" : "Transaction not found",
-  "content" : {
-    "application/json" : {
-      "schema" : {
-        "$ref" : "#/components/schemas/ProblemDetail"
-      }
-    }
-  }
-};
-                                        var schema = schemaWrapper.content["application/json"].schema;
-                                        if (schema.$ref != null) {
-                                          schema = defsParser.$refs.get(schema.$ref);
-                                        } else {
-                                          schemaWrapper.components = {};
-                                          schemaWrapper.components.schemas = Object.assign({}, defs);
-                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
-                                            console.log(err);
-                                          });
-                                        }
-
-                                        //console.log(JSON.stringify(schema));
-                                        var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-transactionIdGet-404-schema-data').val(stringify(schema));
-                                        var result = $('#responses-transactionIdGet-404-schema-404');
-                                        result.empty();
-                                        result.append(view.render());
-                                      });
-                                    </script>
-                                  </div>
-                                  <input id='responses-transactionIdGet-404-schema-data' type='hidden' value=''></input>
-                                </div>
-                            </div>
-
-                        </article>
-                      </div>
-                      <hr>
                     <div id="api-Default-transactionPost">
                       <article id="api-Default-transactionPost-0" data-group="User" data-name="transactionPost" data-version="0">
                         <div class="pull-left">
@@ -1426,7 +835,7 @@ public class DefaultApiExample {
     public static void main(String[] args) {
         
         DefaultApi apiInstance = new DefaultApi();
-        Transaction body = ; // Transaction | 
+        CreateTransactionRequest body = ; // CreateTransactionRequest | 
         try {
             Transaction result = apiInstance.transactionPost(body);
             System.out.println(result);
@@ -1445,7 +854,7 @@ public class DefaultApiExample {
 
     public static void main(String[] args) {
         DefaultApi apiInstance = new DefaultApi();
-        Transaction body = ; // Transaction | 
+        CreateTransactionRequest body = ; // CreateTransactionRequest | 
         try {
             Transaction result = apiInstance.transactionPost(body);
             System.out.println(result);
@@ -1461,7 +870,7 @@ public class DefaultApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Default-transactionPost-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Transaction *body = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">CreateTransactionRequest *body = ; // 
 
 DefaultApi *apiInstance = [[DefaultApi alloc] init];
 
@@ -1482,7 +891,7 @@ DefaultApi *apiInstance = [[DefaultApi alloc] init];
                               <pre class="prettyprint"><code class="language-js">var Fintrack = require('fintrack');
 
 var api = new Fintrack.DefaultApi()
-var body = ; // {{Transaction}} 
+var body = ; // {{CreateTransactionRequest}} 
 
 var callback = function(error, data, response) {
   if (error) {
@@ -1513,7 +922,7 @@ namespace Example
         {
 
             var apiInstance = new DefaultApi();
-            var body = new Transaction(); // Transaction | 
+            var body = new CreateTransactionRequest(); // CreateTransactionRequest | 
 
             try
             {
@@ -1536,7 +945,7 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\ApiDefaultApi();
-$body = ; // Transaction | 
+$body = ; // CreateTransactionRequest | 
 
 try {
     $result = $api_instance->transactionPost($body);
@@ -1553,7 +962,7 @@ use WWW::SwaggerClient::Configuration;
 use WWW::SwaggerClient::DefaultApi;
 
 my $api_instance = WWW::SwaggerClient::DefaultApi->new();
-my $body = WWW::SwaggerClient::Object::Transaction->new(); # Transaction | 
+my $body = WWW::SwaggerClient::Object::CreateTransactionRequest->new(); # CreateTransactionRequest | 
 
 eval { 
     my $result = $api_instance->transactionPost(body => $body);
@@ -1573,7 +982,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.DefaultApi()
-body =  # Transaction | 
+body =  # CreateTransactionRequest | 
 
 try: 
     # Save a transaction
@@ -1604,7 +1013,7 @@ except ApiException as e:
   "content" : {
     "application/json" : {
       "schema" : {
-        "$ref" : "#/components/schemas/Transaction"
+        "$ref" : "#/components/schemas/CreateTransactionRequest"
       }
     }
   },
@@ -1635,22 +1044,22 @@ except ApiException as e:
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - Transaction saved successfully </h3>
+                            <h3> Status: 201 - Transaction created successfully </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-transactionPost-200-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-transactionPost-201-schema">Schema</a>
                                 </li>
 
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
-                                <div class="tab-pane active" id="responses-transactionPost-200-schema">
-                                  <div id='responses-transactionPost-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-transactionPost-201-schema">
+                                  <div id='responses-transactionPost-201-schema-201' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "Transaction saved successfully",
+  "description" : "Transaction created successfully",
   "content" : {
     "application/json" : {
       "schema" : {
@@ -1672,14 +1081,455 @@ except ApiException as e:
 
                                         //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-transactionPost-200-schema-data').val(stringify(schema));
-                                        var result = $('#responses-transactionPost-200-schema-200');
+                                        $('#responses-transactionPost-201-schema-data').val(stringify(schema));
+                                        var result = $('#responses-transactionPost-201-schema-201');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-transactionPost-200-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-transactionPost-201-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal Error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-transactionPost-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-transactionPost-500-schema">
+                                  <div id='responses-transactionPost-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal Error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetail"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-transactionPost-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-transactionPost-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-transactionPost-500-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Default-transactionTransactionSignatureGet">
+                      <article id="api-Default-transactionTransactionSignatureGet-0" data-group="User" data-name="transactionTransactionSignatureGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>transactionTransactionSignatureGet</h1>
+                          <p>Get transactions by signature</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/transaction/{transactionSignature}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Default-transactionTransactionSignatureGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Default-transactionTransactionSignatureGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Default-transactionTransactionSignatureGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Default-transactionTransactionSignatureGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Default-transactionTransactionSignatureGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Default-transactionTransactionSignatureGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Default-transactionTransactionSignatureGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Default-transactionTransactionSignatureGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Default-transactionTransactionSignatureGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Default-transactionTransactionSignatureGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Default-transactionTransactionSignatureGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Default-transactionTransactionSignatureGet-0-curl">
+                           <pre class="prettyprint"><code class="language-bsh">curl -X GET\
+-H "Accept: application/json"\
+"http://0.0.0.0:8080/transaction/{transactionSignature}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Default-transactionTransactionSignatureGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.DefaultApi;
+
+import java.io.File;
+import java.util.*;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        
+        DefaultApi apiInstance = new DefaultApi();
+        String transactionSignature = transactionSignature_example; // String | 
+        try {
+            array[Transaction] result = apiInstance.transactionTransactionSignatureGet(transactionSignature);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#transactionTransactionSignatureGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Default-transactionTransactionSignatureGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+
+public class DefaultApiExample {
+
+    public static void main(String[] args) {
+        DefaultApi apiInstance = new DefaultApi();
+        String transactionSignature = transactionSignature_example; // String | 
+        try {
+            array[Transaction] result = apiInstance.transactionTransactionSignatureGet(transactionSignature);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling DefaultApi#transactionTransactionSignatureGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Default-transactionTransactionSignatureGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Default-transactionTransactionSignatureGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *transactionSignature = transactionSignature_example; // 
+
+DefaultApi *apiInstance = [[DefaultApi alloc] init];
+
+// Get transactions by signature
+[apiInstance transactionTransactionSignatureGetWith:transactionSignature
+              completionHandler: ^(array[Transaction] output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-transactionTransactionSignatureGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var Fintrack = require('fintrack');
+
+var api = new Fintrack.DefaultApi()
+var transactionSignature = transactionSignature_example; // {{String}} 
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.transactionTransactionSignatureGet(transactionSignature, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Default-transactionTransactionSignatureGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Default-transactionTransactionSignatureGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class transactionTransactionSignatureGetExample
+    {
+        public void main()
+        {
+
+            var apiInstance = new DefaultApi();
+            var transactionSignature = transactionSignature_example;  // String | 
+
+            try
+            {
+                // Get transactions by signature
+                array[Transaction] result = apiInstance.transactionTransactionSignatureGet(transactionSignature);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling DefaultApi.transactionTransactionSignatureGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-transactionTransactionSignatureGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\ApiDefaultApi();
+$transactionSignature = transactionSignature_example; // String | 
+
+try {
+    $result = $api_instance->transactionTransactionSignatureGet($transactionSignature);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->transactionTransactionSignatureGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-transactionTransactionSignatureGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::DefaultApi;
+
+my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $transactionSignature = transactionSignature_example; # String | 
+
+eval { 
+    my $result = $api_instance->transactionTransactionSignatureGet(transactionSignature => $transactionSignature);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling DefaultApi->transactionTransactionSignatureGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Default-transactionTransactionSignatureGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.DefaultApi()
+transactionSignature = transactionSignature_example # String | 
+
+try: 
+    # Get transactions by signature
+    api_response = api_instance.transaction_transaction_signature_get(transactionSignature)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling DefaultApi->transactionTransactionSignatureGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">transactionSignature*</td>
+                                  <td>
+                                  
+                                  
+                                      <div id="d2e199_transactionTransactionSignatureGet_transactionSignature">
+                                          <div class="json-schema-view">
+                                              <div class="primitive">
+                                                  <span class="type">
+                                                      String
+                                                  </span>
+                                  
+                                              </div>
+                                                  <div class="inner required">
+                                                      Required
+                                                  </div>
+                                          </div>
+                                      </div>
+                                  </td>
+                                  </tr>
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - Transactions found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-transactionTransactionSignatureGet-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-transactionTransactionSignatureGet-200-schema">
+                                  <div id='responses-transactionTransactionSignatureGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Transactions found",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Transaction"
+        },
+        "x-content-type" : "application/json"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-transactionTransactionSignatureGet-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-transactionTransactionSignatureGet-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-transactionTransactionSignatureGet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 404 - Transaction not found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-transactionTransactionSignatureGet-404-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-transactionTransactionSignatureGet-404-schema">
+                                  <div id='responses-transactionTransactionSignatureGet-404-schema-404' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Transaction not found",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetail"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-transactionTransactionSignatureGet-404-schema-data').val(stringify(schema));
+                                        var result = $('#responses-transactionTransactionSignatureGet-404-schema-404');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-transactionTransactionSignatureGet-404-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - Internal Error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-transactionTransactionSignatureGet-500-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-transactionTransactionSignatureGet-500-schema">
+                                  <div id='responses-transactionTransactionSignatureGet-500-schema-500' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Internal Error",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/ProblemDetail"
+      }
+    }
+  }
+};
+                                        var schema = schemaWrapper.content["application/json"].schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.components = {};
+                                          schemaWrapper.components.schemas = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-transactionTransactionSignatureGet-500-schema-data').val(stringify(schema));
+                                        var result = $('#responses-transactionTransactionSignatureGet-500-schema-500');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-transactionTransactionSignatureGet-500-schema-data' type='hidden' value=''></input>
                                 </div>
                             </div>
 

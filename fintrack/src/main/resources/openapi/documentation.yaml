@@ -15,43 +15,46 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Transaction'
+              $ref: '#/components/schemas/CreateTransactionRequest'
       responses:
-        '200':
-          description: Transaction saved successfully
+        '201':
+          description: Transaction created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Transaction'
-    get:
-      summary: Get all transactions
-      responses:
-        '200':
-          description: A list of transactions
+        '500':
+          description: Internal Error
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transaction'
-  /transaction/{id}:
+                $ref: '#/components/schemas/ProblemDetail'
+  /transaction/{transactionSignature}:
     get:
-      summary: Get a transaction by ID
+      summary: Get transactions by signature
       parameters:
-        - name: id
+        - name: transactionSignature
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Transaction found
+          description: Transactions found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transaction'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
         '404':
           description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '500':
+          description: Internal Error
           content:
             application/json:
               schema:
@@ -64,6 +67,16 @@ components:
       properties:
         id:
           type: string
+        amount:
+          type: number
+        date:
+          type: string
+          format: date-time
+        description:
+          type: string
+    CreateTransactionRequest:
+      type: object
+      properties:
         amount:
           type: number
         date:
