@@ -1,6 +1,7 @@
 package br.com.vinilemess.fintrack.transaction.integration
 
 import br.com.vinilemess.fintrack.transaction.*
+import br.com.vinilemess.fintrack.transaction.TransactionType.EXPENSE
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -38,12 +39,24 @@ class TransactionIntegrationTest : IntegrationTestSetup() {
 
     @Test
     fun `Should return all saved transaction for transaction signature with status 200`() = integrationTestApplication {
+        val transactionSignature = "testSignature"
+
+        val expectedTransactions = listOf(
+            defaultTransactionResponse(transactionSignature = transactionSignature),
+            defaultTransactionResponse(transactionSignature = transactionSignature, type = EXPENSE),
+        )
+
         application {
             val transactionRepository: TransactionRepository by closestDI().instance<TransactionRepository>()
             runBlocking {
-                transactionRepository.saveTransaction(defaultTransaction(transactionSignature = "testSignature"))
+                transactionRepository.saveTransaction(defaultTransaction(transactionSignature = transactionSignature))
                 transactionRepository.saveTransaction(defaultTransaction())
-                transactionRepository.saveTransaction(defaultTransaction(transactionSignature = "testSignature"))
+                transactionRepository.saveTransaction(
+                    defaultTransaction(
+                        transactionSignature = transactionSignature,
+                        type = EXPENSE
+                    )
+                )
             }
         }
 
@@ -52,13 +65,6 @@ class TransactionIntegrationTest : IntegrationTestSetup() {
         val deserializedTransactions = deserializer.decodeFromString<List<TransactionResponse>>(response.body())
 
         assertEquals(HttpStatusCode.OK, response.status)
-        assertEquals(2, deserializedTransactions.size)
-        deserializedTransactions.forEach { deserializedTransaction ->
-            assertEquals("testSignature", deserializedTransaction.transactionSignature)
-            assertEquals("test transaction", deserializedTransaction.description)
-            assertEquals(TEN.toString(), deserializedTransaction.amount)
-            assertEquals(TransactionType.INCOME, deserializedTransaction.type)
-            assertEquals(TEST_DATE, deserializedTransaction.date)
-        }
+        assertEquals(expectedTransactions, deserializedTransactions)
     }
 }
