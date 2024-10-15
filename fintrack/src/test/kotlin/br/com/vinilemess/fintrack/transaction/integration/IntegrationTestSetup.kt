@@ -28,7 +28,7 @@ abstract class IntegrationTestSetup {
         }
     }
 
-    fun integrationTestApplication(testBlock: suspend ApplicationTestBuilder.() -> Unit) {
+    fun integrationTestApplication(test: suspend ApplicationTestBuilder.() -> Unit) {
         testApplication {
             environment {
                 val applicationConfig = ApplicationConfig("application-test.yaml")
@@ -43,7 +43,7 @@ abstract class IntegrationTestSetup {
                     )
                 )
             }
-            testBlock()
+            test()
         }
     }
 }
