@@ -16,6 +16,6 @@ class TransactionRepository(private val mongoDatabase: MongoDatabase) {
     suspend fun findTransactionsBySignature(transactionSignature: String): List<Transaction> =
         transactions.find(eq("transactionSignature", transactionSignature)).toList()
 
-    suspend fun findTransactionById(id: BsonValue): Transaction =
+    private suspend fun findTransactionById(id: BsonValue): Transaction =
         transactions.find(eq("_id", id)).first()
 }
