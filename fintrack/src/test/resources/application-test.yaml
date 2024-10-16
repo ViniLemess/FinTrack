@@ -21,8 +21,7 @@ logging:
 application:
   security:
     jwt:
-      ## Key for tests only!
-      secret-key: REMOVED
+      secret-key: ${jwt.generated-secret}
       token:
         expiration: 9000000000
       refresh-token:

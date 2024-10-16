@@ -1,5 +1,6 @@
 package org.fundatec.vinilemess.fintrack.integration
 
+import io.jsonwebtoken.Jwts
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import io.restassured.specification.RequestSpecification
@@ -49,17 +50,21 @@ class EndToEndTestSetup {
         RestAssured.port = port.toInt()
     }
 
-    protected fun insertIncomeTransactions(amountToInsert: Int = 5,
-                                           userSignature: String,
-                                           date: LocalDate = LocalDate.now()) {
+    protected fun insertIncomeTransactions(
+        amountToInsert: Int = 5,
+        userSignature: String,
+        date: LocalDate = LocalDate.now()
+    ) {
         for (i in 1..amountToInsert) {
             saveTransaction(createIncomeTransactionForSignature(userSignature, date))
         }
     }
 
-    protected fun insertExpenseTransactions(amountToInsert: Int = 5,
-                                            userSignature: String,
-                                            date: LocalDate = LocalDate.now()) {
+    protected fun insertExpenseTransactions(
+        amountToInsert: Int = 5,
+        userSignature: String,
+        date: LocalDate = LocalDate.now()
+    ) {
         for (i in 1..amountToInsert) {
             saveTransaction(createExpenseTransactionForSignature(userSignature, date))
         }
@@ -70,7 +75,8 @@ class EndToEndTestSetup {
     }
 
     protected fun insertUser(transactionSignature: String) {
-        mongoTemplate.save(User(
+        mongoTemplate.save(
+            User(
                 id = null,
                 name = "tester",
                 email = "tester@tester.com",
@@ -78,7 +84,8 @@ class EndToEndTestSetup {
                 transactionSignature = transactionSignature,
                 role = Role.USER,
                 tokens = listOf()
-        ), USERS_COLLECTION)
+            ), USERS_COLLECTION
+        )
     }
 
     protected fun clearTransactions() {
@@ -111,9 +118,15 @@ class EndToEndTestSetup {
 
         @JvmStatic
         @DynamicPropertySource
-        fun mongoDbProperties(registry: DynamicPropertyRegistry) {
+        fun dynamicApplicationProperties(registry: DynamicPropertyRegistry) {
             registry.add("spring.data.mongodb.uri") {
                 mongoDBContainer.replicaSetUrl
+            }
+
+            registry.add("jwt.generated-secret") {
+                val secureKey = Jwts.SIG.HS512.key().build().encoded
+                val base64Key = java.util.Base64.getEncoder().encodeToString(secureKey)
+                base64Key
             }
         }
 
