@@ -1,7 +1,6 @@
 package br.com.vinilemess.fintrack
 
 import br.com.vinilemess.fintrack.configuration.MongoProperties
-import br.com.vinilemess.fintrack.transaction.TransactionController
 import br.com.vinilemess.fintrack.transaction.TransactionRepository
 import br.com.vinilemess.fintrack.transaction.TransactionService
 import com.mongodb.kotlin.client.coroutine.MongoClient
@@ -17,6 +16,5 @@ object Modules {
         bind<MongoDatabase>() with singleton { instance<MongoClient>().getDatabase(mongoProperties.database) }
         bind<TransactionRepository>() with singleton { TransactionRepository(instance()) }
         bind<TransactionService>() with singleton { TransactionService(instance()) }
-        bind<TransactionController>() with singleton { TransactionController(instance()) }
     }
 }

@@ -47,7 +47,7 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.handleFailure(result:
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.handleSuccess(
     status: HttpStatusCode,
-    result: ApiResult<Any>
+    result: Success<Any>
 ) {
-    call.respond(status = status, message = result)
+    call.respond(status = status, message = result.value)
 }
