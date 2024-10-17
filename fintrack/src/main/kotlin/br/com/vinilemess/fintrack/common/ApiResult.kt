@@ -7,9 +7,7 @@ sealed class ApiResult<out T> {
     data class Success<out T>(val value: T) : ApiResult<T>()
     data class Failure(val problemDetail: ProblemDetail) : ApiResult<Nothing>() {
 
-        fun setInstance(instance: String) {
-            problemDetail.instance = instance
-        }
+        fun copyWithNewInstance(instance: String) = Failure(problemDetail.copy(instance = instance))
     }
 
     inline fun onSuccess(action: (T) -> Unit): ApiResult<T> {

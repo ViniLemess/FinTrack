@@ -36,12 +36,10 @@ suspend fun PipelineContext<Unit, ApplicationCall>.handleRequest(
 }
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.handleFailure(result: Failure) {
-    result.problemDetail
-    result.setInstance(call.request.path())
 
     call.respond(
         status = HttpStatusCode.fromValue(result.problemDetail.status),
-        message = result.problemDetail
+        message = result.copyWithNewInstance(call.request.path())
     )
 }
 
