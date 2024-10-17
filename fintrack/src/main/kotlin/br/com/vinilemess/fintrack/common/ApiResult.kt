@@ -12,12 +12,12 @@ sealed class ApiResult<out T> {
         }
     }
 
-    fun onSuccess(action: (T) -> Unit): ApiResult<T> {
+    inline fun onSuccess(action: (T) -> Unit): ApiResult<T> {
         if (this is Success) action(value)
         return this
     }
 
-    fun onFailure(action: (ProblemDetail) -> Unit): ApiResult<T> {
+    inline fun onFailure(action: (ProblemDetail) -> Unit): ApiResult<T> {
         if (this is Failure) action(problemDetail)
         return this
     }
