@@ -1,6 +1,6 @@
 package br.com.vinilemess.fintrack.transaction
 
-import br.com.vinilemess.fintrack.handleRequest
+import br.com.vinilemess.fintrack.common.handleRequest
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -14,9 +14,10 @@ class TransactionController(private val service: TransactionService) {
     fun registerRoutes(routing: Routing) {
         routing.route(TRANSACTION_PATH) {
             post {
-                handleRequest({
-                    service.saveTransaction(call.receive<CreateTransactionRequest>()).getOrThrow()
-                }, HttpStatusCode.Created)
+                handleRequest(
+                    { service.saveTransaction(call.receive<CreateTransactionRequest>()) },
+                    HttpStatusCode.Created
+                )
             }
             get("{transactionSignature}") {
                 handleRequest({

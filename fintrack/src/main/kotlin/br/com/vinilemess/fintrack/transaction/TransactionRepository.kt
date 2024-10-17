@@ -9,9 +9,8 @@ import org.bson.BsonValue
 class TransactionRepository(private val mongoDatabase: MongoDatabase) {
     private val transactions = this.mongoDatabase.getCollection<Transaction>("transactions")
 
-    suspend fun saveTransaction(transaction: Transaction): Transaction? {
-        return transactions.insertOne(transaction).insertedId?.let { findTransactionById(it) }
-    }
+    suspend fun saveTransaction(transaction: Transaction): Transaction? =
+        transactions.insertOne(transaction).insertedId?.let { findTransactionById(it) }
 
     suspend fun findTransactionsBySignature(transactionSignature: String): List<Transaction> =
         transactions.find(eq("transactionSignature", transactionSignature)).toList()

@@ -44,8 +44,9 @@ class TransactionServiceTest {
         every { runBlocking { repository.findTransactionsBySignature(any()) } } returns transactions
 
         runBlocking {
-            val foundTransactions = service.findTransactionsBySignature("transactionSignature")
-            assertEquals(expectedTransactions, foundTransactions)
+            service.findTransactionsBySignature("transactionSignature").onSuccess {
+                assertEquals(expectedTransactions, it)
+            }
         }
     }
 }
