@@ -5,8 +5,8 @@ import br.com.vinilemess.fintrack.error.ProblemDetail
 sealed class ApiResult<out T> {
 
     data class Success<out T>(val value: T) : ApiResult<T>()
-    data class Failure(val problemDetail: ProblemDetail) : ApiResult<Nothing>() {
 
+    data class Failure(val problemDetail: ProblemDetail) : ApiResult<Nothing>() {
         fun copyWithNewInstance(instance: String) = Failure(problemDetail.copy(instance = instance))
     }
 
