@@ -20,7 +20,7 @@ class TransactionServiceTest {
         runBlocking {
             service.saveTransaction(createTransactionRequest).onSuccess {
                 assertEquals("transactionSignature", it.transactionSignature)
-                assertEquals(TEST_DATE, it.date)
+                assertEquals(testDate, it.date)
                 assertEquals(TransactionType.INCOME, it.type)
                 assertEquals("test transaction", it.description)
                 assertEquals(BigDecimal.TEN.toString(), it.amount)
