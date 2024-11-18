@@ -7,23 +7,15 @@ import br.com.vinilemess.fintrack.error.ProblemDetail
 
 class TransactionService(private val transactionRepository: TransactionRepository) {
 
-    suspend fun saveTransaction(createTransactionRequest: CreateTransactionRequest): ApiResult<TransactionResponse> =
-        createTransactionRequest.toTransaction().let { transaction ->
-            transactionRepository.saveTransaction(transaction)
-                ?.toResponse()
-                ?.let { Success(it) }
-                ?: Failure(
-                    ProblemDetail(
-                        title = "Internal Error",
-                        status = 500,
-                        detail = "Something unexpected happened",
-                    )
-                )
-        }
+    suspend fun saveTransaction(createTransactionRequest: CreateTransactionRequest): ApiResult<TransactionInfo> =
+        Success(transactionRepository.saveTransaction(createTransactionRequest))
 
-
-    suspend fun findTransactionsBySignature(id: String): Success<List<TransactionResponse>> =
-        Success(transactionRepository.findTransactionsBySignature(id).map {
-            it.toResponse()
-        })
+    suspend fun findTransactionById(id: Long): ApiResult<TransactionInfo> =
+        transactionRepository.findTransactionById(id)?.let { Success(it) } ?: Failure(
+            ProblemDetail(
+                title = "Resource not Found",
+                status = 404,
+                detail = "Transaction with id $id not found"
+            )
+        )
 }

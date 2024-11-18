@@ -7,12 +7,15 @@ val mockkVersion = "1.13.12"
 val kotlinxSerializationVersion = "1.7.3"
 val junitVersion = "5.8.1"
 val mongodbKotlinVersion = "5.2.0"
-val testContainersVersion = "1.20.2"
+val testContainersVersion = "1.20.3"
+val exposedVersion = "0.56.0"
 
 plugins {
     kotlin("jvm") version "2.0.20"
     kotlin("plugin.serialization") version "2.0.20"
     id("io.ktor.plugin") version "2.3.12"
+    id("org.springframework.boot") version "3.3.5"
+    id("io.spring.dependency-management") version "1.1.6"
 }
 
 group = "br.com.vinilemess.fintrack"
@@ -53,8 +56,13 @@ dependencies {
 
 
     // Database
-    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:$mongodbKotlinVersion")
-    implementation("org.mongodb:bson-kotlinx:$mongodbKotlinVersion")
+//    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:$mongodbKotlinVersion")
+//    implementation("org.mongodb:bson-kotlinx:$mongodbKotlinVersion")
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+    implementation("org.postgresql:postgresql")
+
 
     // Testing
     testImplementation("io.mockk:mockk:$mockkVersion")
@@ -64,7 +72,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("org.testcontainers:testcontainers:$testContainersVersion")
     testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
-    testImplementation("org.testcontainers:mongodb:$testContainersVersion")
+    testImplementation("org.testcontainers:postgresql:$testContainersVersion")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.named<Test>("test") {

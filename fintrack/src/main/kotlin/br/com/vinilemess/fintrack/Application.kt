@@ -1,6 +1,7 @@
 package br.com.vinilemess.fintrack
 
-import br.com.vinilemess.fintrack.configuration.MongoProperties
+import br.com.vinilemess.fintrack.configuration.PostgresProperties
+import br.com.vinilemess.fintrack.configuration.configureDatabaseTables
 import br.com.vinilemess.fintrack.configuration.configureSwagger
 import br.com.vinilemess.fintrack.transaction.configureTransactionRouting
 import io.ktor.serialization.kotlinx.json.*
@@ -14,8 +15,8 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    val mongoProperties = initializeMongoProperties()
-    di { import(Modules.initializeDependencies(mongoProperties)) }
+    val postgresProperties = initializePostgresProperties()
+    di { import(Modules.initializeDependencies(postgresProperties)) }
     install(ContentNegotiation) {
         json(Json {
             prettyPrint = true
@@ -25,13 +26,17 @@ fun Application.module() {
     }
     configureSwagger()
     configureTransactionRouting()
+    configureDatabaseTables()
 }
 
-private fun Application.initializeMongoProperties() = MongoProperties(
-    host = environment.config.property("mongodb.host").getString(),
-    database = environment.config.property("mongodb.database").getString(),
-    username = environment.config.property("mongodb.username").getString(),
-    password = environment.config.property("mongodb.password").getString(),
-    authenticateAsAdmin = environment.config.property("mongodb.admin").getString().toBoolean(),
-    connectionString = environment.config.propertyOrNull("mongodb.connection-string")?.getString()
-)
+private fun Application.initializePostgresProperties(): PostgresProperties {
+    return environment.config.let { config ->
+        PostgresProperties(
+            host = config.property("postgres.host").getString(),
+            port = config.propertyOrNull("postgres.port")?.getString()?.toInt() ?: 5432,
+            database = config.property("postgres.database").getString(),
+            username = config.property("postgres.username").getString(),
+            password = config.property("postgres.password").getString()
+        )
+    }
+}

@@ -12,7 +12,8 @@ import org.kodein.di.ktor.closestDI
 private const val TRANSACTION_PATH = "/transaction"
 
 fun Application.configureTransactionRouting() {
-    val transactionService by closestDI().instance<TransactionService>()
+    val transactionService: TransactionService by closestDI().instance<TransactionService>()
+
     routing {
         route(TRANSACTION_PATH) {
             post {
@@ -21,9 +22,9 @@ fun Application.configureTransactionRouting() {
                     HttpStatusCode.Created
                 )
             }
-            get("{transactionSignature}") {
+            get("/{id}") {
                 handleRequest({
-                    transactionService.findTransactionsBySignature(call.parameters.getOrFail("transactionSignature"))
+                    transactionService.findTransactionById(call.parameters.getOrFail("id").toLong())
                 })
             }
         }

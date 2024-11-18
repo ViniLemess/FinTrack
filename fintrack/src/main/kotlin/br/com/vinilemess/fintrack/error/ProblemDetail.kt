@@ -7,6 +7,7 @@ data class ProblemDetail(
     val title: String,
     val status: Int,
     val detail: String,
-    val instance: String = "about:blank",
+    val type: String = "about:blank",
+    var instance: String = "",
     val properties: Map<String, String> = emptyMap()
 )
