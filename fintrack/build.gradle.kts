@@ -1,4 +1,3 @@
-
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val swaggerCodegenVersion = "1.0.36"
@@ -54,7 +53,6 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 
-
     // Database
 //    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:$mongodbKotlinVersion")
 //    implementation("org.mongodb:bson-kotlinx:$mongodbKotlinVersion")
@@ -62,7 +60,6 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
     implementation("org.postgresql:postgresql")
-
 
     // Testing
     testImplementation("io.mockk:mockk:$mockkVersion")
