@@ -18,24 +18,23 @@ private const val TRANSACTION_PATH = "/transaction"
 class TransactionsIntegrationTest : IntegrationTestSetup() {
 
     @Test
-    fun `Should return created transaction with status 201 when a transaction is successfully saved`() =
-        setupApplicationTest {
-            val createTransactionRequest = defaultCreateTransactionRequest(type = TransactionType.INVESTMENT)
+    fun `Should return created transaction with status 201 when a transaction is successfully saved`() = setupApplicationTest {
+        val createTransactionRequest = defaultCreateTransactionRequest(type = TransactionType.INVESTMENT)
 
-            val response = client.post(TRANSACTION_PATH) {
-                setBody(deserializer.encodeToString(serializer(), createTransactionRequest))
-                contentType(ContentType.Application.Json)
-            }
-
-            val deserializedTransaction = deserializer.decodeFromString<TransactionInfo>(response.body())
-
-            assertEquals(HttpStatusCode.Created, response.status)
-            assertEquals(1, deserializedTransaction.id)
-            assertEquals(createTransactionRequest.description, deserializedTransaction.description)
-            assertEquals("10.00", deserializedTransaction.amount.toString())
-            assertEquals(createTransactionRequest.type, deserializedTransaction.type)
-            assertEquals(createTransactionRequest.date, deserializedTransaction.date)
+        val response = client.post(TRANSACTION_PATH) {
+            setBody(deserializer.encodeToString(serializer(), createTransactionRequest))
+            contentType(ContentType.Application.Json)
         }
+
+        val deserializedTransaction = deserializer.decodeFromString<TransactionInfo>(response.body())
+
+        assertEquals(HttpStatusCode.Created, response.status)
+        assertEquals(1, deserializedTransaction.id)
+        assertEquals(createTransactionRequest.description, deserializedTransaction.description)
+        assertEquals("10.00", deserializedTransaction.amount.toString())
+        assertEquals(createTransactionRequest.type, deserializedTransaction.type)
+        assertEquals(createTransactionRequest.date, deserializedTransaction.date)
+    }
 
     @Test
     fun `Should return transaction by id with status code 200 when found`() = setupApplicationTest {
