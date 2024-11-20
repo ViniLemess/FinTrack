@@ -1,4 +1,4 @@
-package br.com.vinilemess.fintrack.error
+package br.com.vinilemess.fintrack.common
 
 import kotlinx.serialization.Serializable
 

@@ -2,7 +2,6 @@ package br.com.vinilemess.fintrack.common
 
 import br.com.vinilemess.fintrack.common.ApiResult.Failure
 import br.com.vinilemess.fintrack.common.ApiResult.Success
-import br.com.vinilemess.fintrack.error.ProblemDetail
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

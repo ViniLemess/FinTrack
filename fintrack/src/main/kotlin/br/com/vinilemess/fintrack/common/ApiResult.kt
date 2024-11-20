@@ -1,7 +1,5 @@
 package br.com.vinilemess.fintrack.common
 
-import br.com.vinilemess.fintrack.error.ProblemDetail
-
 sealed class ApiResult<out T> {
 
     data class Success<out T>(val value: T) : ApiResult<T>()

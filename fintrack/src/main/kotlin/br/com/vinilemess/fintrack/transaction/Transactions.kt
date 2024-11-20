@@ -20,16 +20,6 @@ object Transactions : Table("transactions") {
 }
 
 @Serializable
-data class CreateTransactionRequest(
-    @Serializable(with = BigDecimalSerializer::class)
-    val amount: BigDecimal,
-    val description: String,
-    val type: TransactionType,
-    @Serializable(with = LocalDateTimeSerializer::class)
-    val date: LocalDateTime,
-)
-
-@Serializable
 data class TransactionInfo(
     val id: Long,
     @Serializable(with = BigDecimalSerializer::class)

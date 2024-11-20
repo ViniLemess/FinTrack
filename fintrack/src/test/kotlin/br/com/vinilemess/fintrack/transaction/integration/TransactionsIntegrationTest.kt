@@ -1,6 +1,6 @@
 package br.com.vinilemess.fintrack.transaction.integration
 
-import br.com.vinilemess.fintrack.error.ProblemDetail
+import br.com.vinilemess.fintrack.common.ProblemDetail
 import br.com.vinilemess.fintrack.transaction.*
 import br.com.vinilemess.fintrack.transaction.TransactionType.INCOME
 import io.ktor.client.call.*
