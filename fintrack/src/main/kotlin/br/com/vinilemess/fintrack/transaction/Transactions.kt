@@ -1,5 +1,6 @@
 package br.com.vinilemess.fintrack.transaction
 
+import br.com.vinilemess.fintrack.common.database.CustomColumns.Companion.money
 import br.com.vinilemess.fintrack.common.serializers.BigDecimalSerializer
 import br.com.vinilemess.fintrack.common.serializers.LocalDateTimeSerializer
 import kotlinx.serialization.Serializable
@@ -11,7 +12,7 @@ import java.time.LocalDateTime
 
 object Transactions : Table("transactions") {
     val id: Column<Long> = long("id").autoIncrement()
-    val amount: Column<BigDecimal> = decimal("amount", 18, 2)
+    val amount: Column<BigDecimal> = money("amount")
     val description: Column<String> = varchar("description", 256)
     val type: Column<TransactionType> = enumeration("type", TransactionType::class)
     val date: Column<LocalDateTime> = datetime("date")

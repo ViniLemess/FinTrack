@@ -19,7 +19,7 @@ class TransactionsIntegrationTest : IntegrationTestSetup() {
 
     @Test
     fun `Should return created transaction with status 201 when a transaction is successfully saved`() = setupApplicationTest {
-        val createTransactionRequest = defaultCreateTransactionRequest(type = TransactionType.INVESTMENT)
+        val createTransactionRequest = defaultCreateTransactionRequest(type = TransactionType.EXPENSE, amount = BigDecimal("-10.00"))
 
         val response = client.post(TRANSACTION_PATH) {
             setBody(deserializer.encodeToString(serializer(), createTransactionRequest))
@@ -31,7 +31,7 @@ class TransactionsIntegrationTest : IntegrationTestSetup() {
         assertEquals(HttpStatusCode.Created, response.status)
         assertEquals(1, deserializedTransaction.id)
         assertEquals(createTransactionRequest.description, deserializedTransaction.description)
-        assertEquals("10.00", deserializedTransaction.amount.toString())
+        assertEquals("-10.00", deserializedTransaction.amount.toString())
         assertEquals(createTransactionRequest.type, deserializedTransaction.type)
         assertEquals(createTransactionRequest.date, deserializedTransaction.date)
     }
