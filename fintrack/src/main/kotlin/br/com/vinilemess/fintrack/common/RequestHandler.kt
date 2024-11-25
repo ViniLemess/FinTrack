@@ -4,6 +4,7 @@ import br.com.vinilemess.fintrack.common.ApiResult.Failure
 import br.com.vinilemess.fintrack.common.ApiResult.Success
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
@@ -22,15 +23,26 @@ suspend fun PipelineContext<Unit, ApplicationCall>.handleRequest(
         }
     }.onFailure {
         logger.error("Error executing ${call.request.httpMethod} request for ${call.request.path()}", it)
-        call.respond(
-            status = HttpStatusCode.InternalServerError,
-            message = ProblemDetail(
-                title = "Internal Error",
-                status = 500,
-                detail = "Something went wrong with your request :(",
-                instance = call.request.path()
+        when (it) {
+            is BadRequestException -> call.respond(
+                status = HttpStatusCode.BadRequest,
+                message = ProblemDetail(
+                    title = "Bad Request",
+                    status = 400,
+                    detail = "Invalid request, make sure to inform the correct data",
+                    instance = call.request.path()
+                )
             )
-        )
+            else -> call.respond(
+                status = HttpStatusCode.InternalServerError,
+                message = ProblemDetail(
+                    title = "Internal Error",
+                    status = 500,
+                    detail = "Something went wrong with your request :(",
+                    instance = call.request.path()
+                )
+            )
+        }
     }
 }
 
