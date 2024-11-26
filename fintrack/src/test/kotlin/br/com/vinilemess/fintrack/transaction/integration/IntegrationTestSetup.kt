@@ -1,8 +1,10 @@
 package br.com.vinilemess.fintrack.transaction.integration
 
+import br.com.vinilemess.fintrack.account.Accounts
 import br.com.vinilemess.fintrack.transaction.Transactions
 import io.ktor.server.config.*
 import io.ktor.server.testing.*
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -14,10 +16,12 @@ import org.testcontainers.utility.DockerImageName
 @Testcontainers
 abstract class IntegrationTestSetup {
 
+    @OptIn(ExperimentalSerializationApi::class)
     protected val deserializer = Json(Json.Default) {
         ignoreUnknownKeys = true
         coerceInputValues = true
         isLenient = true
+        explicitNulls = false
     }
 
     protected companion object {
@@ -54,8 +58,8 @@ abstract class IntegrationTestSetup {
     @AfterEach
     fun cleanupDatabase() {
         transaction {
-            SchemaUtils.drop(Transactions)
-            SchemaUtils.create(Transactions)
+            SchemaUtils.drop(Transactions, Accounts)
+            SchemaUtils.create(Transactions, Accounts)
         }
     }
 }
