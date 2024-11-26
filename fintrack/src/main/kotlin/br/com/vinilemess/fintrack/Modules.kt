@@ -1,5 +1,7 @@
 package br.com.vinilemess.fintrack
 
+import br.com.vinilemess.fintrack.account.AccountRepository
+import br.com.vinilemess.fintrack.account.AccountService
 import br.com.vinilemess.fintrack.configuration.PostgresProperties
 import br.com.vinilemess.fintrack.transaction.TransactionRepository
 import br.com.vinilemess.fintrack.transaction.TransactionService
@@ -23,7 +25,13 @@ object Modules {
             }
         }
         bind<Database>() with singleton { Database.connect(instance<PGSimpleDataSource>()) }
+
+        // Transaction
         bind<TransactionRepository>() with singleton { TransactionRepository(instance()) }
         bind<TransactionService>() with singleton { TransactionService(instance()) }
+
+        // Account
+        bind<AccountRepository>() with singleton { AccountRepository(instance()) }
+        bind<AccountService>() with singleton { AccountService(instance()) }
     }
 }

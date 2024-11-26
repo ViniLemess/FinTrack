@@ -1,5 +1,6 @@
 package br.com.vinilemess.fintrack
 
+import br.com.vinilemess.fintrack.account.configureAccountRouting
 import br.com.vinilemess.fintrack.configuration.PostgresProperties
 import br.com.vinilemess.fintrack.configuration.configureDatabaseTables
 import br.com.vinilemess.fintrack.configuration.configureSwagger
@@ -7,6 +8,7 @@ import br.com.vinilemess.fintrack.transaction.configureTransactionRouting
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.kodein.di.ktor.di
 
@@ -14,6 +16,7 @@ fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
 }
 
+@OptIn(ExperimentalSerializationApi::class)
 fun Application.module() {
     val postgresProperties = initializePostgresProperties()
     di { import(Modules.initializeDependencies(postgresProperties)) }
@@ -22,10 +25,12 @@ fun Application.module() {
             prettyPrint = true
             isLenient = true
             ignoreUnknownKeys = true
+            explicitNulls = false
         })
     }
     configureSwagger()
     configureTransactionRouting()
+    configureAccountRouting()
     configureDatabaseTables()
 }
 
