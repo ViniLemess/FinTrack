@@ -1,6 +1,5 @@
 package br.com.vinilemess.fintrack
 
-import br.com.vinilemess.fintrack.account.configureAccountRouting
 import br.com.vinilemess.fintrack.configuration.PostgresProperties
 import br.com.vinilemess.fintrack.configuration.configureDatabaseTables
 import br.com.vinilemess.fintrack.configuration.configureSwagger
@@ -30,7 +29,6 @@ fun Application.module() {
     }
     configureSwagger()
     configureTransactionRouting()
-    configureAccountRouting()
     configureDatabaseTables()
 }
 

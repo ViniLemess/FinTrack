@@ -1,7 +1,5 @@
 package br.com.vinilemess.fintrack
 
-import br.com.vinilemess.fintrack.account.AccountRepository
-import br.com.vinilemess.fintrack.account.AccountService
 import br.com.vinilemess.fintrack.configuration.PostgresProperties
 import br.com.vinilemess.fintrack.transaction.TransactionRepository
 import br.com.vinilemess.fintrack.transaction.TransactionService
@@ -14,6 +12,8 @@ import org.postgresql.ds.PGSimpleDataSource
 
 object Modules {
     fun initializeDependencies(postgresProperties: PostgresProperties) = DI.Module("appModule") {
+
+        // Postgres Database
         bind<PGSimpleDataSource>() with singleton {
             postgresProperties.let {
                 PGSimpleDataSource().apply {
@@ -29,9 +29,5 @@ object Modules {
         // Transaction
         bind<TransactionRepository>() with singleton { TransactionRepository(instance()) }
         bind<TransactionService>() with singleton { TransactionService(instance()) }
-
-        // Account
-        bind<AccountRepository>() with singleton { AccountRepository(instance()) }
-        bind<AccountService>() with singleton { AccountService(instance()) }
     }
 }

@@ -11,5 +11,5 @@ data class CreateTransactionRequest(
     @property:Serializable(with = BigDecimalSerializer::class) val amount: BigDecimal,
     val description: String,
     val type: TransactionType,
-    @property:Serializable(with = LocalDateTimeSerializer::class) val date: LocalDateTime,
+    @property:Serializable(with = LocalDateTimeSerializer::class) val date: LocalDateTime = LocalDateTime.now(),
 )

@@ -1,6 +1,5 @@
 package br.com.vinilemess.fintrack.configuration
 
-import br.com.vinilemess.fintrack.account.Accounts
 import br.com.vinilemess.fintrack.transaction.Transactions
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
@@ -14,7 +13,6 @@ fun Application.configureDatabaseTables() {
     closestDI().direct.instance<Database>().apply {
         transaction {
             SchemaUtils.createMissingTablesAndColumns(Transactions)
-            SchemaUtils.createMissingTablesAndColumns(Accounts)
         }
     }
 }

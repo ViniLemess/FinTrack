@@ -1,6 +1,5 @@
 package br.com.vinilemess.fintrack.transaction.integration
 
-import br.com.vinilemess.fintrack.account.Accounts
 import br.com.vinilemess.fintrack.transaction.Transactions
 import io.ktor.server.config.*
 import io.ktor.server.testing.*
@@ -58,8 +57,8 @@ abstract class IntegrationTestSetup {
     @AfterEach
     fun cleanupDatabase() {
         transaction {
-            SchemaUtils.drop(Transactions, Accounts)
-            SchemaUtils.create(Transactions, Accounts)
+            SchemaUtils.drop(Transactions)
+            SchemaUtils.create(Transactions)
         }
     }
 }

@@ -6,6 +6,7 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insertReturning
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.time.LocalDate
 
 class TransactionRepository(private val fintrackDatabase: Database) {
 
@@ -29,6 +30,13 @@ class TransactionRepository(private val fintrackDatabase: Database) {
         }
     }
 
+    suspend fun findAllTransactionsUntilDate(date: LocalDate): List<TransactionInfo> = newSuspendedTransaction(db = fintrackDatabase) {
+        Transactions.selectAll()
+            .where { Transactions.date lessEq date.atEndOfDay() }
+            .map(::toTransactionInfo)
+            .toList()
+    }
+
     private fun toTransactionInfo(result: ResultRow): TransactionInfo = TransactionInfo(
         id = result[Transactions.id],
         amount = result[Transactions.amount],
@@ -36,4 +44,6 @@ class TransactionRepository(private val fintrackDatabase: Database) {
         description = result[Transactions.description],
         date = result[Transactions.date]
     )
+
+    private fun LocalDate.atEndOfDay() = this.atTime(23, 59, 59)
 }

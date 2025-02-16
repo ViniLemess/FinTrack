@@ -4,6 +4,10 @@ import br.com.vinilemess.fintrack.common.ApiResult
 import br.com.vinilemess.fintrack.common.ApiResult.Failure
 import br.com.vinilemess.fintrack.common.ApiResult.Success
 import br.com.vinilemess.fintrack.common.ProblemDetail
+import br.com.vinilemess.fintrack.transaction.TransactionType.EXPENSE
+import br.com.vinilemess.fintrack.transaction.TransactionType.INCOME
+import java.math.BigDecimal
+import java.time.LocalDate
 
 class TransactionService(private val transactionRepository: TransactionRepository) {
 
@@ -18,4 +22,21 @@ class TransactionService(private val transactionRepository: TransactionRepositor
                 detail = "Transaction with id $id not found"
             )
         )
+
+    suspend fun projectBalanceAtDate(date: LocalDate): ApiResult<BalanceInfo> {
+        val transactions: List<TransactionInfo> = transactionRepository.findAllTransactionsUntilDate(date)
+
+        return Success(
+            BalanceInfo(
+                balance = transactions.sumOf {
+                    if (it.type == INCOME) it.amount
+                    else it.amount.negate()
+                },
+                incomingAmount = transactions.sumTransactionsOfType(INCOME),
+                outgoingAmount = transactions.sumTransactionsOfType(EXPENSE)
+            )
+        )
+    }
+
+    private fun List<TransactionInfo>.sumTransactionsOfType(type: TransactionType): BigDecimal = this.filter { it.type == type }.sumOf { it.amount }
 }
