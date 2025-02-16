@@ -38,5 +38,8 @@ class TransactionService(private val transactionRepository: TransactionRepositor
         )
     }
 
+    suspend fun findAllTransactionsUntilDate(date: LocalDate): ApiResult<List<TransactionInfo>> =
+        Success(transactionRepository.findAllTransactionsUntilDate(date))
+
     private fun List<TransactionInfo>.sumTransactionsOfType(type: TransactionType): BigDecimal = this.filter { it.type == type }.sumOf { it.amount }
 }

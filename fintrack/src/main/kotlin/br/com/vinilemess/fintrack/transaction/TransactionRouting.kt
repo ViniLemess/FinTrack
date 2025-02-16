@@ -9,6 +9,7 @@ import io.ktor.server.util.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import java.time.LocalDate
+import java.time.LocalDate.now
 import java.time.LocalDate.parse
 import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE
 
@@ -32,12 +33,19 @@ fun Application.configureTransactionRouting() {
             }
             get("/balance") {
                 handleRequest({
-                    transactionService.projectBalanceAtDate(LocalDate.now())
+                    transactionService.projectBalanceAtDate(now())
                 })
             }
             get("/balance/{date}") {
                 handleRequest({
                     transactionService.projectBalanceAtDate(call.parameters.getOrFail("date").let { parse(it, ISO_LOCAL_DATE) })
+                })
+            }
+            get {
+                handleRequest({
+                    call.request.queryParameters["untilDate"]?.let { untilDate ->
+                        transactionService.findAllTransactionsUntilDate(parse(untilDate, ISO_LOCAL_DATE))
+                    } ?: transactionService.findAllTransactionsUntilDate(now())
                 })
             }
         }
